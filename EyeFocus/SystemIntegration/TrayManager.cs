@@ -5,6 +5,8 @@ using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using EyeFocus.Automation;
+using EyeFocus.Display;
 using EyeFocus.Models;
 using EyeFocus.Profiles;
 using EyeFocus.Storage;
@@ -15,7 +17,9 @@ namespace EyeFocus.SystemIntegration
     public class TrayManager : ITrayManager
     {
         private readonly IProfileManager _profileManager;
+        private readonly IDisplayEngine _displayEngine;
         private readonly ISettingsStore _settingsStore;
+        private readonly IAutoDayNightService? _autoDayNightService;
 
         private NotifyIcon? _notifyIcon;
         private ContextMenuStrip? _contextMenu;
@@ -31,10 +35,14 @@ namespace EyeFocus.SystemIntegration
 
         public TrayManager(
             IProfileManager profileManager,
-            ISettingsStore settingsStore)
+            IDisplayEngine displayEngine,
+            ISettingsStore settingsStore,
+            IAutoDayNightService? autoDayNightService = null)
         {
             _profileManager = profileManager;
+            _displayEngine = displayEngine;
             _settingsStore = settingsStore;
+            _autoDayNightService = autoDayNightService;
 
             _profileManager.ActiveProfileChanged += (s, p) => UpdateTrayState();
             _profileManager.ProfilesListChanged += (s, e) => UpdateTrayState();
@@ -106,7 +114,16 @@ namespace EyeFocus.SystemIntegration
             };
             dayItem.Click += (s, e) =>
             {
+                if (_autoDayNightService != null && _autoDayNightService.IsEnabled)
+                {
+                    _autoDayNightService.SetEnabled(false);
+                }
                 _profileManager.SetActiveProfile(settings.DayProfileId);
+                var p = _profileManager.GetProfile(settings.DayProfileId);
+                if (p != null)
+                {
+                    _displayEngine.ApplyProfile(p);
+                }
                 UpdateTrayState();
             };
             _contextMenu.Items.Add(dayItem);
@@ -119,7 +136,16 @@ namespace EyeFocus.SystemIntegration
             };
             nightItem.Click += (s, e) =>
             {
+                if (_autoDayNightService != null && _autoDayNightService.IsEnabled)
+                {
+                    _autoDayNightService.SetEnabled(false);
+                }
                 _profileManager.SetActiveProfile(settings.NightProfileId);
+                var p = _profileManager.GetProfile(settings.NightProfileId);
+                if (p != null)
+                {
+                    _displayEngine.ApplyProfile(p);
+                }
                 UpdateTrayState();
             };
             _contextMenu.Items.Add(nightItem);
@@ -142,7 +168,16 @@ namespace EyeFocus.SystemIntegration
                 var capturedId = profile.Id;
                 pItem.Click += (s, e) =>
                 {
+                    if (_autoDayNightService != null && _autoDayNightService.IsEnabled)
+                    {
+                        _autoDayNightService.SetEnabled(false);
+                    }
                     _profileManager.SetActiveProfile(capturedId);
+                    var target = _profileManager.GetProfile(capturedId);
+                    if (target != null)
+                    {
+                        _displayEngine.ApplyProfile(target);
+                    }
                     UpdateTrayState();
                 };
                 profilesMenu.DropDownItems.Add(pItem);

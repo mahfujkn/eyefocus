@@ -88,7 +88,7 @@ namespace EyeFocus
                 _powerEventManager = new PowerEventManager(_displayEngine, profileManager);
                 _powerEventManager.Initialize();
 
-                _trayManager = new TrayManager(profileManager, _settingsStore);
+                _trayManager = new TrayManager(profileManager, _displayEngine, _settingsStore, _autoDayNightService);
                 _trayManager.Initialize();
 
                 // 7. ViewModels & Window

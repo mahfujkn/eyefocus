@@ -248,6 +248,10 @@ namespace EyeFocus.ViewModels
                 System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
                 {
                     SyncFromProfile(p);
+                    if (!IsPaused)
+                    {
+                        _displayEngine.ApplyProfile(p);
+                    }
                     UpdateDayNightActiveStates();
                 });
             };
