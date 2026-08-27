@@ -4,7 +4,7 @@
 
 <img src="EyeFocus/Assets/EyeFocus-Brand-Icon.svg" width="100" height="100" alt="EyeFocus Logo" style="border-radius: 22px;" />
 
-### Modern, Privacy-First Windows Display Comfort & Eye-Care Utility
+### 👁️ Modern, Privacy-First Windows Display Comfort & Eye-Care Utility
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D4.svg)

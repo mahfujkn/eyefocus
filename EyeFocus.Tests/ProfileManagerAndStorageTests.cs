@@ -117,6 +117,31 @@ namespace EyeFocus.Tests
         }
 
         [Fact]
+        public void ProfileManager_SetActiveProfile_FiresActiveProfileChangedEvent()
+        {
+            var tempDir = Path.Combine(Path.GetTempPath(), $"EyeFocus_Test_{Guid.NewGuid():N}");
+            var settingsPath = Path.Combine(tempDir, "settings.json");
+            var store = new SettingsStore(settingsPath);
+            var manager = new ProfileManager(store);
+
+            DisplayProfile? changedProfile = null;
+            manager.ActiveProfileChanged += (s, p) => changedProfile = p;
+
+            manager.SetActiveProfile(ProfileDefaults.IdNight);
+
+            Assert.NotNull(changedProfile);
+            Assert.Equal(ProfileDefaults.IdNight, changedProfile.Id);
+            Assert.Equal(3000, changedProfile.Kelvin);
+            Assert.Equal(40, changedProfile.Brightness);
+
+            var active = manager.GetActiveProfile();
+            Assert.Equal(ProfileDefaults.IdNight, active.Id);
+
+            // Cleanup
+            if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
+        }
+
+        [Fact]
         public void SmoothstepInterpolation_PropertiesHold()
         {
             // Smoothstep formula: S(t) = 3t^2 - 2t^3
