@@ -1,0 +1,16 @@
+<Application x:Class="EyeFocus.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:EyeFocus.UI.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UI/Themes/Colors.xaml" />
+                <ResourceDictionary Source="UI/Themes/Icons.xaml" />
+                <ResourceDictionary Source="UI/Themes/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:IconKeyToGeometryConverter x:Key="IconKeyToGeometryConverter" />
+            <converters:TabToBooleanConverter x:Key="TabToBooleanConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

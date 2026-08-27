@@ -1,0 +1,113 @@
+<UserControl x:Class="EyeFocus.UI.Views.PrivacyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="680"
+             FontFamily="Segoe UI"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             TextOptions.TextFormattingMode="Display"
+             TextOptions.TextRenderingMode="ClearType"
+             RenderOptions.ClearTypeHint="Enabled">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <!-- Content Container (20px horizontal padding, 12px top, 20px bottom) -->
+        <StackPanel Margin="20,12,20,20" HorizontalAlignment="Stretch">
+
+            <!-- 1. Header -->
+            <StackPanel Margin="0,0,0,14">
+                <TextBlock Text="Privacy by Design" FontWeight="Bold" FontSize="22" Foreground="{DynamicResource OnSurfaceBrush}" />
+                <TextBlock Text="100% Offline &amp; Local Guarantee — Zero telemetry, analytics, or background data collection."
+                           FontSize="12.5" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
+            </StackPanel>
+
+            <!-- 2. Guarantees Utility Card -->
+            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,12" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <TextBlock Text="OFFLINE PRIVACY GUARANTEES" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,10" />
+
+                    <!-- 2-Column Grid of Clean Guarantee Rows -->
+                    <UniformGrid Columns="2">
+                        <!-- 1. No Account -->
+                        <Border Background="{DynamicResource SurfaceContainerHighBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="4">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconCheck}" Fill="{DynamicResource PrimaryBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="No account" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                    <TextBlock Text="No login or sign-up needed" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- 2. No Telemetry -->
+                        <Border Background="{DynamicResource SurfaceContainerHighBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="4">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconCheck}" Fill="{DynamicResource PrimaryBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="No telemetry" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                    <TextBlock Text="Zero usage tracking" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- 3. No Analytics -->
+                        <Border Background="{DynamicResource SurfaceContainerHighBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="4">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconCheck}" Fill="{DynamicResource PrimaryBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="No analytics" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                    <TextBlock Text="No metrics or reporting" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- 4. No Cloud -->
+                        <Border Background="{DynamicResource SurfaceContainerHighBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="4">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconCheck}" Fill="{DynamicResource PrimaryBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="No cloud" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                    <TextBlock Text="No cloud databases or sync" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- 5. No Tracking -->
+                        <Border Background="{DynamicResource SurfaceContainerHighBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="4">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconCheck}" Fill="{DynamicResource PrimaryBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="No tracking" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                    <TextBlock Text="Zero behavioral profiling" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- 6. No Internet Required -->
+                        <Border Background="{DynamicResource SurfaceContainerHighBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="4">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconCheck}" Fill="{DynamicResource PrimaryBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="No internet required" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                    <TextBlock Text="100% offline functionality" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- 3. Local Data Storage Note -->
+            <Border Style="{StaticResource M3CardStyle}" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <TextBlock Text="LOCAL STORAGE &amp; SECURITY" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4" />
+                    <TextBlock Text="All profile and display configurations are saved atomically in an encrypted JSON file strictly inside your local Windows AppData directory (%LOCALAPPDATA%\EyeFocus\settings.json)."
+                               FontSize="11.5" Foreground="{DynamicResource OutlineBrush}" LineHeight="17" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

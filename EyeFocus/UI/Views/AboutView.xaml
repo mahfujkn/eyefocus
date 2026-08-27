@@ -1,0 +1,99 @@
+<UserControl x:Class="EyeFocus.UI.Views.AboutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="680"
+             FontFamily="Segoe UI"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             TextOptions.TextFormattingMode="Display"
+             TextOptions.TextRenderingMode="ClearType"
+             RenderOptions.ClearTypeHint="Enabled">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <!-- Content Container (20px horizontal padding, 12px top, 20px bottom) -->
+        <StackPanel Margin="20,12,20,20" HorizontalAlignment="Stretch">
+
+            <!-- 1. Branding Hero -->
+            <StackPanel HorizontalAlignment="Center" Margin="0,4,0,16">
+                <!-- App Icon with Teal Gradient Surface -->
+                <Border Width="48" Height="48" CornerRadius="12"
+                        Background="{StaticResource TealPrimaryButtonBrush}"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,10">
+                    <Path Data="{StaticResource IconEyeFocusBrand}"
+                          Fill="{DynamicResource OnPrimaryBrush}"
+                          Width="28" Height="28" Stretch="Uniform"
+                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+
+                <!-- Title & Version -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,4">
+                    <TextBlock Text="EyeFocus" FontWeight="Bold" FontSize="20" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                    <Border Background="{DynamicResource PrimaryContainerBrush}" CornerRadius="4" Padding="6,1" Margin="8,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Version}" FontWeight="Bold" FontSize="10" Foreground="{DynamicResource PrimaryBrush}" />
+                    </Border>
+                </StackPanel>
+
+                <!-- Tagline -->
+                <TextBlock Text="{Binding Tagline}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,6" />
+
+                <!-- Description -->
+                <TextBlock Text="{Binding Description}"
+                           FontSize="12" Foreground="{DynamicResource OutlineBrush}"
+                           TextAlignment="Center" TextWrapping="Wrap" LineHeight="18"
+                           MaxWidth="560" HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <!-- 2. Official Repository & Releases Card -->
+            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <TextBlock Text="OFFICIAL REPOSITORY &amp; RELEASES" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4" />
+                    <TextBlock Text="EyeFocus is fully open-source under the MIT license. Star, inspect, or contribute on GitHub:"
+                               FontSize="11.5" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,0,0,10" />
+
+                    <StackPanel Orientation="Horizontal">
+                        <!-- View on GitHub Button (Filled Primary Solid) -->
+                        <Button Style="{StaticResource M3FilledButtonStyle}" Command="{Binding OpenRepositoryCommand}" Margin="0,0,8,0" Padding="12,5" Height="28">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconGitHub}" Fill="{DynamicResource OnPrimaryBrush}" Width="13" Height="13" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                <TextBlock Text="View on GitHub" Foreground="{DynamicResource OnPrimaryBrush}" FontWeight="SemiBold" FontSize="11.5" VerticalAlignment="Center" />
+                                <Path Data="{StaticResource IconExternalLink}" Fill="{DynamicResource OnPrimaryBrush}" Width="10" Height="10" Stretch="Uniform" Margin="6,0,0,0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Official Releases Button (Tonal Secondary) -->
+                        <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding OpenReleasesCommand}" Padding="12,5" Height="28">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconExternalLink}" Fill="{DynamicResource OnSecondaryContainerBrush}" Width="11" Height="11" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                <TextBlock Text="Official Releases" Foreground="{DynamicResource OnSecondaryContainerBrush}" FontWeight="SemiBold" FontSize="11.5" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- 3. Developer Card -->
+            <Border Style="{StaticResource M3CardStyle}" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <TextBlock Text="DEVELOPED BY" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4" />
+                    <TextBlock Text="{Binding DeveloperName}" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,1" />
+                    <TextBlock Text="github.com/mahfujkn" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,0,10" />
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding OpenDeveloperCommand}" Padding="10,4" Height="26">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconGitHub}" Fill="{DynamicResource OnSecondaryContainerBrush}" Width="11" Height="11" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                <TextBlock Text="GitHub Profile" Foreground="{DynamicResource OnSecondaryContainerBrush}" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                <Path Data="{StaticResource IconExternalLink}" Fill="{DynamicResource OnSecondaryContainerBrush}" Width="9" Height="9" Stretch="Uniform" Margin="6,0,0,0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

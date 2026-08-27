@@ -1,0 +1,133 @@
+<UserControl x:Class="EyeFocus.UI.Views.ProfileEditorModal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="560">
+
+    <Border Background="{DynamicResource SurfaceContainerBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="14" Padding="20">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="24" ShadowDepth="6" Opacity="0.5" Color="#000000" />
+        </Border.Effect>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Title Bar -->
+                <Grid Margin="0,0,0,14">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Width="30" Height="30" CornerRadius="9" Background="{StaticResource TealPrimaryButtonBrush}" Margin="0,0,10,0">
+                            <Path Data="{StaticResource IconEdit}" Fill="#04211E" Width="14" Height="14" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <TextBlock Text="Profile Editor" FontWeight="Bold" FontSize="16" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <CheckBox Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding IsLivePreviewEnabled, Mode=TwoWay}" HorizontalAlignment="Right">
+                        <TextBlock Text="Live Preview" FontSize="11.5" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" />
+                    </CheckBox>
+                </Grid>
+
+                <!-- Profile Name -->
+                <TextBlock Text="PROFILE NAME" FontWeight="Bold" FontSize="10.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4" />
+                <TextBox Style="{StaticResource M3TextBoxStyle}" Text="{Binding ProfileName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" />
+
+                <!-- Description -->
+                <TextBlock Text="DESCRIPTION / COMFORT NOTE" FontWeight="Bold" FontSize="10.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4" />
+                <TextBox Style="{StaticResource M3TextBoxStyle}" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
+                <!-- Temperature & Brightness Section -->
+                <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10">
+                    <StackPanel>
+                        <!-- Color Temperature -->
+                        <Grid Margin="0,0,0,4">
+                            <TextBlock Text="COLOR TEMPERATURE" FontWeight="Bold" FontSize="10.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" />
+                            <TextBlock Text="{Binding Kelvin, StringFormat='{}{0}K'}" FontFamily="JetBrains Mono, Consolas, monospace" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource WarmAccentBrush}" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Slider Style="{StaticResource M3SliderStyle}" Minimum="2500" Maximum="7500" SmallChange="50" LargeChange="250"
+                                Value="{Binding Kelvin, Mode=TwoWay}" Tag="{StaticResource KelvinTrackBrush}" Margin="0,0,0,10" />
+
+                        <!-- Brightness -->
+                        <Grid Margin="0,0,0,4">
+                            <TextBlock Text="BRIGHTNESS" FontWeight="Bold" FontSize="10.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" />
+                            <TextBlock Text="{Binding Brightness, StringFormat='{}{0}%'}" FontFamily="JetBrains Mono, Consolas, monospace" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Slider Style="{StaticResource M3SliderStyle}" Minimum="0" Maximum="100" SmallChange="1" LargeChange="10"
+                                Value="{Binding Brightness, Mode=TwoWay}" Tag="{StaticResource BrightnessTrackBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Advanced RGB Color Tuning -->
+                <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="ADVANCED RGB BALANCE" FontWeight="Bold" FontSize="10.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,8" />
+
+                        <!-- Red -->
+                        <Grid Margin="0,0,0,2">
+                            <TextBlock Text="Red Channel" FontSize="11" Foreground="#F87171" />
+                            <TextBlock Text="{Binding Red, StringFormat='{}{0}%'}" FontFamily="JetBrains Mono, Consolas, monospace" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Slider Style="{StaticResource M3SliderStyle}" Minimum="0" Maximum="100" Value="{Binding Red, Mode=TwoWay}" Margin="0,0,0,6" />
+
+                        <!-- Green -->
+                        <Grid Margin="0,0,0,2">
+                            <TextBlock Text="Green Channel" FontSize="11" Foreground="#4ADE80" />
+                            <TextBlock Text="{Binding Green, StringFormat='{}{0}%'}" FontFamily="JetBrains Mono, Consolas, monospace" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Slider Style="{StaticResource M3SliderStyle}" Minimum="0" Maximum="100" Value="{Binding Green, Mode=TwoWay}" Margin="0,0,0,6" />
+
+                        <!-- Blue -->
+                        <Grid Margin="0,0,0,2">
+                            <TextBlock Text="Blue Channel" FontSize="11" Foreground="#60A5FA" />
+                            <TextBlock Text="{Binding Blue, StringFormat='{}{0}%'}" FontFamily="JetBrains Mono, Consolas, monospace" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Slider Style="{StaticResource M3SliderStyle}" Minimum="0" Maximum="100" Value="{Binding Blue, Mode=TwoWay}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Software Dim & Contrast Section -->
+                <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,14">
+                    <StackPanel>
+                        <!-- Software Dim -->
+                        <Grid Margin="0,0,0,4">
+                            <TextBlock Text="SOFTWARE DIM OVERLAY" FontWeight="Bold" FontSize="10.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" />
+                            <TextBlock Text="{Binding SoftwareDim, StringFormat='{}{0}%'}" FontFamily="JetBrains Mono, Consolas, monospace" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Slider Style="{StaticResource M3SliderStyle}" Minimum="0" Maximum="80" SmallChange="1" Value="{Binding SoftwareDim, Mode=TwoWay}" Margin="0,0,0,8" />
+
+                        <!-- Contrast -->
+                        <Grid Margin="0,0,0,4">
+                            <TextBlock Text="CONTRAST FACTOR" FontWeight="Bold" FontSize="10.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" />
+                            <TextBlock Text="{Binding Contrast, StringFormat='{}{0}%'}" FontFamily="JetBrains Mono, Consolas, monospace" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Slider Style="{StaticResource M3SliderStyle}" Minimum="10" Maximum="90" SmallChange="1" Value="{Binding Contrast, Mode=TwoWay}" Margin="0,0,0,8" />
+
+                        <!-- Transition Duration -->
+                        <Grid Margin="0,0,0,4">
+                            <TextBlock Text="TRANSITION DURATION" FontWeight="Bold" FontSize="10.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" />
+                            <TextBlock Text="{Binding TransitionDuration, StringFormat='{}{0}s'}" FontFamily="JetBrains Mono, Consolas, monospace" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Slider Style="{StaticResource M3SliderStyle}" Minimum="0" Maximum="30" SmallChange="1" Value="{Binding TransitionDuration, Mode=TwoWay}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Action Buttons -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="6" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="6" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Style="{StaticResource M3OutlinedButtonStyle}" Command="{Binding ResetCommand}" IsEnabled="{Binding IsBuiltIn}" Content="Reset to Default" Height="30" Padding="10,4" />
+                    <Button Grid.Column="2" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding CancelCommand}" Content="Cancel" Height="30" Padding="12,4" />
+                    <Button Grid.Column="4" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding SaveAsNewCommand}" Content="Save as New" Height="30" Padding="12,4" />
+                    <Button Grid.Column="6" Style="{StaticResource M3FilledButtonStyle}" Command="{Binding SaveCommand}" Content="Save Profile" Height="30" Padding="14,4" />
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</UserControl>

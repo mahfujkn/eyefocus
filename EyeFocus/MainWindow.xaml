@@ -1,0 +1,333 @@
+<Window x:Class="EyeFocus.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:EyeFocus.UI.Views"
+        mc:Ignorable="d"
+        Title="EyeFocus - Display Comfort Utility"
+        Icon="Assets/app.ico"
+        Height="700" Width="920" MinHeight="620" MinWidth="800"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        FontFamily="Segoe UI"
+        FontSize="13"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        RenderOptions.ClearTypeHint="Enabled">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="42" CornerRadius="12" GlassFrameThickness="0" UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+
+    <!-- Main Window Root Shell with Crisp 12px Rounded Corners & ClearType Rendering -->
+    <Border Background="{DynamicResource SurfaceBrush}"
+            BorderBrush="{DynamicResource OutlineVariantBrush}"
+            BorderThickness="1"
+            CornerRadius="12"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True"
+            RenderOptions.ClearTypeHint="Enabled"
+            TextOptions.TextFormattingMode="Display"
+            TextOptions.TextRenderingMode="ClearType">
+        <Grid>
+            <!-- 2 Primary Column Structure: Left Sidebar + Right Workspace Area -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="210" /> <!-- Left Vertical Sidebar -->
+                <ColumnDefinition Width="*" />   <!-- Right Content Area -->
+            </Grid.ColumnDefinitions>
+
+            <!-- 1. LEFT FULL-HEIGHT VERTICAL SIDEBAR (Clean 11px Top-Left & Bottom-Left Corner Radius) -->
+            <Border Grid.Column="0"
+                    Background="{DynamicResource SurfaceContainerLowBrush}"
+                    BorderBrush="{DynamicResource OutlineVariantBrush}"
+                    BorderThickness="0,0,1,0"
+                    CornerRadius="11,0,0,11"
+                    Padding="12,16,12,14">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" /> <!-- Top Brand Section -->
+                        <RowDefinition Height="*" />    <!-- Navigation Items -->
+                        <RowDefinition Height="Auto" /> <!-- Footer Version -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Top Brand Header (Perfect Alignment of Icon & Text Format) -->
+                    <Grid Grid.Row="0" Margin="4,2,0,22" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Crisp Brand Icon Box (30x30 with 8px Corner Radius) -->
+                        <Border Grid.Column="0" Width="30" Height="30" CornerRadius="8"
+                                Background="{StaticResource TealPrimaryButtonBrush}"
+                                Margin="0,0,10,0" VerticalAlignment="Center">
+                            <Path Data="{StaticResource IconEyeFocusBrand}" Fill="{DynamicResource OnPrimaryBrush}"
+                                  Width="18" Height="18" Stretch="Uniform"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        
+                        <!-- Brand Title & Status Line Stack -->
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="EyeFocus" FontWeight="Bold" FontSize="15"
+                                       Foreground="{DynamicResource OnSurfaceBrush}"
+                                       VerticalAlignment="Center" />
+                            <!-- Status Line (Aligned dot + text) -->
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,2,0,0">
+                                <Ellipse Width="5" Height="5" Fill="#10B981" Margin="0,0,5,0" VerticalAlignment="Center" />
+                                <TextBlock Text="LOCAL · OFFLINE" FontWeight="SemiBold" FontSize="9"
+                                           Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Vertical Navigation Items (Text + Icons) -->
+                    <StackPanel Grid.Row="1">
+                        <!-- 1. Display -->
+                        <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
+                                     Tag="{StaticResource IconDisplay}"
+                                     IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Dashboard, Mode=TwoWay}"
+                                     Content="Display" />
+
+                        <!-- 2. Monitors -->
+                        <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
+                                     Tag="{StaticResource IconMonitor}"
+                                     IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Monitors, Mode=TwoWay}"
+                                     Content="Monitors" />
+
+                        <!-- 3. Settings -->
+                        <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
+                                     Tag="{StaticResource IconSettings}"
+                                     IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Settings, Mode=TwoWay}"
+                                     Content="Settings" />
+
+                        <!-- 4. Privacy -->
+                        <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
+                                     Tag="{StaticResource IconPrivacy}"
+                                     IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Privacy, Mode=TwoWay}"
+                                     Content="Privacy &amp; Security" />
+
+                        <!-- 5. About & GitHub -->
+                        <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
+                                     Tag="{StaticResource IconAbout}"
+                                     IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=About, Mode=TwoWay}"
+                                     Content="About &amp; GitHub" />
+                    </StackPanel>
+
+                    <!-- Sidebar Footer Info -->
+                    <StackPanel Grid.Row="2" Margin="6,0,0,0">
+                        <TextBlock Text="Version 1.0.0 Stable" FontSize="10" Foreground="{DynamicResource OutlineBrush}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- 2. RIGHT AREA: TOPBAR + CONTENT WORKSPACE -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="46" /> <!-- Top Bar -->
+                    <RowDefinition Height="*" />  <!-- Large Content Workspace -->
+                </Grid.RowDefinitions>
+
+                <!-- A. TOPBAR (With 1px Bottom Horizontal Separator Line matching sample) -->
+                <Border Grid.Row="0"
+                        BorderBrush="{DynamicResource OutlineVariantBrush}"
+                        BorderThickness="0,0,0,1"
+                        Padding="18,0,12,0">
+                    <Grid VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Left: Display Selector Dropdown (Pill Style) -->
+                        <ComboBox Grid.Column="0"
+                                  Style="{StaticResource M3ComboBoxStyle}"
+                                  ItemsSource="{Binding MonitorSelectorItems}"
+                                  SelectedValuePath="Id"
+                                  DisplayMemberPath="DisplayText"
+                                  SelectedValue="{Binding SelectedMonitorId, Mode=TwoWay}"
+                                  Width="175" Height="28"
+                                  WindowChrome.IsHitTestVisibleInChrome="True"
+                                  ToolTip="Select display to control" />
+
+                        <!-- Center/Right: Manage Button, Theme Toggle -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
+                            <!-- Primary Teal Manage Button (Ultra-Crisp Solid) -->
+                            <Button Style="{StaticResource M3FilledButtonStyle}" Command="{Binding ManageMonitorsCommand}"
+                                    Padding="12,4" Height="28" Margin="0,0,8,0"
+                                    WindowChrome.IsHitTestVisibleInChrome="True"
+                                    ToolTip="Manage connected monitors and view hardware capabilities">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Path Data="{StaticResource IconMonitor}" Fill="{DynamicResource OnPrimaryBrush}" Width="12" Height="12" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Manage" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Theme Switch Button -->
+                            <Button Style="{StaticResource M3IconButtonStyle}" Command="{Binding ToggleThemeCommand}"
+                                    Padding="4" Height="28" Width="28"
+                                    WindowChrome.IsHitTestVisibleInChrome="True"
+                                    ToolTip="{Binding ThemeTooltip}">
+                                <Path Data="{Binding ThemeIconKey, Converter={StaticResource IconKeyToGeometryConverter}}"
+                                      Fill="{DynamicResource WarmAccentBrush}"
+                                      Width="12" Height="12" Stretch="Uniform" />
+                            </Button>
+                        </StackPanel>
+
+                        <!-- Window Chrome Controls (Minimize / Close) -->
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button Style="{StaticResource WindowChromeButtonStyle}"
+                                    Tag="{StaticResource IconMinimize}"
+                                    Click="OnMinimizeClick"
+                                    WindowChrome.IsHitTestVisibleInChrome="True"
+                                    ToolTip="Minimize" />
+                            <Button Style="{StaticResource WindowCloseButtonStyle}"
+                                    Tag="{StaticResource IconClose}"
+                                    Click="OnCloseClick"
+                                    WindowChrome.IsHitTestVisibleInChrome="True"
+                                    ToolTip="Close" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- B. CONTENT WORKSPACE VIEWS CONTAINER -->
+                <Grid Grid.Row="1">
+                    <!-- Dashboard View -->
+                    <views:DisplayDashboardView DataContext="{Binding DashboardVM}">
+                        <views:DisplayDashboardView.Style>
+                            <Style TargetType="views:DisplayDashboardView">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DataContext.CurrentTab, RelativeSource={RelativeSource AncestorType=Window}}" Value="Dashboard">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </views:DisplayDashboardView.Style>
+                    </views:DisplayDashboardView>
+
+                    <!-- Monitors View -->
+                    <views:MonitorsView DataContext="{Binding MonitorsVM}">
+                        <views:MonitorsView.Style>
+                            <Style TargetType="views:MonitorsView">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DataContext.CurrentTab, RelativeSource={RelativeSource AncestorType=Window}}" Value="Monitors">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </views:MonitorsView.Style>
+                    </views:MonitorsView>
+
+                    <!-- Settings View -->
+                    <views:SettingsView DataContext="{Binding SettingsVM}">
+                        <views:SettingsView.Style>
+                            <Style TargetType="views:SettingsView">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DataContext.CurrentTab, RelativeSource={RelativeSource AncestorType=Window}}" Value="Settings">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </views:SettingsView.Style>
+                    </views:SettingsView>
+
+                    <!-- Privacy View -->
+                    <views:PrivacyView>
+                        <views:PrivacyView.Style>
+                            <Style TargetType="views:PrivacyView">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DataContext.CurrentTab, RelativeSource={RelativeSource AncestorType=Window}}" Value="Privacy">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </views:PrivacyView.Style>
+                    </views:PrivacyView>
+
+                    <!-- About View -->
+                    <views:AboutView DataContext="{Binding AboutVM}">
+                        <views:AboutView.Style>
+                            <Style TargetType="views:AboutView">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DataContext.CurrentTab, RelativeSource={RelativeSource AncestorType=Window}}" Value="About">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </views:AboutView.Style>
+                    </views:AboutView>
+
+                    <!-- FLOATING UTILITY TOAST SNACKBAR -->
+                    <Border HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                            Margin="0,0,0,12" CornerRadius="6"
+                            Background="{DynamicResource SurfaceContainerHighestBrush}"
+                            BorderBrush="{DynamicResource OutlineVariantBrush}"
+                            BorderThickness="1"
+                            Padding="12,5">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSnackbarVisible}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding SnackbarMessage}" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <Button Style="{StaticResource M3IconButtonStyle}" Command="{Binding DismissSnackbarCommand}" Padding="2" ToolTip="Dismiss">
+                                <Path Data="{StaticResource IconClose}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="8" Height="8" Stretch="Uniform" />
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- 3. PROFILE EDITOR MODAL OVERLAY -->
+            <Grid Grid.ColumnSpan="2" Background="#CC0A0D12">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ProfileEditorVM.IsOpen}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <views:ProfileEditorModal DataContext="{Binding ProfileEditorVM}" Width="520" MaxHeight="640"
+                                          VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Grid>
+
+            <!-- 4. AUTO DAY/NIGHT CONFIG MODAL OVERLAY -->
+            <Grid Grid.ColumnSpan="2" Background="#CC0A0D12">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding AutoDayNightConfigVM.IsOpen}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <views:AutoDayNightConfigModal DataContext="{Binding AutoDayNightConfigVM}" Width="480" MaxHeight="600"
+                                                VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,246 @@
+<UserControl x:Class="EyeFocus.UI.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="950" d:DesignWidth="680"
+             FontFamily="Segoe UI"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             TextOptions.TextFormattingMode="Display"
+             TextOptions.TextRenderingMode="ClearType"
+             RenderOptions.ClearTypeHint="Enabled">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <!-- Content Container (20px horizontal padding, 12px top, 20px bottom) -->
+        <StackPanel Margin="20,12,20,20" HorizontalAlignment="Stretch">
+
+            <!-- 0. Page Header -->
+            <StackPanel Margin="0,0,0,12">
+                <TextBlock Text="Settings" FontWeight="Bold" FontSize="20" Foreground="{DynamicResource OnSurfaceBrush}" />
+                <TextBlock Text="Configure display control behavior, theme appearance, and global shortcuts." FontSize="12" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
+            </StackPanel>
+
+            <!-- 1. APPEARANCE & THEME -->
+            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <TextBlock Text="APPEARANCE &amp; THEME" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4" />
+                    <TextBlock Text="Choose between System default, Clean Light, or Deep Charcoal Dark theme." FontSize="12" Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,10" />
+
+                    <!-- Segmented Theme Selection -->
+                    <Border Background="{DynamicResource SurfaceContainerHighBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="8" Padding="2" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton Style="{StaticResource M3SegmentedItemStyle}" Content="System" GroupName="ThemeGroup"
+                                         IsChecked="{Binding IsThemeSystem, Mode=TwoWay}" />
+                            <RadioButton Style="{StaticResource M3SegmentedItemStyle}" Content="Light" GroupName="ThemeGroup"
+                                         IsChecked="{Binding IsThemeLight, Mode=TwoWay}" />
+                            <RadioButton Style="{StaticResource M3SegmentedItemStyle}" Content="Dark" GroupName="ThemeGroup"
+                                         IsChecked="{Binding IsThemeDark, Mode=TwoWay}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- 2. GENERAL PREFERENCES (Clean Auto-Layout Rows with Right-Aligned Toggle Switches) -->
+            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <TextBlock Text="GENERAL" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,12" />
+
+                    <!-- Row 1: Start with Windows -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Start automatically with Windows" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Launch EyeFocus minimized on system startup" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                        </StackPanel>
+                        <CheckBox Grid.Column="1" Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding StartWithWindows, Mode=TwoWay}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Border Height="1" Background="{DynamicResource OutlineVariantBrush}" Opacity="0.5" Margin="0,0,0,12" />
+
+                    <!-- Row 2: Start Minimized -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Start minimized to system tray" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Keep application in the background when launched" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                        </StackPanel>
+                        <CheckBox Grid.Column="1" Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding StartMinimized, Mode=TwoWay}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Border Height="1" Background="{DynamicResource OutlineVariantBrush}" Opacity="0.5" Margin="0,0,0,12" />
+
+                    <!-- Row 3: Minimize to Tray -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Minimize to system tray on window close" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Clicking the close button hides the window instead of quitting" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                        </StackPanel>
+                        <CheckBox Grid.Column="1" Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding MinimizeToTray, Mode=TwoWay}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Border Height="1" Background="{DynamicResource OutlineVariantBrush}" Opacity="0.5" Margin="0,0,0,12" />
+
+                    <!-- Row 4: Remember Active Profile -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Remember last active profile on restart" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Automatically restore the profile you were using previously" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                        </StackPanel>
+                        <CheckBox Grid.Column="1" Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding RememberLastProfile, Mode=TwoWay}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Border Height="1" Background="{DynamicResource OutlineVariantBrush}" Opacity="0.5" Margin="0,0,0,12" />
+
+                    <!-- Row 5: Restore Display on Exit -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Restore previous display settings on exit" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Reset hardware monitor calibration when closing EyeFocus" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                        </StackPanel>
+                        <CheckBox Grid.Column="1" Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding RestoreOnExit, Mode=TwoWay}" VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- 3. DISPLAY CONTROL -->
+            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <TextBlock Text="DISPLAY CONTROL" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,12" />
+
+                    <!-- Row 1: Software Dim Fallback -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Enable Software Dimming Fallback" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Use smooth transparent overlay dimming if hardware DDC/CI fails" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                        </StackPanel>
+                        <CheckBox Grid.Column="1" Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding SoftwareDimFallback, Mode=TwoWay}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Border Height="1" Background="{DynamicResource OutlineVariantBrush}" Opacity="0.5" Margin="0,0,0,12" />
+
+                    <!-- Row 2: DDC/CI Hardware Controls -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Enable DDC/CI Hardware Brightness Controls" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Control monitor backlight directly via I2C/DDC communication" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                        </StackPanel>
+                        <CheckBox Grid.Column="1" Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding DdcCiEnabled, Mode=TwoWay}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Border Height="1" Background="{DynamicResource OutlineVariantBrush}" Opacity="0.5" Margin="0,0,0,12" />
+
+                    <!-- Row 3: Windows Gamma Ramp Fallback -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Enable Windows Gamma Ramp Fallback" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Apply color temperature shifts using Windows GDI gamma ramp API" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                        </StackPanel>
+                        <CheckBox Grid.Column="1" Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding GammaFallbackEnabled, Mode=TwoWay}" VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- 4. KEYBOARD SHORTCUTS -->
+            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <Grid Margin="0,0,0,12">
+                        <TextBlock Text="KEYBOARD SHORTCUTS" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                        <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ReloadHotkeysCommand}" HorizontalAlignment="Right" Padding="8,3" Height="24">
+                            <TextBlock Text="Reload Hotkeys" FontSize="11" />
+                        </Button>
+                    </Grid>
+
+                    <ItemsControl ItemsSource="{Binding Hotkeys}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Switch on Left -->
+                                    <CheckBox Grid.Column="0" Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding IsEnabled, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" />
+
+                                    <!-- Action Name -->
+                                    <TextBlock Grid.Column="1" Text="{Binding ActionName}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+
+                                    <!-- Shortcut Badge -->
+                                    <Border Grid.Column="2" Background="{DynamicResource SurfaceContainerHighBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="6" Padding="8,2" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding DisplayShortcut}" FontFamily="Consolas, Courier New" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource PrimaryBrush}" />
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- 5. DIAGNOSTICS & SYSTEM -->
+            <Border Style="{StaticResource M3CardStyle}" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <TextBlock Text="DIAGNOSTICS &amp; SYSTEM" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,12" />
+
+                    <!-- Debug Logging Row -->
+                    <Grid Margin="0,0,0,14">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Enable Local Debug Logging" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Write verbose diagnostic logs to local AppData directory" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
+                        </StackPanel>
+                        <CheckBox Grid.Column="1" Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding DebugLogging, Mode=TwoWay}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding OpenLogFolderCommand}" Margin="0,0,8,0" Padding="10,4" Height="28">
+                            <TextBlock Text="Open Logs Folder" FontSize="11" />
+                        </Button>
+                        <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ClearLogsCommand}" Margin="0,0,8,0" Padding="10,4" Height="28">
+                            <TextBlock Text="Clear Logs" FontSize="11" />
+                        </Button>
+                        <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetDefaultsCommand}" Padding="10,4" Height="28">
+                            <TextBlock Text="Reset Defaults" Foreground="#EF4444" FontSize="11" />
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
