@@ -20,6 +20,7 @@ namespace EyeFocus.Automation
         private DayNightPeriod? _lastAppliedPeriod;
 
         public event Action<DayNightPeriod>? PeriodChanged;
+        public event Action<bool>? EnabledChanged;
 
         public bool IsEnabled => _isEnabled;
         public DayNightPeriod CurrentPeriod => _lastAppliedPeriod ?? DayNightScheduleCalculator.CalculateCurrentPeriod(_settingsStore.Load());
@@ -41,6 +42,18 @@ namespace EyeFocus.Automation
             {
                 _isEnabled = _settingsStore.Load().AutomaticDayNightEnabled;
 
+                _settingsStore.SettingsChanged += (s, newSettings) =>
+                {
+                    lock (_lock)
+                    {
+                        if (_isEnabled != newSettings.AutomaticDayNightEnabled)
+                        {
+                            _isEnabled = newSettings.AutomaticDayNightEnabled;
+                            EnabledChanged?.Invoke(_isEnabled);
+                        }
+                    }
+                };
+
                 // Hook Windows System Events for time changes & power wake
                 try
                 {
@@ -55,7 +68,10 @@ namespace EyeFocus.Automation
                 // Setup 30-second lightweight evaluation timer
                 _evaluationTimer = new System.Threading.Timer(OnTimerTick, null, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(30));
 
-                Evaluate(forceApply: false);
+                if (_isEnabled)
+                {
+                    Evaluate(forceApply: false);
+                }
             }
         }
 
@@ -63,13 +79,15 @@ namespace EyeFocus.Automation
         {
             lock (_lock)
             {
+                if (_isEnabled == enabled) return;
                 _isEnabled = enabled;
-                var settings = _settingsStore.Load();
-                if (settings.AutomaticDayNightEnabled != enabled)
+
+                _settingsStore.Update(settings =>
                 {
                     settings.AutomaticDayNightEnabled = enabled;
-                    _settingsStore.Save(settings);
-                }
+                });
+
+                EnabledChanged?.Invoke(enabled);
 
                 if (enabled)
                 {
@@ -85,7 +103,7 @@ namespace EyeFocus.Automation
                 if (_isDisposed) return;
 
                 var settings = _settingsStore.Load();
-                if (!settings.AutomaticDayNightEnabled && !forceApply)
+                if (!_isEnabled || (!settings.AutomaticDayNightEnabled && !forceApply))
                 {
                     return;
                 }
@@ -120,6 +138,7 @@ namespace EyeFocus.Automation
 
         private void OnTimerTick(object? state)
         {
+            if (!_isEnabled) return;
             try
             {
                 Evaluate(forceApply: false);
@@ -132,13 +151,14 @@ namespace EyeFocus.Automation
 
         private void OnSystemTimeChanged(object? sender, EventArgs e)
         {
+            if (!_isEnabled) return;
             LogService.Info("System time change detected in AutoDayNightService. Re-evaluating schedule...");
             Evaluate(forceApply: true);
         }
 
         private void OnPowerModeChanged(object? sender, PowerModeChangedEventArgs e)
         {
-            if (e.Mode == PowerModes.Resume)
+            if (e.Mode == PowerModes.Resume && _isEnabled)
             {
                 LogService.Info("System resume from sleep/hibernate detected. Re-evaluating Auto Day/Night...");
                 Evaluate(forceApply: true);

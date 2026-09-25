@@ -131,7 +131,11 @@ namespace EyeFocus.ViewModels
                 {
                     if (IsPaused) IsPaused = false;
                     _displayEngine.SetColorTemperature(value);
-                    if (ActiveProfile != null) ActiveProfile.Kelvin = value;
+                    if (ActiveProfile != null)
+                    {
+                        ActiveProfile.Kelvin = value;
+                        _profileManager.SaveProfile(ActiveProfile);
+                    }
                 }
             }
         }
@@ -145,7 +149,11 @@ namespace EyeFocus.ViewModels
                 {
                     if (IsPaused) IsPaused = false;
                     _displayEngine.SetBrightness(value);
-                    if (ActiveProfile != null) ActiveProfile.Brightness = value;
+                    if (ActiveProfile != null)
+                    {
+                        ActiveProfile.Brightness = value;
+                        _profileManager.SaveProfile(ActiveProfile);
+                    }
                 }
             }
         }
@@ -159,7 +167,11 @@ namespace EyeFocus.ViewModels
                 {
                     if (IsPaused) IsPaused = false;
                     _displayEngine.SetSoftwareDim(value);
-                    if (ActiveProfile != null) ActiveProfile.SoftwareDim = value;
+                    if (ActiveProfile != null)
+                    {
+                        ActiveProfile.SoftwareDim = value;
+                        _profileManager.SaveProfile(ActiveProfile);
+                    }
                 }
             }
         }
@@ -272,6 +284,37 @@ namespace EyeFocus.ViewModels
                 });
             };
 
+            _autoDayNightService.EnabledChanged += enabled =>
+            {
+                System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+                {
+                    _isAutomaticDayNightEnabled = enabled;
+                    OnPropertyChanged(nameof(IsAutomaticDayNightEnabled));
+                    OnPropertyChanged(nameof(AutoDayNightStatusText));
+                    UpdateDayNightActiveStates();
+                });
+            };
+
+            _settingsStore.SettingsChanged += (s, newSettings) =>
+            {
+                System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+                {
+                    DayStartTimeDisplay = string.IsNullOrWhiteSpace(newSettings.DayStartTime) ? "06:00" : newSettings.DayStartTime;
+                    NightStartTimeDisplay = string.IsNullOrWhiteSpace(newSettings.NightStartTime) ? "21:00" : newSettings.NightStartTime;
+
+                    var dayP = _profileManager.GetProfile(newSettings.DayProfileId);
+                    if (dayP != null) DayModeDetails = $"{dayP.Kelvin}K · {dayP.Brightness}%";
+
+                    var nightP = _profileManager.GetProfile(newSettings.NightProfileId);
+                    if (nightP != null) NightModeDetails = $"{nightP.Kelvin}K · {nightP.Brightness}%";
+
+                    _isAutomaticDayNightEnabled = newSettings.AutomaticDayNightEnabled;
+                    OnPropertyChanged(nameof(IsAutomaticDayNightEnabled));
+                    OnPropertyChanged(nameof(AutoDayNightStatusText));
+                    UpdateDayNightActiveStates();
+                });
+            };
+
             RefreshProfilesList();
             LoadState();
         }
@@ -370,9 +413,7 @@ namespace EyeFocus.ViewModels
 
             if (IsAutomaticDayNightEnabled)
             {
-                _autoDayNightService.SetEnabled(false);
-                OnPropertyChanged(nameof(IsAutomaticDayNightEnabled));
-                OnPropertyChanged(nameof(AutoDayNightStatusText));
+                IsAutomaticDayNightEnabled = false;
             }
 
             _profileManager.SetActiveProfile(profileId);
@@ -388,8 +429,7 @@ namespace EyeFocus.ViewModels
         {
             if (IsAutomaticDayNightEnabled)
             {
-                SnackbarService.Instance.Show("Automatic Day/Night is active. Toggle off to select manually.");
-                return;
+                IsAutomaticDayNightEnabled = false;
             }
 
             if (IsPaused) IsPaused = false;
@@ -407,8 +447,7 @@ namespace EyeFocus.ViewModels
         {
             if (IsAutomaticDayNightEnabled)
             {
-                SnackbarService.Instance.Show("Automatic Day/Night is active. Toggle off to select manually.");
-                return;
+                IsAutomaticDayNightEnabled = false;
             }
 
             if (IsPaused) IsPaused = false;

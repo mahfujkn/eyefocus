@@ -181,15 +181,25 @@ namespace EyeFocus.ViewModels
             CurrentTheme = nextTheme;
             ThemeService.ApplyTheme(nextTheme);
 
-            var settings = _settingsStore.Load();
-            settings.Theme = nextTheme;
-            _settingsStore.Save(settings);
+            _settingsStore.Update(s => s.Theme = nextTheme);
             SnackbarService.Instance.Show($"Switched to {nextTheme} theme");
         }
 
         private void InitializeDisplayState()
         {
-            var activeProfile = _profileManager.GetActiveProfile();
+            var settings = _settingsStore.Load();
+            DisplayProfile activeProfile;
+            if (settings.RememberLastProfile)
+            {
+                activeProfile = _profileManager.GetActiveProfile();
+            }
+            else
+            {
+                activeProfile = _profileManager.GetProfile(ProfileDefaults.IdComfort) 
+                    ?? _profileManager.GetActiveProfile();
+                _profileManager.SetActiveProfile(activeProfile.Id);
+            }
+
             _displayEngine.ApplyProfile(activeProfile);
         }
 

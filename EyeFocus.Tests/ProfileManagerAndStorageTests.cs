@@ -160,5 +160,132 @@ namespace EyeFocus.Tests
                 prev = val;
             }
         }
+
+        [Fact]
+        public void SettingsStore_Update_FiresSettingsChanged_AndPersistsAtomically()
+        {
+            var tempDir = Path.Combine(Path.GetTempPath(), $"EyeFocus_Test_{Guid.NewGuid():N}");
+            var settingsPath = Path.Combine(tempDir, "settings.json");
+            var store = new SettingsStore(settingsPath);
+
+            bool eventFired = false;
+            AppSettings? capturedSettings = null;
+            store.SettingsChanged += (s, args) =>
+            {
+                eventFired = true;
+                capturedSettings = args;
+            };
+
+            store.Update(s =>
+            {
+                s.AutomaticDayNightEnabled = false;
+                s.StartWithWindows = true;
+                s.MinimizeToTray = false;
+                s.SoftwareDimFallback = true;
+            });
+
+            Assert.True(eventFired);
+            Assert.NotNull(capturedSettings);
+            Assert.False(capturedSettings.AutomaticDayNightEnabled);
+            Assert.True(capturedSettings.StartWithWindows);
+            Assert.False(capturedSettings.MinimizeToTray);
+            Assert.True(capturedSettings.SoftwareDimFallback);
+
+            // Re-read directly from disk via a brand-new store instance
+            var freshStore = new SettingsStore(settingsPath);
+            var freshSettings = freshStore.Load();
+            Assert.False(freshSettings.AutomaticDayNightEnabled);
+            Assert.True(freshSettings.StartWithWindows);
+            Assert.False(freshSettings.MinimizeToTray);
+            Assert.True(freshSettings.SoftwareDimFallback);
+
+            if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
+        }
+
+        [Fact]
+        public void ProfileManager_SetActiveProfile_PreservesSettingsSwitches()
+        {
+            var tempDir = Path.Combine(Path.GetTempPath(), $"EyeFocus_Test_{Guid.NewGuid():N}");
+            var settingsPath = Path.Combine(tempDir, "settings.json");
+            var store = new SettingsStore(settingsPath);
+
+            // Setup custom switch states
+            store.Update(s =>
+            {
+                s.AutomaticDayNightEnabled = false;
+                s.StartWithWindows = true;
+                s.MinimizeToTray = false;
+                s.RememberLastProfile = true;
+            });
+
+            var manager = new ProfileManager(store);
+
+            // Switch profile and save changes
+            manager.SetActiveProfile(ProfileDefaults.IdGame);
+            var activeProfile = manager.GetActiveProfile();
+            activeProfile.Kelvin = 6000;
+            manager.SaveProfile(activeProfile);
+
+            // Verify with a new store instance that the switches were NOT overwritten
+            var freshStore = new SettingsStore(settingsPath);
+            var freshSettings = freshStore.Load();
+
+            Assert.False(freshSettings.AutomaticDayNightEnabled);
+            Assert.True(freshSettings.StartWithWindows);
+            Assert.False(freshSettings.MinimizeToTray);
+            Assert.True(freshSettings.RememberLastProfile);
+            Assert.Equal(ProfileDefaults.IdGame, freshSettings.ActiveProfileId);
+
+            if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
+        }
+
+        [Fact]
+        public void AutoDayNightService_WhenDisabled_DoesNotEvaluateOrSwitchProfile()
+        {
+            var tempDir = Path.Combine(Path.GetTempPath(), $"EyeFocus_Test_{Guid.NewGuid():N}");
+            var settingsPath = Path.Combine(tempDir, "settings.json");
+            var store = new SettingsStore(settingsPath);
+
+            store.Update(s =>
+            {
+                s.AutomaticDayNightEnabled = false;
+                s.DayProfileId = ProfileDefaults.IdComfort;
+                s.NightProfileId = ProfileDefaults.IdNight;
+                s.ActiveProfileId = ProfileDefaults.IdGame;
+            });
+
+            var manager = new ProfileManager(store);
+            var fakeDisplayEngine = new FakeDisplayEngine();
+            var service = new EyeFocus.Automation.AutoDayNightService(manager, fakeDisplayEngine, store);
+            service.Initialize();
+
+            Assert.False(service.IsEnabled);
+
+            // Trigger evaluate while disabled
+            service.Evaluate();
+
+            // Profile must remain unchanged (Game)
+            Assert.Equal(ProfileDefaults.IdGame, manager.GetActiveProfile().Id);
+
+            service.Dispose();
+            if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
+        }
+
+        private class FakeDisplayEngine : EyeFocus.Display.IDisplayEngine
+        {
+            public EyeFocus.Display.IMonitorManager MonitorManager => null!;
+            public EyeFocus.Display.ISoftwareDimmer SoftwareDimmer => null!;
+            public EyeFocus.Display.IGammaController GammaController => null!;
+            public int CurrentKelvin => 6500;
+            public int CurrentBrightness => 100;
+            public int CurrentSoftwareDim => 0;
+
+            public void ApplyProfile(DisplayProfile profile, string? targetMonitorId = null) { }
+            public void ResetDisplay(string? targetMonitorId = null) { }
+            public void RestoreInitialState() { }
+            public void SetBrightness(int brightnessPercent, string? targetMonitorId = null) { }
+            public void SetColorTemperature(int kelvin, string? targetMonitorId = null) { }
+            public void SetSoftwareDim(int dimPercent, string? targetMonitorId = null) { }
+        }
     }
 }

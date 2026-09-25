@@ -9,25 +9,27 @@ namespace EyeFocus.Profiles
     public class ProfileManager : IProfileManager
     {
         private readonly ISettingsStore _settingsStore;
-        private AppSettings _settings;
         private readonly Dictionary<string, DisplayProfile> _builtInDefaults;
         private readonly Dictionary<string, DisplayProfile> _activeProfilesMap = new();
 
         public event EventHandler<DisplayProfile>? ActiveProfileChanged;
         public event EventHandler? ProfilesListChanged;
 
+        private AppSettings CurrentSettings => _settingsStore.Load();
+
         public ProfileManager(ISettingsStore settingsStore)
         {
             _settingsStore = settingsStore;
-            _settings = _settingsStore.Load();
-
             _builtInDefaults = ProfileDefaults.GetDefaultProfiles().ToDictionary(p => p.Id, p => p);
             RefreshProfilesMap();
+
+            _settingsStore.SettingsChanged += (s, e) => RefreshProfilesMap();
         }
 
         private void RefreshProfilesMap()
         {
             _activeProfilesMap.Clear();
+            var settings = CurrentSettings;
 
             // 1. Load built-in profiles (applying user overrides if any)
             foreach (var defaultProfile in _builtInDefaults.Values)
@@ -36,7 +38,7 @@ namespace EyeFocus.Profiles
                 copy.Id = defaultProfile.Id;
                 copy.IsBuiltIn = true;
 
-                var userOverride = _settings.ProfileOverrides.FirstOrDefault(o => o.Id == defaultProfile.Id);
+                var userOverride = settings.ProfileOverrides.FirstOrDefault(o => o.Id == defaultProfile.Id);
                 if (userOverride != null)
                 {
                     copy.CopyFrom(userOverride);
@@ -47,7 +49,7 @@ namespace EyeFocus.Profiles
             }
 
             // 2. Load custom profiles
-            foreach (var customProfile in _settings.CustomProfiles)
+            foreach (var customProfile in settings.CustomProfiles)
             {
                 _activeProfilesMap[customProfile.Id] = customProfile;
             }
@@ -69,7 +71,7 @@ namespace EyeFocus.Profiles
 
         public DisplayProfile GetActiveProfile()
         {
-            var activeId = _settings.ActiveProfileId;
+            var activeId = CurrentSettings.ActiveProfileId;
             if (string.IsNullOrEmpty(activeId) || !_activeProfilesMap.TryGetValue(activeId, out var profile))
             {
                 return _activeProfilesMap.Values.FirstOrDefault() ?? _builtInDefaults[ProfileDefaults.IdComfort];
@@ -81,8 +83,7 @@ namespace EyeFocus.Profiles
         {
             if (_activeProfilesMap.TryGetValue(id, out var profile))
             {
-                _settings.ActiveProfileId = id;
-                _settingsStore.Save(_settings);
+                _settingsStore.Update(s => s.ActiveProfileId = id);
                 LogService.Info($"Active profile switched to: {profile.Name} ({profile.Id})");
                 ActiveProfileChanged?.Invoke(this, profile);
             }
@@ -90,38 +91,40 @@ namespace EyeFocus.Profiles
 
         public DisplayProfile SaveProfile(DisplayProfile profile)
         {
-            if (profile.IsBuiltIn)
+            _settingsStore.Update(settings =>
             {
-                // Save as an override
-                var existingOverride = _settings.ProfileOverrides.FirstOrDefault(o => o.Id == profile.Id);
-                if (existingOverride == null)
+                if (profile.IsBuiltIn)
                 {
-                    existingOverride = new DisplayProfile { Id = profile.Id };
-                    _settings.ProfileOverrides.Add(existingOverride);
-                }
-                existingOverride.CopyFrom(profile);
-            }
-            else
-            {
-                // Save custom profile
-                var existing = _settings.CustomProfiles.FirstOrDefault(p => p.Id == profile.Id);
-                if (existing == null)
-                {
-                    _settings.CustomProfiles.Add(profile);
+                    // Save as an override
+                    var existingOverride = settings.ProfileOverrides.FirstOrDefault(o => o.Id == profile.Id);
+                    if (existingOverride == null)
+                    {
+                        existingOverride = new DisplayProfile { Id = profile.Id };
+                        settings.ProfileOverrides.Add(existingOverride);
+                    }
+                    existingOverride.CopyFrom(profile);
                 }
                 else
                 {
-                    existing.CopyFrom(profile);
-                    existing.Name = profile.Name;
+                    // Save custom profile
+                    var existing = settings.CustomProfiles.FirstOrDefault(p => p.Id == profile.Id);
+                    if (existing == null)
+                    {
+                        settings.CustomProfiles.Add(profile);
+                    }
+                    else
+                    {
+                        existing.CopyFrom(profile);
+                        existing.Name = profile.Name;
+                    }
                 }
-            }
+            });
 
-            _settingsStore.Save(_settings);
             RefreshProfilesMap();
             ProfilesListChanged?.Invoke(this, EventArgs.Empty);
 
             var saved = _activeProfilesMap[profile.Id];
-            if (_settings.ActiveProfileId == profile.Id)
+            if (CurrentSettings.ActiveProfileId == profile.Id)
             {
                 ActiveProfileChanged?.Invoke(this, saved);
             }
@@ -134,8 +137,10 @@ namespace EyeFocus.Profiles
             newProfile.IsBuiltIn = false;
             newProfile.IsUserModified = false;
 
-            _settings.CustomProfiles.Add(newProfile);
-            _settingsStore.Save(_settings);
+            _settingsStore.Update(settings =>
+            {
+                settings.CustomProfiles.Add(newProfile);
+            });
 
             RefreshProfilesMap();
             ProfilesListChanged?.Invoke(this, EventArgs.Empty);
@@ -147,14 +152,16 @@ namespace EyeFocus.Profiles
         {
             if (_builtInDefaults.TryGetValue(id, out var originalDefault))
             {
-                _settings.ProfileOverrides.RemoveAll(o => o.Id == id);
-                _settingsStore.Save(_settings);
+                _settingsStore.Update(settings =>
+                {
+                    settings.ProfileOverrides.RemoveAll(o => o.Id == id);
+                });
 
                 RefreshProfilesMap();
                 ProfilesListChanged?.Invoke(this, EventArgs.Empty);
 
                 var resetProfile = _activeProfilesMap[id];
-                if (_settings.ActiveProfileId == id)
+                if (CurrentSettings.ActiveProfileId == id)
                 {
                     ActiveProfileChanged?.Invoke(this, resetProfile);
                 }
@@ -173,14 +180,18 @@ namespace EyeFocus.Profiles
                 return false;
             }
 
-            var removed = _settings.CustomProfiles.RemoveAll(p => p.Id == id) > 0;
+            bool removed = false;
+            _settingsStore.Update(settings =>
+            {
+                removed = settings.CustomProfiles.RemoveAll(p => p.Id == id) > 0;
+                if (removed && settings.ActiveProfileId == id)
+                {
+                    settings.ActiveProfileId = ProfileDefaults.IdComfort;
+                }
+            });
+
             if (removed)
             {
-                if (_settings.ActiveProfileId == id)
-                {
-                    _settings.ActiveProfileId = ProfileDefaults.IdComfort;
-                }
-                _settingsStore.Save(_settings);
                 RefreshProfilesMap();
                 ProfilesListChanged?.Invoke(this, EventArgs.Empty);
                 LogService.Info($"Deleted custom profile: {id}");

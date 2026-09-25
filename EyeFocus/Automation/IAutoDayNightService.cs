@@ -5,6 +5,7 @@ namespace EyeFocus.Automation
     public interface IAutoDayNightService : IDisposable
     {
         event Action<DayNightPeriod>? PeriodChanged;
+        event Action<bool>? EnabledChanged;
 
         bool IsEnabled { get; }
         DayNightPeriod CurrentPeriod { get; }

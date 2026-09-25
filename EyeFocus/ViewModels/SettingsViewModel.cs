@@ -157,6 +157,11 @@ namespace EyeFocus.ViewModels
             ResetDefaultsCommand = new RelayCommand(OnResetDefaults);
             ReloadHotkeysCommand = new RelayCommand(OnReloadHotkeys);
 
+            _settingsStore.SettingsChanged += (s, e) =>
+            {
+                System.Windows.Application.Current?.Dispatcher?.Invoke(() => LoadSettings());
+            };
+
             LoadSettings();
         }
 
@@ -216,19 +221,19 @@ namespace EyeFocus.ViewModels
 
         private void SaveSettings()
         {
-            var s = _settingsStore.Load();
-            s.Theme = SelectedTheme;
-            s.StartWithWindows = StartWithWindows;
-            s.StartMinimized = StartMinimized;
-            s.MinimizeToTray = MinimizeToTray;
-            s.RememberLastProfile = RememberLastProfile;
-            s.RestoreOnExit = RestoreOnExit;
-            s.SoftwareDimFallback = SoftwareDimFallback;
-            s.DdcCiEnabled = DdcCiEnabled;
-            s.GammaFallbackEnabled = GammaFallbackEnabled;
-            s.DebugLogging = DebugLogging;
-
-            _settingsStore.Save(s);
+            _settingsStore.Update(s =>
+            {
+                s.Theme = SelectedTheme;
+                s.StartWithWindows = StartWithWindows;
+                s.StartMinimized = StartMinimized;
+                s.MinimizeToTray = MinimizeToTray;
+                s.RememberLastProfile = RememberLastProfile;
+                s.RestoreOnExit = RestoreOnExit;
+                s.SoftwareDimFallback = SoftwareDimFallback;
+                s.DdcCiEnabled = DdcCiEnabled;
+                s.GammaFallbackEnabled = GammaFallbackEnabled;
+                s.DebugLogging = DebugLogging;
+            });
         }
 
         private void OnOpenLogFolder()

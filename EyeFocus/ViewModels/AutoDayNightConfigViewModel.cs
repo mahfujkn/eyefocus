@@ -314,15 +314,19 @@ namespace EyeFocus.ViewModels
         {
             if (!Validate()) return;
 
-            var settings = _settingsStore.Load();
-            settings.TimeDetectionMode = IsSystemAutomatic ? "System" : "Manual";
-            settings.ManualTimeZoneId = SelectedTimeZoneId;
-            settings.DayStartTime = DayStartTime.Trim();
-            settings.NightStartTime = NightStartTime.Trim();
+            _settingsStore.Update(settings =>
+            {
+                settings.TimeDetectionMode = IsSystemAutomatic ? "System" : "Manual";
+                settings.ManualTimeZoneId = SelectedTimeZoneId;
+                settings.DayStartTime = DayStartTime.Trim();
+                settings.NightStartTime = NightStartTime.Trim();
+            });
 
-            _settingsStore.Save(settings);
-
-            _autoDayNightService.Evaluate(forceApply: settings.AutomaticDayNightEnabled);
+            var s = _settingsStore.Load();
+            if (s.AutomaticDayNightEnabled)
+            {
+                _autoDayNightService.Evaluate(forceApply: true);
+            }
 
             ConfigurationSaved?.Invoke();
             IsOpen = false;
