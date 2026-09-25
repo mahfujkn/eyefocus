@@ -1,0 +1,25 @@
+﻿## Build and Output Folders
+[Bb]in/
+[Oo]bj/
+[Pp]ublish/
+[Aa]rtifacts/
+
+## Visual Studio & Rider Cache
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.idea/
+
+## OS Metadata
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+## Logs and Temporary Files
+*.log
+*.tmp
+TestResults/
