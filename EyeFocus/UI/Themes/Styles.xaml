@@ -4,7 +4,6 @@
     <!-- Global Base Style for Text & Controls (Crisp Modern Segoe UI Variable Typography) -->
     <Style TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Segoe UI Variable Text, Segoe UI, sans-serif" />
-        <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />

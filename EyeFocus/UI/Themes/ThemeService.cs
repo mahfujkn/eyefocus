@@ -101,7 +101,7 @@ namespace EyeFocus.UI.Themes
                     ApplyPalette(
                         app,
                         primary: "#2DD4BF",
-                        onPrimary: "#04211E",
+                        onPrimary: "#FFFFFF",
                         primaryContainer: "#134E4A",
                         onPrimaryContainer: "#99F6E4",
                         secondary: "#97A3AD",

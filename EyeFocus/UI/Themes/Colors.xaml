@@ -3,7 +3,7 @@
 
     <!-- Dark Theme (EyeFocus Glassmorphism Utility Design) -->
     <Color x:Key="PrimaryColor">#2DD4BF</Color>
-    <Color x:Key="OnPrimaryColor">#04211E</Color>
+    <Color x:Key="OnPrimaryColor">#FFFFFF</Color>
     <Color x:Key="PrimaryContainerColor">#134E4A</Color>
     <Color x:Key="OnPrimaryContainerColor">#99F6E4</Color>
 
