@@ -8,6 +8,7 @@ using EyeFocus.Models;
 using EyeFocus.Profiles;
 using EyeFocus.Services;
 using EyeFocus.Storage;
+using EyeFocus.UI.Themes;
 
 namespace EyeFocus.ViewModels
 {
@@ -633,31 +634,75 @@ namespace EyeFocus.ViewModels
         public string Description => Profile.Description;
         public string FormattedParams => $"{Profile.Kelvin}K · {Profile.Brightness}%";
 
-        public string IconBgBrush => Profile.Id.ToLowerInvariant() switch
+        public string IconBgBrush
         {
-            ProfileDefaults.IdComfort => "#E6F7F2",
-            ProfileDefaults.IdGame => "#F3E8FF",
-            ProfileDefaults.IdMovie => "#FFE4E6",
-            ProfileDefaults.IdOffice => "#E0F2FE",
-            ProfileDefaults.IdEditing => "#FEF3C7",
-            ProfileDefaults.IdReading => "#DCFCE7",
-            ProfileDefaults.IdCoding => "#EDE9FE",
-            ProfileDefaults.IdCustom => "#F1F5F9",
-            _ => "#E6F7F2"
-        };
+            get
+            {
+                bool isDark = ThemeService.ActiveTheme == "Dark";
+                if (isDark)
+                {
+                    return Profile.Id.ToLowerInvariant() switch
+                    {
+                        ProfileDefaults.IdComfort => "#0D332D",
+                        ProfileDefaults.IdGame => "#2E1B4E",
+                        ProfileDefaults.IdMovie => "#3A141E",
+                        ProfileDefaults.IdOffice => "#0E2C4A",
+                        ProfileDefaults.IdEditing => "#362106",
+                        ProfileDefaults.IdReading => "#0F2E1E",
+                        ProfileDefaults.IdCoding => "#1E1B4B",
+                        ProfileDefaults.IdCustom => "#1E293B",
+                        _ => "#0D332D"
+                    };
+                }
+                return Profile.Id.ToLowerInvariant() switch
+                {
+                    ProfileDefaults.IdComfort => "#E6F7F2",
+                    ProfileDefaults.IdGame => "#F3E8FF",
+                    ProfileDefaults.IdMovie => "#FFE4E6",
+                    ProfileDefaults.IdOffice => "#E0F2FE",
+                    ProfileDefaults.IdEditing => "#FEF3C7",
+                    ProfileDefaults.IdReading => "#DCFCE7",
+                    ProfileDefaults.IdCoding => "#EDE9FE",
+                    ProfileDefaults.IdCustom => "#F1F5F9",
+                    _ => "#E6F7F2"
+                };
+            }
+        }
 
-        public string IconFgBrush => Profile.Id.ToLowerInvariant() switch
+        public string IconFgBrush
         {
-            ProfileDefaults.IdComfort => "#00A88F",
-            ProfileDefaults.IdGame => "#8B5CF6",
-            ProfileDefaults.IdMovie => "#F43F5E",
-            ProfileDefaults.IdOffice => "#0284C7",
-            ProfileDefaults.IdEditing => "#D97706",
-            ProfileDefaults.IdReading => "#16A34A",
-            ProfileDefaults.IdCoding => "#6366F1",
-            ProfileDefaults.IdCustom => "#64748B",
-            _ => "#00A88F"
-        };
+            get
+            {
+                bool isDark = ThemeService.ActiveTheme == "Dark";
+                if (isDark)
+                {
+                    return Profile.Id.ToLowerInvariant() switch
+                    {
+                        ProfileDefaults.IdComfort => "#2DD4BF",
+                        ProfileDefaults.IdGame => "#C084FC",
+                        ProfileDefaults.IdMovie => "#FB7185",
+                        ProfileDefaults.IdOffice => "#38BDF8",
+                        ProfileDefaults.IdEditing => "#FBBF24",
+                        ProfileDefaults.IdReading => "#4ADE80",
+                        ProfileDefaults.IdCoding => "#818CF8",
+                        ProfileDefaults.IdCustom => "#94A3B8",
+                        _ => "#2DD4BF"
+                    };
+                }
+                return Profile.Id.ToLowerInvariant() switch
+                {
+                    ProfileDefaults.IdComfort => "#00A88F",
+                    ProfileDefaults.IdGame => "#8B5CF6",
+                    ProfileDefaults.IdMovie => "#F43F5E",
+                    ProfileDefaults.IdOffice => "#0284C7",
+                    ProfileDefaults.IdEditing => "#D97706",
+                    ProfileDefaults.IdReading => "#16A34A",
+                    ProfileDefaults.IdCoding => "#6366F1",
+                    ProfileDefaults.IdCustom => "#64748B",
+                    _ => "#00A88F"
+                };
+            }
+        }
 
         public bool IsActive
         {
@@ -669,6 +714,13 @@ namespace EyeFocus.ViewModels
         {
             Profile = profile;
             _isActive = isActive;
+            ThemeService.ThemeChanged += OnThemeChanged;
+        }
+
+        private void OnThemeChanged(string theme)
+        {
+            OnPropertyChanged(nameof(IconBgBrush));
+            OnPropertyChanged(nameof(IconFgBrush));
         }
 
         public static string GetEffectiveIconKey(DisplayProfile profile)

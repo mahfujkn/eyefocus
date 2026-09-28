@@ -135,6 +135,45 @@ namespace EyeFocus.UI.Themes
                     );
                 }
 
+                bool isLight = _activeTheme == "Light";
+
+                // Day & Night Sub-Cards
+                SetToken(app, "DayModeCardBackground", isLight ? "#FFFDF5" : "#1C1914");
+                SetToken(app, "DayModeCardBorder", isLight ? "#FEF3C7" : "#3D2E14");
+                SetToken(app, "DayModeTimeBadgeBackground", isLight ? "#FEF3C7" : "#2E1E05");
+                SetToken(app, "DayModeTimeBadgeForeground", isLight ? "#92400E" : "#FCD34D");
+                SetToken(app, "DayModeTimeBadgeBorder", isLight ? "#FEF3C7" : "#5C3B08");
+                SetToken(app, "DayModeIconCircleBackground", isLight ? "#FEF3C7" : "#332104");
+
+                SetToken(app, "NightModeCardBackground", isLight ? "#F0F7FF" : "#101726");
+                SetToken(app, "NightModeCardBorder", isLight ? "#E0F2FE" : "#1E293B");
+                SetToken(app, "NightModeTimeBadgeBackground", isLight ? "#E0F2FE" : "#0C2542");
+                SetToken(app, "NightModeTimeBadgeForeground", isLight ? "#0369A1" : "#93C5FD");
+                SetToken(app, "NightModeTimeBadgeBorder", isLight ? "#E0F2FE" : "#1E3A8A");
+                SetToken(app, "NightModeIconCircleBackground", isLight ? "#DBEAFE" : "#142540");
+                SetToken(app, "NightModeIconCircleForeground", isLight ? "#2563EB" : "#60A5FA");
+
+                // Header Icon Circles
+                SetToken(app, "BrightnessHeaderCircleBg", isLight ? "#E6F7F5" : "#0D332D");
+                SetToken(app, "BrightnessHeaderCircleFg", isLight ? "#00A88F" : "#2DD4BF");
+                SetToken(app, "KelvinHeaderCircleBg", isLight ? "#FEF3C7" : "#3D2406");
+                SetToken(app, "KelvinHeaderCircleFg", isLight ? "#F59E0B" : "#FBBF24");
+                SetToken(app, "ScheduleHeaderCircleBg", isLight ? "#E0F2FE" : "#0E2C4A");
+                SetToken(app, "ScheduleHeaderCircleFg", isLight ? "#0284C7" : "#38BDF8");
+                SetToken(app, "ProfilesHeaderCircleBg", isLight ? "#F1F5F9" : "#1E293B");
+                SetToken(app, "ProfilesHeaderCircleFg", isLight ? "#475569" : "#94A3B8");
+
+                // Value Badges
+                SetToken(app, "BrightnessBadgeBackground", isLight ? "#F1F5F9" : "#1E293B");
+                SetToken(app, "BrightnessBadgeForeground", isLight ? "#0F172A" : "#F8FAFC");
+                SetToken(app, "BrightnessBadgeBorder", isLight ? "#E2E8F0" : "#334155");
+                SetToken(app, "KelvinBadgeBackground", isLight ? "#FEF3C7" : "#382305");
+                SetToken(app, "KelvinBadgeForeground", isLight ? "#D97706" : "#FBBF24");
+                SetToken(app, "KelvinBadgeBorder", isLight ? "#FDE68A" : "#5C3B08");
+
+                // Timeline Track
+                SetToken(app, "TimelineNightTrack", isLight ? "#CBD5E1" : "#334155");
+
                 ThemeChanged?.Invoke(_activeTheme);
             });
         }

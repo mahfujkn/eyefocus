@@ -1,7 +1,8 @@
 <Application x:Class="EyeFocus.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="clr-namespace:EyeFocus.UI.Converters">
+             xmlns:converters="clr-namespace:EyeFocus.UI.Converters"
+             ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -87,6 +87,77 @@
     <SolidColorBrush x:Key="BrightnessTrackBrush" Color="#00A88F" />
     <SolidColorBrush x:Key="KelvinTrackBrush" Color="#F59E0B" />
 
+    <!-- Day & Night Automation Sub-Cards (Themed) -->
+    <Color x:Key="DayModeCardBackgroundColor">#1C1914</Color>
+    <Color x:Key="DayModeCardBorderColor">#3D2E14</Color>
+    <Color x:Key="DayModeTimeBadgeBackgroundColor">#2E1E05</Color>
+    <Color x:Key="DayModeTimeBadgeForegroundColor">#FCD34D</Color>
+    <Color x:Key="DayModeTimeBadgeBorderColor">#5C3B08</Color>
+    <Color x:Key="DayModeIconCircleBackgroundColor">#332104</Color>
+
+    <Color x:Key="NightModeCardBackgroundColor">#101726</Color>
+    <Color x:Key="NightModeCardBorderColor">#1E293B</Color>
+    <Color x:Key="NightModeTimeBadgeBackgroundColor">#0C2542</Color>
+    <Color x:Key="NightModeTimeBadgeForegroundColor">#93C5FD</Color>
+    <Color x:Key="NightModeTimeBadgeBorderColor">#1E3A8A</Color>
+    <Color x:Key="NightModeIconCircleBackgroundColor">#142540</Color>
+    <Color x:Key="NightModeIconCircleForegroundColor">#60A5FA</Color>
+
+    <!-- Header Icon Circles (Themed) -->
+    <Color x:Key="BrightnessHeaderCircleBgColor">#0D332D</Color>
+    <Color x:Key="BrightnessHeaderCircleFgColor">#2DD4BF</Color>
+    <Color x:Key="KelvinHeaderCircleBgColor">#3D2406</Color>
+    <Color x:Key="KelvinHeaderCircleFgColor">#FBBF24</Color>
+    <Color x:Key="ScheduleHeaderCircleBgColor">#0E2C4A</Color>
+    <Color x:Key="ScheduleHeaderCircleFgColor">#38BDF8</Color>
+    <Color x:Key="ProfilesHeaderCircleBgColor">#1E293B</Color>
+    <Color x:Key="ProfilesHeaderCircleFgColor">#94A3B8</Color>
+
+    <!-- Value Badges (Themed) -->
+    <Color x:Key="BrightnessBadgeBackgroundColor">#1E293B</Color>
+    <Color x:Key="BrightnessBadgeForegroundColor">#F8FAFC</Color>
+    <Color x:Key="BrightnessBadgeBorderColor">#334155</Color>
+    <Color x:Key="KelvinBadgeBackgroundColor">#382305</Color>
+    <Color x:Key="KelvinBadgeForegroundColor">#FBBF24</Color>
+    <Color x:Key="KelvinBadgeBorderColor">#5C3B08</Color>
+
+    <!-- Timeline Track (Themed) -->
+    <Color x:Key="TimelineNightTrackColor">#334155</Color>
+
+    <!-- Corresponding SolidColorBrushes -->
+    <SolidColorBrush x:Key="DayModeCardBackgroundBrush" Color="{StaticResource DayModeCardBackgroundColor}" />
+    <SolidColorBrush x:Key="DayModeCardBorderBrush" Color="{StaticResource DayModeCardBorderColor}" />
+    <SolidColorBrush x:Key="DayModeTimeBadgeBackgroundBrush" Color="{StaticResource DayModeTimeBadgeBackgroundColor}" />
+    <SolidColorBrush x:Key="DayModeTimeBadgeForegroundBrush" Color="{StaticResource DayModeTimeBadgeForegroundColor}" />
+    <SolidColorBrush x:Key="DayModeTimeBadgeBorderBrush" Color="{StaticResource DayModeTimeBadgeBorderColor}" />
+    <SolidColorBrush x:Key="DayModeIconCircleBackgroundBrush" Color="{StaticResource DayModeIconCircleBackgroundColor}" />
+
+    <SolidColorBrush x:Key="NightModeCardBackgroundBrush" Color="{StaticResource NightModeCardBackgroundColor}" />
+    <SolidColorBrush x:Key="NightModeCardBorderBrush" Color="{StaticResource NightModeCardBorderColor}" />
+    <SolidColorBrush x:Key="NightModeTimeBadgeBackgroundBrush" Color="{StaticResource NightModeTimeBadgeBackgroundColor}" />
+    <SolidColorBrush x:Key="NightModeTimeBadgeForegroundBrush" Color="{StaticResource NightModeTimeBadgeForegroundColor}" />
+    <SolidColorBrush x:Key="NightModeTimeBadgeBorderBrush" Color="{StaticResource NightModeTimeBadgeBorderColor}" />
+    <SolidColorBrush x:Key="NightModeIconCircleBackgroundBrush" Color="{StaticResource NightModeIconCircleBackgroundColor}" />
+    <SolidColorBrush x:Key="NightModeIconCircleForegroundBrush" Color="{StaticResource NightModeIconCircleForegroundColor}" />
+
+    <SolidColorBrush x:Key="BrightnessHeaderCircleBgBrush" Color="{StaticResource BrightnessHeaderCircleBgColor}" />
+    <SolidColorBrush x:Key="BrightnessHeaderCircleFgBrush" Color="{StaticResource BrightnessHeaderCircleFgColor}" />
+    <SolidColorBrush x:Key="KelvinHeaderCircleBgBrush" Color="{StaticResource KelvinHeaderCircleBgColor}" />
+    <SolidColorBrush x:Key="KelvinHeaderCircleFgBrush" Color="{StaticResource KelvinHeaderCircleFgColor}" />
+    <SolidColorBrush x:Key="ScheduleHeaderCircleBgBrush" Color="{StaticResource ScheduleHeaderCircleBgColor}" />
+    <SolidColorBrush x:Key="ScheduleHeaderCircleFgBrush" Color="{StaticResource ScheduleHeaderCircleFgColor}" />
+    <SolidColorBrush x:Key="ProfilesHeaderCircleBgBrush" Color="{StaticResource ProfilesHeaderCircleBgColor}" />
+    <SolidColorBrush x:Key="ProfilesHeaderCircleFgBrush" Color="{StaticResource ProfilesHeaderCircleFgColor}" />
+
+    <SolidColorBrush x:Key="BrightnessBadgeBackgroundBrush" Color="{StaticResource BrightnessBadgeBackgroundColor}" />
+    <SolidColorBrush x:Key="BrightnessBadgeForegroundBrush" Color="{StaticResource BrightnessBadgeForegroundColor}" />
+    <SolidColorBrush x:Key="BrightnessBadgeBorderBrush" Color="{StaticResource BrightnessBadgeBorderColor}" />
+    <SolidColorBrush x:Key="KelvinBadgeBackgroundBrush" Color="{StaticResource KelvinBadgeBackgroundColor}" />
+    <SolidColorBrush x:Key="KelvinBadgeForegroundBrush" Color="{StaticResource KelvinBadgeForegroundColor}" />
+    <SolidColorBrush x:Key="KelvinBadgeBorderBrush" Color="{StaticResource KelvinBadgeBorderColor}" />
+
+    <SolidColorBrush x:Key="TimelineNightTrackBrush" Color="{StaticResource TimelineNightTrackColor}" />
+
     <!-- Teal Button Primary Gradient -->
     <LinearGradientBrush x:Key="TealPrimaryButtonBrush" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="#2DD4BF" Offset="0.0" />

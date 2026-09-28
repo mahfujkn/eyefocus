@@ -80,6 +80,21 @@ namespace EyeFocus.Tests
                     window.Measure(new System.Windows.Size(1000, 800));
                     window.Arrange(new System.Windows.Rect(0, 0, 1000, 800));
                     window.ApplyTemplate();
+
+                    // Verify Light & Dark theme token switching
+                    EyeFocus.UI.Themes.ThemeService.ApplyTheme("Light");
+                    Assert.NotNull(app.Resources["DayModeCardBackgroundBrush"]);
+                    Assert.NotNull(app.Resources["NightModeCardBackgroundBrush"]);
+                    Assert.NotNull(app.Resources["BrightnessBadgeBackgroundBrush"]);
+                    Assert.NotNull(app.Resources["KelvinBadgeBackgroundBrush"]);
+                    Assert.NotNull(app.Resources["BrightnessHeaderCircleBgBrush"]);
+
+                    EyeFocus.UI.Themes.ThemeService.ApplyTheme("Dark");
+                    Assert.NotNull(app.Resources["DayModeCardBackgroundBrush"]);
+                    Assert.NotNull(app.Resources["NightModeCardBackgroundBrush"]);
+                    Assert.NotNull(app.Resources["BrightnessBadgeBackgroundBrush"]);
+                    Assert.NotNull(app.Resources["KelvinBadgeBackgroundBrush"]);
+                    Assert.NotNull(app.Resources["BrightnessHeaderCircleBgBrush"]);
                 }
                 catch (Exception ex)
                 {

@@ -83,8 +83,8 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="#E6F7F5" Margin="0,0,12,0" VerticalAlignment="Center">
-                                <Path Data="{StaticResource IconSun}" Fill="#00A88F" Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{DynamicResource BrightnessHeaderCircleBgBrush}" Margin="0,0,12,0" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconSun}" Fill="{DynamicResource BrightnessHeaderCircleFgBrush}" Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
 
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
@@ -93,8 +93,8 @@
                             </StackPanel>
 
                             <!-- Percentage Pill Badge -->
-                            <Border Grid.Column="2" Background="#F1F5F9" CornerRadius="8" Padding="10,4" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Brightness, StringFormat='{}{0}%'}" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <Border Grid.Column="2" Background="{DynamicResource BrightnessBadgeBackgroundBrush}" BorderBrush="{DynamicResource BrightnessBadgeBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,4" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Brightness, StringFormat='{}{0}%'}" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource BrightnessBadgeForegroundBrush}" />
                             </Border>
                         </Grid>
 
@@ -144,8 +144,8 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="#FEF3C7" Margin="0,0,12,0" VerticalAlignment="Center">
-                                <Path Data="{StaticResource IconThermometer}" Fill="#F59E0B" Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{DynamicResource KelvinHeaderCircleBgBrush}" Margin="0,0,12,0" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconThermometer}" Fill="{DynamicResource KelvinHeaderCircleFgBrush}" Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
 
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
@@ -154,8 +154,8 @@
                             </StackPanel>
 
                             <!-- Kelvin Pill Badge -->
-                            <Border Grid.Column="2" Background="#FEF3C7" CornerRadius="8" Padding="10,4" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Kelvin, StringFormat='{}{0}K'}" FontWeight="Bold" FontSize="13" Foreground="#D97706" />
+                            <Border Grid.Column="2" Background="{DynamicResource KelvinBadgeBackgroundBrush}" BorderBrush="{DynamicResource KelvinBadgeBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,4" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Kelvin, StringFormat='{}{0}K'}" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource KelvinBadgeForegroundBrush}" />
                             </Border>
                         </Grid>
 
@@ -215,8 +215,8 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="#E0F2FE" Margin="0,0,12,0" VerticalAlignment="Center">
-                            <Path Data="{StaticResource IconClock}" Fill="#0284C7" Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{DynamicResource ScheduleHeaderCircleBgBrush}" Margin="0,0,12,0" VerticalAlignment="Center">
+                            <Path Data="{StaticResource IconClock}" Fill="{DynamicResource ScheduleHeaderCircleFgBrush}" Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
@@ -249,8 +249,8 @@
                         <Button Grid.Column="0" Command="{Binding SelectDayModeCommand}" Cursor="Hand" Padding="0">
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Setter Property="Background" Value="#FFFDF5" />
-                                    <Setter Property="BorderBrush" Value="#FEF3C7" />
+                                    <Setter Property="Background" Value="{DynamicResource DayModeCardBackgroundBrush}" />
+                                    <Setter Property="BorderBrush" Value="{DynamicResource DayModeCardBorderBrush}" />
                                     <Setter Property="BorderThickness" Value="1.5" />
                                     <Setter Property="Template">
                                         <Setter.Value>
@@ -278,7 +278,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Width="32" Height="32" CornerRadius="16" Background="#FEF3C7" Margin="0,0,10,0" VerticalAlignment="Center">
+                                    <Border Grid.Column="0" Width="32" Height="32" CornerRadius="16" Background="{DynamicResource DayModeIconCircleBackgroundBrush}" Margin="0,0,10,0" VerticalAlignment="Center">
                                         <Path Data="{StaticResource IconSun}" Fill="#F59E0B" Width="16" Height="16" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     </Border>
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
@@ -287,8 +287,8 @@
                                 </Grid>
                                 <TextBlock Text="Clear and vibrant for productivity during the day." FontSize="10.5" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,0,0,12" LineHeight="14.5" LineStackingStrategy="BlockLineHeight" />
                                 <!-- Time Badge Pill -->
-                                <Border Background="#FEF3C7" CornerRadius="6" Padding="9,3.5" HorizontalAlignment="Left">
-                                    <TextBlock Text="7:00 AM – 6:00 PM" FontSize="10" FontWeight="SemiBold" Foreground="#92400E" />
+                                <Border Background="{DynamicResource DayModeTimeBadgeBackgroundBrush}" BorderBrush="{DynamicResource DayModeTimeBadgeBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="9,3.5" HorizontalAlignment="Left">
+                                    <TextBlock Text="7:00 AM – 6:00 PM" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource DayModeTimeBadgeForegroundBrush}" />
                                 </Border>
                             </StackPanel>
                         </Button>
@@ -299,18 +299,18 @@
                                 <!-- Sun & Moon Markers above timeline -->
                                 <Grid Margin="12,0,12,8">
                                     <Path HorizontalAlignment="Left" Data="{StaticResource IconSun}" Fill="#F59E0B" Width="16" Height="16" Stretch="Uniform" />
-                                    <Path HorizontalAlignment="Right" Data="{StaticResource IconNight}" Fill="#334155" Width="14" Height="14" Stretch="Uniform" />
+                                    <Path HorizontalAlignment="Right" Data="{StaticResource IconNight}" Fill="{DynamicResource NightAccentBrush}" Width="14" Height="14" Stretch="Uniform" />
                                 </Grid>
 
                                 <!-- Dual-Color Timeline Bar -->
-                                <Border Height="10" CornerRadius="5" ClipToBounds="True" Background="#334155">
+                                <Border Height="10" CornerRadius="5" ClipToBounds="True" Background="{DynamicResource TimelineNightTrackBrush}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="58*" />
                                             <ColumnDefinition Width="42*" />
                                         </Grid.ColumnDefinitions>
                                         <Border Grid.Column="0" Background="#F59E0B" />
-                                        <Border Grid.Column="1" Background="#334155" />
+                                        <Border Grid.Column="1" Background="{DynamicResource TimelineNightTrackBrush}" />
                                     </Grid>
                                 </Border>
 
@@ -326,8 +326,8 @@
                         <Button Grid.Column="4" Command="{Binding SelectNightModeCommand}" Cursor="Hand" Padding="0">
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Setter Property="Background" Value="#F0F7FF" />
-                                    <Setter Property="BorderBrush" Value="#E0F2FE" />
+                                    <Setter Property="Background" Value="{DynamicResource NightModeCardBackgroundBrush}" />
+                                    <Setter Property="BorderBrush" Value="{DynamicResource NightModeCardBorderBrush}" />
                                     <Setter Property="BorderThickness" Value="1.5" />
                                     <Setter Property="Template">
                                         <Setter.Value>
@@ -355,8 +355,8 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Width="32" Height="32" CornerRadius="16" Background="#DBEAFE" Margin="0,0,10,0" VerticalAlignment="Center">
-                                        <Path Data="{StaticResource IconNight}" Fill="#2563EB" Width="15" Height="15" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <Border Grid.Column="0" Width="32" Height="32" CornerRadius="16" Background="{DynamicResource NightModeIconCircleBackgroundBrush}" Margin="0,0,10,0" VerticalAlignment="Center">
+                                        <Path Data="{StaticResource IconNight}" Fill="{DynamicResource NightModeIconCircleForegroundBrush}" Width="15" Height="15" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     </Border>
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                         <TextBlock Text="Night Mode" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource OnSurfaceBrush}" />
@@ -364,8 +364,8 @@
                                 </Grid>
                                 <TextBlock Text="Warmer, softer light for comfortable evening viewing." FontSize="10.5" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,0,0,12" LineHeight="14.5" LineStackingStrategy="BlockLineHeight" />
                                 <!-- Time Badge Pill -->
-                                <Border Background="#E0F2FE" CornerRadius="6" Padding="9,3.5" HorizontalAlignment="Left">
-                                    <TextBlock Text="6:00 PM – 7:00 AM" FontSize="10" FontWeight="SemiBold" Foreground="#0369A1" />
+                                <Border Background="{DynamicResource NightModeTimeBadgeBackgroundBrush}" BorderBrush="{DynamicResource NightModeTimeBadgeBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="9,3.5" HorizontalAlignment="Left">
+                                    <TextBlock Text="6:00 PM – 7:00 AM" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource NightModeTimeBadgeForegroundBrush}" />
                                 </Border>
                             </StackPanel>
                         </Button>
@@ -384,8 +384,8 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="#F1F5F9" Margin="0,0,12,0" VerticalAlignment="Center">
-                            <Path Data="{StaticResource IconGrid}" Fill="#475569" Width="16" Height="16" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{DynamicResource ProfilesHeaderCircleBgBrush}" Margin="0,0,12,0" VerticalAlignment="Center">
+                            <Path Data="{StaticResource IconGrid}" Fill="{DynamicResource ProfilesHeaderCircleFgBrush}" Width="16" Height="16" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
@@ -447,8 +447,8 @@
                                                                 <!-- Active Checkmark Badge vs Inactive Chevron -->
                                                                 <Grid Grid.Column="2" VerticalAlignment="Center" Margin="8,0,0,0">
                                                                     <!-- Checkmark badge when Active -->
-                                                                    <Border x:Name="ActiveBadge" Width="20" Height="20" CornerRadius="10" Background="#00A88F" Visibility="Collapsed">
-                                                                        <Path Data="{StaticResource IconCheck}" Fill="#FFFFFF" Width="10" Height="10" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                    <Border x:Name="ActiveBadge" Width="20" Height="20" CornerRadius="10" Background="{DynamicResource PrimaryBrush}" Visibility="Collapsed">
+                                                                        <Path Data="{StaticResource IconCheck}" Fill="{DynamicResource OnPrimaryBrush}" Width="10" Height="10" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                                     </Border>
 
                                                                     <!-- Chevron when Inactive -->
@@ -462,7 +462,7 @@
                                                                 <Setter TargetName="CardBorder" Property="Background" Value="{DynamicResource SurfaceContainerBrush}" />
                                                             </Trigger>
                                                             <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                                <Setter TargetName="CardBorder" Property="BorderBrush" Value="#00A88F" />
+                                                                <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
                                                                 <Setter TargetName="CardBorder" Property="BorderThickness" Value="1.5" />
                                                                 <Setter TargetName="ActiveBadge" Property="Visibility" Value="Visible" />
                                                                 <Setter TargetName="InactiveChevron" Property="Visibility" Value="Collapsed" />
