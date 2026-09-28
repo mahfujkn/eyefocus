@@ -101,12 +101,14 @@
                         <!-- Slider Row (Dynamic Teal Fill + Clean White Thumb) -->
                         <Grid Margin="0,0,0,8">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="20" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="20" />
                             </Grid.ColumnDefinitions>
 
-                            <Path Grid.Column="0" Data="{StaticResource IconSunDim}" Fill="{DynamicResource OutlineBrush}" Width="16" Height="16" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                            <Viewbox Grid.Column="0" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconSunDim}" Fill="{DynamicResource OutlineBrush}" Stretch="Uniform" />
+                            </Viewbox>
 
                             <Slider Grid.Column="1" Style="{StaticResource M3SliderStyle}"
                                     Value="{Binding Brightness, Mode=TwoWay}"
@@ -118,17 +120,46 @@
                                     MouseMove="OnSliderMouseMove"
                                     PreviewMouseLeftButtonUp="OnSliderPreviewMouseLeftButtonUp"
                                     Tag="{StaticResource SliderBrightnessFillBrush}"
+                                    Margin="10,0"
                                     VerticalAlignment="Center" />
 
-                            <Path Grid.Column="2" Data="{StaticResource IconSunBright}" Fill="{DynamicResource OutlineBrush}" Width="16" Height="16" Stretch="Uniform" Margin="10,0,0,0" VerticalAlignment="Center" />
+                            <Viewbox Grid.Column="2" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconSunBright}" Fill="{DynamicResource OutlineBrush}" Stretch="Uniform" />
+                            </Viewbox>
                         </Grid>
 
-                        <!-- Hardware / Reset Sub-info -->
-                        <Grid Margin="0,6,0,0">
-                            <TextBlock Text="{Binding HardwareControlBadgeText}" FontSize="10.5" Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" />
-                            <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetBrightnessCommand}" HorizontalAlignment="Right" Padding="10,3" Height="22" ToolTip="Reset brightness to profile default">
-                                <TextBlock Text="Reset" FontSize="10" />
-                            </Button>
+                        <!-- Hardware / Reset Sub-info (Aligned strictly with slider track) -->
+                        <Grid Margin="0,4,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="20" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="1" Margin="10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Left: Hardware Status -->
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                    <TextBlock Text="Hardware Control" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource OutlineBrush}" />
+                                    <TextBlock Text="{Binding HardwareControlBadgeText}" FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" Opacity="0.75" Margin="0,1.5,0,0" />
+                                </StackPanel>
+
+                                <!-- Center: Reset Button -->
+                                <Button Grid.Column="1" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetBrightnessCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="12,3" Height="22" ToolTip="Reset brightness to profile default">
+                                    <TextBlock Text="Reset" FontSize="10.5" />
+                                </Button>
+
+                                <!-- Right: Target Comfort -->
+                                <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <TextBlock Text="Target Comfort" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Right" />
+                                    <TextBlock Text="40% Balanced" FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" Opacity="0.75" HorizontalAlignment="Right" Margin="0,1.5,0,0" />
+                                </StackPanel>
+                            </Grid>
                         </Grid>
                     </StackPanel>
                 </Border>
@@ -160,14 +191,16 @@
                         </Grid>
 
                         <!-- Slider Row (Dynamic Amber Fill + Clean White Thumb) -->
-                        <Grid Margin="0,0,0,6">
+                        <Grid Margin="0,0,0,8">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="20" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="20" />
                             </Grid.ColumnDefinitions>
 
-                            <Path Grid.Column="0" Data="{StaticResource IconCoolSun}" Fill="{DynamicResource OutlineBrush}" Width="16" Height="16" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                            <Viewbox Grid.Column="0" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconCoolSun}" Fill="{DynamicResource OutlineBrush}" Stretch="Uniform" />
+                            </Viewbox>
 
                             <Slider Grid.Column="1" Style="{StaticResource M3SliderStyle}"
                                     Value="{Binding Kelvin, Mode=TwoWay}"
@@ -179,26 +212,46 @@
                                     MouseMove="OnSliderMouseMove"
                                     PreviewMouseLeftButtonUp="OnSliderPreviewMouseLeftButtonUp"
                                     Tag="{StaticResource SliderKelvinFillBrush}"
+                                    Margin="10,0"
                                     VerticalAlignment="Center" />
 
-                            <Path Grid.Column="2" Data="{StaticResource IconWarmSun}" Fill="#F59E0B" Width="16" Height="16" Stretch="Uniform" Margin="10,0,0,0" VerticalAlignment="Center" />
+                            <Viewbox Grid.Column="2" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconWarmSun}" Fill="#F59E0B" Stretch="Uniform" />
+                            </Viewbox>
                         </Grid>
 
-                        <!-- Descriptive Labels (Cooler vs Warmer) -->
+                        <!-- Descriptive Labels (Cooler vs Warmer) (Aligned strictly with slider track) -->
                         <Grid Margin="0,4,0,0">
-                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                <TextBlock Text="Cooler" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
-                                <TextBlock Text=" (More blue light)" FontSize="10" Foreground="#94A3B8" />
-                            </StackPanel>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="20" />
+                            </Grid.ColumnDefinitions>
 
-                            <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetKelvinCommand}" HorizontalAlignment="Center" Padding="10,3" Height="22" ToolTip="Reset color temperature to profile default">
-                                <TextBlock Text="Reset" FontSize="10" />
-                            </Button>
+                            <Grid Grid.Column="1" Margin="10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <TextBlock Text="Warmer" FontSize="10.5" FontWeight="SemiBold" Foreground="#D97706" />
-                                <TextBlock Text=" (Less blue light)" FontSize="10" Foreground="#94A3B8" />
-                            </StackPanel>
+                                <!-- Left: Cooler -->
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                    <TextBlock Text="Cooler" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource OutlineBrush}" />
+                                    <TextBlock Text="(More blue light)" FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" Opacity="0.75" Margin="0,1.5,0,0" />
+                                </StackPanel>
+
+                                <!-- Center: Reset Button -->
+                                <Button Grid.Column="1" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetKelvinCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="12,3" Height="22" ToolTip="Reset color temperature to profile default">
+                                    <TextBlock Text="Reset" FontSize="10.5" />
+                                </Button>
+
+                                <!-- Right: Warmer -->
+                                <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <TextBlock Text="Warmer" FontWeight="SemiBold" FontSize="11" Foreground="#D97706" HorizontalAlignment="Right" />
+                                    <TextBlock Text="(Less blue light)" FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" Opacity="0.75" HorizontalAlignment="Right" Margin="0,1.5,0,0" />
+                                </StackPanel>
+                            </Grid>
                         </Grid>
                     </StackPanel>
                 </Border>
