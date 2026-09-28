@@ -83,6 +83,9 @@
                             SmallChange="1" LargeChange="5"
                             IsMoveToPointEnabled="True"
                             PreviewMouseWheel="OnBrightnessSliderMouseWheel"
+                            PreviewMouseLeftButtonDown="OnSliderPreviewMouseLeftButtonDown"
+                            MouseMove="OnSliderMouseMove"
+                            PreviewMouseLeftButtonUp="OnSliderPreviewMouseLeftButtonUp"
                             Tag="{StaticResource BrightnessTrackBrush}"
                             Margin="0,2,0,3" />
 
@@ -126,6 +129,9 @@
                             SmallChange="50" LargeChange="250"
                             IsMoveToPointEnabled="True"
                             PreviewMouseWheel="OnKelvinSliderMouseWheel"
+                            PreviewMouseLeftButtonDown="OnSliderPreviewMouseLeftButtonDown"
+                            MouseMove="OnSliderMouseMove"
+                            PreviewMouseLeftButtonUp="OnSliderPreviewMouseLeftButtonUp"
                             Tag="{StaticResource KelvinTrackBrush}"
                             Margin="0,2,0,3" />
 

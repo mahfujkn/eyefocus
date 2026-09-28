@@ -524,20 +524,38 @@ namespace EyeFocus.ViewModels
 
         private void OnResetKelvin()
         {
-            if (ActiveProfile == null) return;
-            var defaultProfile = ProfileDefaults.GetDefaultProfiles().FirstOrDefault(p => p.Id == ActiveProfile.Id);
-            Kelvin = defaultProfile != null ? defaultProfile.Kelvin : 5000;
+            var activeId = ActiveProfile?.Id ?? _profileManager.GetActiveProfile().Id;
+            var defaultProfile = ProfileDefaults.GetDefaultProfiles()
+                .FirstOrDefault(p => string.Equals(p.Id, activeId, StringComparison.OrdinalIgnoreCase));
+
+            int targetKelvin = defaultProfile != null ? defaultProfile.Kelvin : 4200;
+            Kelvin = targetKelvin;
+            if (ActiveProfile != null)
+            {
+                ActiveProfile.Kelvin = targetKelvin;
+                _profileManager.SaveProfile(ActiveProfile);
+            }
             FlushPendingProfileSave();
-            SnackbarService.Instance.Show($"Reset color temperature to default ({Kelvin}K)");
+            _displayEngine.SetColorTemperature(targetKelvin);
+            SnackbarService.Instance.Show($"Reset color temperature to default ({targetKelvin}K)");
         }
 
         private void OnResetBrightness()
         {
-            if (ActiveProfile == null) return;
-            var defaultProfile = ProfileDefaults.GetDefaultProfiles().FirstOrDefault(p => p.Id == ActiveProfile.Id);
-            Brightness = defaultProfile != null ? defaultProfile.Brightness : 70;
+            var activeId = ActiveProfile?.Id ?? _profileManager.GetActiveProfile().Id;
+            var defaultProfile = ProfileDefaults.GetDefaultProfiles()
+                .FirstOrDefault(p => string.Equals(p.Id, activeId, StringComparison.OrdinalIgnoreCase));
+
+            int targetBrightness = defaultProfile != null ? defaultProfile.Brightness : 40;
+            Brightness = targetBrightness;
+            if (ActiveProfile != null)
+            {
+                ActiveProfile.Brightness = targetBrightness;
+                _profileManager.SaveProfile(ActiveProfile);
+            }
             FlushPendingProfileSave();
-            SnackbarService.Instance.Show($"Reset brightness to default ({Brightness}%)");
+            _displayEngine.SetBrightness(targetBrightness);
+            SnackbarService.Instance.Show($"Reset brightness to default ({targetBrightness}%)");
         }
 
         private void OnEditProfile(string? profileId)

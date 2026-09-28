@@ -544,6 +544,20 @@
     <!-- ========================================================================= -->
     <!-- 9. DESKTOP UTILITY SLIDER                                                 -->
     <!-- ========================================================================= -->
+    <Style x:Key="SliderRepeatButtonTransparentStyle" TargetType="RepeatButton">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Rectangle Fill="Transparent" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="M3SliderStyle" TargetType="Slider">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
         <Setter Property="Background" Value="Transparent" />
@@ -557,10 +571,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Slider">
-                    <Grid VerticalAlignment="Center">
-                        <!-- Pill Track -->
-                        <Border x:Name="TrackBackground" Height="6" CornerRadius="3" Background="{TemplateBinding Tag}" SnapsToDevicePixels="True" />
+                    <Grid VerticalAlignment="Center" Background="Transparent">
+                        <!-- Pill Track (Hit test false so clicks reach PART_Track directly) -->
+                        <Border x:Name="TrackBackground" Height="6" CornerRadius="3" Background="{TemplateBinding Tag}" SnapsToDevicePixels="True" IsHitTestVisible="False" />
                         <Track x:Name="PART_Track">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Style="{StaticResource SliderRepeatButtonTransparentStyle}" Command="{x:Static Slider.DecreaseLarge}" />
+                            </Track.DecreaseRepeatButton>
                             <Track.Thumb>
                                 <Thumb Cursor="Hand">
                                     <Thumb.Template>
@@ -595,6 +612,9 @@
                                     </Thumb.Template>
                                 </Thumb>
                             </Track.Thumb>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Style="{StaticResource SliderRepeatButtonTransparentStyle}" Command="{x:Static Slider.IncreaseLarge}" />
+                            </Track.IncreaseRepeatButton>
                         </Track>
                     </Grid>
                     <ControlTemplate.Triggers>
