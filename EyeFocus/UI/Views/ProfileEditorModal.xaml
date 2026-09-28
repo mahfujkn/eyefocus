@@ -196,7 +196,7 @@
                     <Button Grid.Column="2" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding CancelCommand}" Content="Cancel" Height="30" Padding="12,4" />
                     <Button Grid.Column="4" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding SaveAsNewCommand}" Content="Save as New" Height="30" Padding="12,4" />
                     <Button Grid.Column="6" Style="{StaticResource M3FilledButtonStyle}" Command="{Binding SaveCommand}" Height="30" Padding="14,4">
-                        <TextBlock Text="Save Profile" Foreground="#FFFFFF" FontWeight="Bold" FontSize="11.5" VerticalAlignment="Center" />
+                        <TextBlock Text="Save Profile" Foreground="{DynamicResource OnPrimaryBrush}" FontWeight="SemiBold" FontSize="11.5" VerticalAlignment="Center" />
                     </Button>
                 </Grid>
             </Border>
