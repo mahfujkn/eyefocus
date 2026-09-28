@@ -84,12 +84,12 @@
                             </Grid.ColumnDefinitions>
 
                             <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{DynamicResource BrightnessHeaderCircleBgBrush}" Margin="0,0,12,0" VerticalAlignment="Center">
-                                <Path Data="{StaticResource IconSun}" Fill="{DynamicResource BrightnessHeaderCircleFgBrush}" Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <Path Data="{StaticResource IconSun}" Fill="{DynamicResource BrightnessHeaderCircleFgBrush}" Width="15" Height="15" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
 
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock Text="Brightness" FontWeight="Bold" FontSize="16" Foreground="{DynamicResource OnSurfaceBrush}" />
-                                <TextBlock Text="Adjust screen brightness for comfortable viewing." FontSize="11.5" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
+                                <TextBlock Text="Adjust display brightness" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
                             </StackPanel>
 
                             <!-- Percentage Pill Badge -->
@@ -106,7 +106,7 @@
                                 <ColumnDefinition Width="20" />
                             </Grid.ColumnDefinitions>
 
-                            <Viewbox Grid.Column="0" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Viewbox Grid.Column="0" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True">
                                 <Path Data="{StaticResource IconSunDim}" Fill="{DynamicResource OutlineBrush}" Stretch="Uniform" />
                             </Viewbox>
 
@@ -123,13 +123,13 @@
                                     Margin="10,0"
                                     VerticalAlignment="Center" />
 
-                            <Viewbox Grid.Column="2" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Viewbox Grid.Column="2" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True">
                                 <Path Data="{StaticResource IconSunBright}" Fill="{DynamicResource OutlineBrush}" Stretch="Uniform" />
                             </Viewbox>
                         </Grid>
 
                         <!-- Hardware / Reset Sub-info (Aligned strictly with slider track) -->
-                        <Grid Margin="0,4,0,0">
+                        <Grid Margin="0,3,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="20" />
                                 <ColumnDefinition Width="*" />
@@ -143,22 +143,16 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Left: Hardware Status -->
-                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                    <TextBlock Text="Hardware Control" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource OutlineBrush}" />
-                                    <TextBlock Text="{Binding HardwareControlBadgeText}" FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" Opacity="0.75" Margin="0,1.5,0,0" />
-                                </StackPanel>
+                                <!-- Left: Hardware Status (Short, single-line) -->
+                                <TextBlock Grid.Column="0" Text="{Binding HardwareControlBadgeText}" FontWeight="Medium" FontSize="9" Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" />
 
                                 <!-- Center: Reset Button -->
-                                <Button Grid.Column="1" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetBrightnessCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="12,3" Height="22" ToolTip="Reset brightness to profile default">
-                                    <TextBlock Text="Reset" FontSize="10.5" />
+                                <Button Grid.Column="1" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetBrightnessCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="8,1" Height="20" ToolTip="Reset brightness to profile default">
+                                    <TextBlock Text="Reset" FontSize="9" FontWeight="SemiBold" />
                                 </Button>
 
-                                <!-- Right: Target Comfort -->
-                                <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                    <TextBlock Text="Target Comfort" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Right" />
-                                    <TextBlock Text="40% Balanced" FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" Opacity="0.75" HorizontalAlignment="Right" Margin="0,1.5,0,0" />
-                                </StackPanel>
+                                <!-- Right: Target Comfort (Short, single-line) -->
+                                <TextBlock Grid.Column="2" Text="Target 40%" FontWeight="Medium" FontSize="9" Foreground="{DynamicResource OutlineBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                             </Grid>
                         </Grid>
                     </StackPanel>
@@ -181,7 +175,7 @@
 
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock Text="Color Temperature" FontWeight="Bold" FontSize="16" Foreground="{DynamicResource OnSurfaceBrush}" />
-                                <TextBlock Text="Reduce blue light for warmer, more comfortable viewing." FontSize="11.5" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
+                                <TextBlock Text="Reduce blue light for eye comfort" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
                             </StackPanel>
 
                             <!-- Kelvin Pill Badge -->
@@ -198,7 +192,7 @@
                                 <ColumnDefinition Width="20" />
                             </Grid.ColumnDefinitions>
 
-                            <Viewbox Grid.Column="0" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Viewbox Grid.Column="0" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True">
                                 <Path Data="{StaticResource IconCoolSun}" Fill="{DynamicResource OutlineBrush}" Stretch="Uniform" />
                             </Viewbox>
 
@@ -215,7 +209,7 @@
                                     Margin="10,0"
                                     VerticalAlignment="Center" />
 
-                            <Viewbox Grid.Column="2" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Viewbox Grid.Column="2" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True">
                                 <Path Data="{StaticResource IconWarmSun}" Fill="#F59E0B" Stretch="Uniform" />
                             </Viewbox>
                         </Grid>
@@ -235,22 +229,16 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Left: Cooler -->
-                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                    <TextBlock Text="Cooler" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource OutlineBrush}" />
-                                    <TextBlock Text="(More blue light)" FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" Opacity="0.75" Margin="0,1.5,0,0" />
-                                </StackPanel>
+                                <!-- Left: Cooler (Short, single-line) -->
+                                <TextBlock Grid.Column="0" Text="Cool (6500K)" FontWeight="Medium" FontSize="9" Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" />
 
                                 <!-- Center: Reset Button -->
-                                <Button Grid.Column="1" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetKelvinCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="12,3" Height="22" ToolTip="Reset color temperature to profile default">
-                                    <TextBlock Text="Reset" FontSize="10.5" />
+                                <Button Grid.Column="1" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetKelvinCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="8,1" Height="20" ToolTip="Reset color temperature to profile default">
+                                    <TextBlock Text="Reset" FontSize="9" FontWeight="SemiBold" />
                                 </Button>
 
-                                <!-- Right: Warmer -->
-                                <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                    <TextBlock Text="Warmer" FontWeight="SemiBold" FontSize="11" Foreground="#D97706" HorizontalAlignment="Right" />
-                                    <TextBlock Text="(Less blue light)" FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" Opacity="0.75" HorizontalAlignment="Right" Margin="0,1.5,0,0" />
-                                </StackPanel>
+                                <!-- Right: Warmer (Short, single-line) -->
+                                <TextBlock Grid.Column="2" Text="Warm (2700K)" FontWeight="Medium" FontSize="9" Foreground="#D97706" HorizontalAlignment="Right" VerticalAlignment="Center" />
                             </Grid>
                         </Grid>
                     </StackPanel>
@@ -332,10 +320,10 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Border Grid.Column="0" Width="32" Height="32" CornerRadius="16" Background="{DynamicResource DayModeIconCircleBackgroundBrush}" Margin="0,0,10,0" VerticalAlignment="Center">
-                                        <Path Data="{StaticResource IconSun}" Fill="#F59E0B" Width="16" Height="16" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <Path Data="{StaticResource IconSun}" Fill="#F59E0B" Width="14" Height="14" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     </Border>
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="Day Mode" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                         <TextBlock Text="Day Mode" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource OnSurfaceBrush}" />
                                     </StackPanel>
                                 </Grid>
                                 <TextBlock Text="Clear and vibrant for productivity during the day." FontSize="10.5" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,0,0,12" LineHeight="14.5" LineStackingStrategy="BlockLineHeight" />
@@ -351,8 +339,8 @@
                             <StackPanel>
                                 <!-- Sun & Moon Markers above timeline -->
                                 <Grid Margin="12,0,12,8">
-                                    <Path HorizontalAlignment="Left" Data="{StaticResource IconSun}" Fill="#F59E0B" Width="16" Height="16" Stretch="Uniform" />
-                                    <Path HorizontalAlignment="Right" Data="{StaticResource IconNight}" Fill="{DynamicResource NightAccentBrush}" Width="14" Height="14" Stretch="Uniform" />
+                                    <Path HorizontalAlignment="Left" Data="{StaticResource IconSun}" Fill="#F59E0B" Width="12" Height="12" Stretch="Uniform" />
+                                    <Path HorizontalAlignment="Right" Data="{StaticResource IconNight}" Fill="{DynamicResource NightAccentBrush}" Width="12" Height="12" Stretch="Uniform" />
                                 </Grid>
 
                                 <!-- Dual-Color Timeline Bar -->

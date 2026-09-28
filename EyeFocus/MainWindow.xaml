@@ -62,24 +62,24 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Brand Icon Box -->
-                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="10"
-                                Background="#E6F7F5"
+                        <!-- Brand Icon Box (Main App Sun Logo) -->
+                        <Border Grid.Column="0" Width="32" Height="32" CornerRadius="8"
+                                Background="{StaticResource TealPrimaryButtonBrush}"
                                 Margin="0,0,10,0" VerticalAlignment="Center">
-                            <Path Data="{StaticResource IconEyeFocusBrand}" Fill="#00A88F"
-                                  Width="22" Height="22" Stretch="Uniform"
+                            <Path Data="{StaticResource IconEyeFocusBrand}" Fill="#FFFFFF"
+                                  Width="20" Height="20" Stretch="Uniform"
                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         
-                        <!-- Brand Title & Tagline -->
+                        <!-- Brand Title & Tagline (Clean single-line layout) -->
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="EyeFocus" FontWeight="Bold" FontSize="18"
+                            <TextBlock Text="EyeFocus" FontWeight="Bold" FontSize="16"
                                        FontFamily="Segoe UI Variable Display, Segoe UI Variable Text, Segoe UI, sans-serif"
                                        Foreground="{DynamicResource OnSurfaceBrush}"
                                        VerticalAlignment="Center" />
-                            <TextBlock Text="Care for your eyes.&#x0a;See a better tomorrow." FontSize="10"
-                                       Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0"
-                                       LineHeight="13.5" LineStackingStrategy="BlockLineHeight" />
+                            <TextBlock Text="Care for your eyes" FontSize="10.5"
+                                       Foreground="{DynamicResource OutlineBrush}" Margin="0,1.5,0,0"
+                                       VerticalAlignment="Center" />
                         </StackPanel>
                     </Grid>
 
@@ -198,19 +198,8 @@
                                   WindowChrome.IsHitTestVisibleInChrome="True"
                                   ToolTip="Select display to control" />
 
-                        <!-- Center/Right: Manage Button, Theme Toggle -->
+                        <!-- Center/Right: Theme Toggle -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
-                            <!-- Primary Teal Manage Button (Ultra-Crisp Solid) -->
-                            <Button Style="{StaticResource M3FilledButtonStyle}" Command="{Binding ManageMonitorsCommand}"
-                                    Padding="12,4" Height="28" Margin="0,0,8,0"
-                                    WindowChrome.IsHitTestVisibleInChrome="True"
-                                    ToolTip="Manage connected monitors and view hardware capabilities">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Path Data="{StaticResource IconMonitor}" Fill="{DynamicResource OnPrimaryBrush}" Width="12" Height="12" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
-                                    <TextBlock Text="Manage" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </Button>
-
                             <!-- Theme Switch Button -->
                             <Button Style="{StaticResource M3IconButtonStyle}" Command="{Binding ToggleThemeCommand}"
                                     Padding="4" Height="28" Width="28"

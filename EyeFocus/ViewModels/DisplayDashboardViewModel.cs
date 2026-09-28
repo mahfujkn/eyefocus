@@ -26,7 +26,7 @@ namespace EyeFocus.ViewModels
         private bool _isUpdatingFromInternal;
         private bool _isPaused;
 
-        private string _hardwareControlBadgeText = "Hardware · DDC/CI ✓";
+        private string _hardwareControlBadgeText = "DDC/CI Hardware";
         private string _hardwareStatusText = "DDC/CI ✓ • Gamma Fallback Ready";
         private string _selectedMonitorTitle = "All Displays";
         private string _selectedMonitorDisplayDetail = "Synchronized Control";
@@ -594,17 +594,17 @@ namespace EyeFocus.ViewModels
             {
                 if (primary.SupportsDdcCi && primary.SupportsHardwareBrightness)
                 {
-                    HardwareControlBadgeText = "Hardware · DDC/CI ✓";
+                    HardwareControlBadgeText = "DDC/CI Hardware";
                     HardwareStatusText = "DDC/CI ✓ • Hardware Control";
                 }
                 else if (primary.SupportsWmiBrightness || primary.IsInternal)
                 {
-                    HardwareControlBadgeText = "Hardware · WMI Laptop ✓";
+                    HardwareControlBadgeText = "WMI Laptop";
                     HardwareStatusText = "WMI ✓ • Laptop Internal";
                 }
                 else
                 {
-                    HardwareControlBadgeText = "Software Dimming · Active";
+                    HardwareControlBadgeText = "Software Dimming";
                     HardwareStatusText = "Software Dimming ✓ • Gamma Ready";
                 }
 
@@ -613,7 +613,7 @@ namespace EyeFocus.ViewModels
             }
             else
             {
-                HardwareControlBadgeText = "All Displays Synced";
+                HardwareControlBadgeText = "All Synced";
                 HardwareStatusText = "DDC/CI ✓ • Synchronized Control";
                 SelectedMonitorTitle = "All Displays";
                 SelectedMonitorDisplayDetail = "Synchronized Multi-Monitor";
