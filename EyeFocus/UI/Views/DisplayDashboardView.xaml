@@ -58,8 +58,7 @@
                     </Button.Style>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <Ellipse Width="8" Height="8" Fill="{Binding StatusPillDotBrush}" Margin="0,0,8,0" VerticalAlignment="Center" />
-                        <TextBlock Text="{Binding StatusPillText}" FontWeight="SemiBold" FontSize="12.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
-                        <Path Data="{StaticResource IconChevronRight}" Fill="#94A3B8" Width="8" Height="8" Stretch="Uniform" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding StatusPillText}" FontWeight="SemiBold" FontSize="12.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
             </Grid>
