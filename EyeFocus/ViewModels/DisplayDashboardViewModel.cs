@@ -134,7 +134,7 @@ namespace EyeFocus.ViewModels
                     if (ActiveProfile != null)
                     {
                         ActiveProfile.Kelvin = value;
-                        _profileManager.SaveProfile(ActiveProfile);
+                        ScheduleDebouncedProfileSave();
                     }
                 }
             }
@@ -152,7 +152,7 @@ namespace EyeFocus.ViewModels
                     if (ActiveProfile != null)
                     {
                         ActiveProfile.Brightness = value;
-                        _profileManager.SaveProfile(ActiveProfile);
+                        ScheduleDebouncedProfileSave();
                     }
                 }
             }
@@ -170,7 +170,7 @@ namespace EyeFocus.ViewModels
                     if (ActiveProfile != null)
                     {
                         ActiveProfile.SoftwareDim = value;
-                        _profileManager.SaveProfile(ActiveProfile);
+                        ScheduleDebouncedProfileSave();
                     }
                 }
             }
@@ -228,6 +228,8 @@ namespace EyeFocus.ViewModels
         public event Action? RequestOpenAutoDayNightConfig;
         public event Action<DisplayProfile>? RequestEditProfile;
 
+        private readonly System.Windows.Threading.DispatcherTimer _profileSaveDebounceTimer;
+
         public void TriggerOpenProfileEditor() => RequestOpenProfileEditor?.Invoke();
 
         public DisplayDashboardViewModel(
@@ -241,6 +243,19 @@ namespace EyeFocus.ViewModels
             _settingsStore = settingsStore;
             _autoDayNightService = autoDayNightService;
 
+            _profileSaveDebounceTimer = new System.Windows.Threading.DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(350)
+            };
+            _profileSaveDebounceTimer.Tick += (s, e) =>
+            {
+                _profileSaveDebounceTimer.Stop();
+                if (ActiveProfile != null)
+                {
+                    _profileManager.SaveProfile(ActiveProfile);
+                }
+            };
+
             _activeProfile = _profileManager.GetActiveProfile();
 
             SelectProfileCommand = new RelayCommand<string>(OnSelectProfile);
@@ -250,8 +265,8 @@ namespace EyeFocus.ViewModels
             TogglePauseCommand = new RelayCommand(OnTogglePause);
             RestoreDisplayCommand = new RelayCommand(OnRestoreDisplay);
             ResetToProfileDefaultCommand = new RelayCommand(OnResetToProfileDefault);
-            ResetKelvinCommand = new RelayCommand(() => Kelvin = ActiveProfile.Kelvin);
-            ResetBrightnessCommand = new RelayCommand(() => Brightness = ActiveProfile.Brightness);
+            ResetKelvinCommand = new RelayCommand(OnResetKelvin);
+            ResetBrightnessCommand = new RelayCommand(OnResetBrightness);
             EditProfileCommand = new RelayCommand<string>(OnEditProfile);
             DuplicateProfileCommand = new RelayCommand<string>(OnDuplicateProfile);
 
@@ -392,6 +407,7 @@ namespace EyeFocus.ViewModels
 
         private void OnTogglePause()
         {
+            FlushPendingProfileSave();
             IsPaused = !IsPaused;
             if (IsPaused)
             {
@@ -409,6 +425,7 @@ namespace EyeFocus.ViewModels
         private void OnSelectProfile(string? profileId)
         {
             if (string.IsNullOrEmpty(profileId)) return;
+            FlushPendingProfileSave();
             if (IsPaused) IsPaused = false;
 
             if (IsAutomaticDayNightEnabled)
@@ -427,6 +444,7 @@ namespace EyeFocus.ViewModels
 
         private void OnSelectDayMode()
         {
+            FlushPendingProfileSave();
             if (IsAutomaticDayNightEnabled)
             {
                 IsAutomaticDayNightEnabled = false;
@@ -445,6 +463,7 @@ namespace EyeFocus.ViewModels
 
         private void OnSelectNightMode()
         {
+            FlushPendingProfileSave();
             if (IsAutomaticDayNightEnabled)
             {
                 IsAutomaticDayNightEnabled = false;
@@ -463,6 +482,7 @@ namespace EyeFocus.ViewModels
 
         private void OnRestoreDisplay()
         {
+            FlushPendingProfileSave();
             IsPaused = false;
             _displayEngine.ResetDisplay();
             var comfort = _profileManager.GetProfile(ProfileDefaults.IdComfort) ?? ProfileDefaults.GetDefaultProfiles().First();
@@ -475,6 +495,7 @@ namespace EyeFocus.ViewModels
         {
             if (ActiveProfile != null)
             {
+                FlushPendingProfileSave();
                 IsPaused = false;
                 var reset = _profileManager.ResetProfileToDefault(ActiveProfile.Id);
                 SyncFromProfile(reset);
@@ -483,9 +504,46 @@ namespace EyeFocus.ViewModels
             }
         }
 
+        private void ScheduleDebouncedProfileSave()
+        {
+            _profileSaveDebounceTimer.Stop();
+            _profileSaveDebounceTimer.Start();
+        }
+
+        public void FlushPendingProfileSave()
+        {
+            if (_profileSaveDebounceTimer.IsEnabled)
+            {
+                _profileSaveDebounceTimer.Stop();
+                if (ActiveProfile != null)
+                {
+                    _profileManager.SaveProfile(ActiveProfile);
+                }
+            }
+        }
+
+        private void OnResetKelvin()
+        {
+            if (ActiveProfile == null) return;
+            var defaultProfile = ProfileDefaults.GetDefaultProfiles().FirstOrDefault(p => p.Id == ActiveProfile.Id);
+            Kelvin = defaultProfile != null ? defaultProfile.Kelvin : 5000;
+            FlushPendingProfileSave();
+            SnackbarService.Instance.Show($"Reset color temperature to default ({Kelvin}K)");
+        }
+
+        private void OnResetBrightness()
+        {
+            if (ActiveProfile == null) return;
+            var defaultProfile = ProfileDefaults.GetDefaultProfiles().FirstOrDefault(p => p.Id == ActiveProfile.Id);
+            Brightness = defaultProfile != null ? defaultProfile.Brightness : 70;
+            FlushPendingProfileSave();
+            SnackbarService.Instance.Show($"Reset brightness to default ({Brightness}%)");
+        }
+
         private void OnEditProfile(string? profileId)
         {
             if (string.IsNullOrEmpty(profileId)) return;
+            FlushPendingProfileSave();
             var profile = _profileManager.GetProfile(profileId);
             if (profile != null)
             {
@@ -496,6 +554,7 @@ namespace EyeFocus.ViewModels
         private void OnDuplicateProfile(string? profileId)
         {
             if (string.IsNullOrEmpty(profileId)) return;
+            FlushPendingProfileSave();
             var duplicated = _profileManager.DuplicateProfile(profileId);
             if (duplicated != null)
             {

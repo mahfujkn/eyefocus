@@ -75,9 +75,85 @@ namespace EyeFocus.Display
             }
         }
 
+        private readonly object _hwBrightnessSync = new();
+        private int _queuedBrightness;
+        private string? _queuedTargetMonitorId;
+        private bool _isHwBrightnessRunning;
+
         public void SetBrightness(int brightnessPercent, string? targetMonitorId = null)
         {
             CurrentBrightness = brightnessPercent;
+            var settings = _settingsStore.Load();
+            var monitors = GetTargetMonitors(targetMonitorId);
+
+            // Fast path for monitors that only support Software Dimming fallback
+            foreach (var monitor in monitors)
+            {
+                bool hasHardware = settings.HardwareBrightnessPreference != "PreferSoftware" &&
+                                   ((monitor.SupportsDdcCi && monitor.SupportsHardwareBrightness) ||
+                                    (monitor.SupportsWmiBrightness || monitor.IsInternal));
+
+                if (!hasHardware && settings.SoftwareDimFallback)
+                {
+                    int dimLevel = 100 - brightnessPercent;
+                    SoftwareDimmer.SetDimLevel(monitor, dimLevel);
+                }
+            }
+
+            // Asynchronously dispatch hardware brightness with coalescing to keep UI 60+ FPS
+            QueueHardwareBrightness(brightnessPercent, targetMonitorId);
+        }
+
+        private void QueueHardwareBrightness(int brightnessPercent, string? targetMonitorId)
+        {
+            lock (_hwBrightnessSync)
+            {
+                _queuedBrightness = brightnessPercent;
+                _queuedTargetMonitorId = targetMonitorId;
+
+                if (!_isHwBrightnessRunning)
+                {
+                    _isHwBrightnessRunning = true;
+                    System.Threading.Tasks.Task.Run(ProcessHardwareBrightnessQueue);
+                }
+            }
+        }
+
+        private void ProcessHardwareBrightnessQueue()
+        {
+            while (true)
+            {
+                int targetBrightness;
+                string? targetMonitorId;
+
+                lock (_hwBrightnessSync)
+                {
+                    targetBrightness = _queuedBrightness;
+                    targetMonitorId = _queuedTargetMonitorId;
+                }
+
+                try
+                {
+                    ApplyHardwareBrightnessCore(targetBrightness, targetMonitorId);
+                }
+                catch (Exception ex)
+                {
+                    LogService.Debug($"Background hardware brightness error: {ex.Message}");
+                }
+
+                lock (_hwBrightnessSync)
+                {
+                    if (_queuedBrightness == targetBrightness && _queuedTargetMonitorId == targetMonitorId)
+                    {
+                        _isHwBrightnessRunning = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void ApplyHardwareBrightnessCore(int brightnessPercent, string? targetMonitorId)
+        {
             var settings = _settingsStore.Load();
             var monitors = GetTargetMonitors(targetMonitorId);
 
@@ -100,17 +176,12 @@ namespace EyeFocus.Display
                 // If hardware brightness failed or software preference is selected, use software dimming fallback
                 if (!hwSuccess && settings.SoftwareDimFallback)
                 {
-                    // Map brightness 0-100 to software dimming 100-0%
                     int dimLevel = 100 - brightnessPercent;
                     SoftwareDimmer.SetDimLevel(monitor, dimLevel);
                 }
-                else
+                else if (hwSuccess && CurrentSoftwareDim == 0)
                 {
-                    // If hardware brightness worked, clear software dim if no explicit dimming was requested
-                    if (CurrentSoftwareDim == 0)
-                    {
-                        SoftwareDimmer.SetDimLevel(monitor, 0);
-                    }
+                    SoftwareDimmer.SetDimLevel(monitor, 0);
                 }
             }
         }

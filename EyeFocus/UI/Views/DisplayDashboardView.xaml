@@ -80,7 +80,9 @@
                     <Slider Style="{StaticResource M3SliderStyle}"
                             Value="{Binding Brightness, Mode=TwoWay}"
                             Minimum="10" Maximum="100"
-                            SmallChange="5" LargeChange="10"
+                            SmallChange="1" LargeChange="5"
+                            IsMoveToPointEnabled="True"
+                            PreviewMouseWheel="OnBrightnessSliderMouseWheel"
                             Tag="{StaticResource BrightnessTrackBrush}"
                             Margin="0,2,0,3" />
 
@@ -121,7 +123,9 @@
                     <Slider Style="{StaticResource M3SliderStyle}"
                             Value="{Binding Kelvin, Mode=TwoWay}"
                             Minimum="2500" Maximum="7500"
-                            SmallChange="100" LargeChange="500"
+                            SmallChange="50" LargeChange="250"
+                            IsMoveToPointEnabled="True"
+                            PreviewMouseWheel="OnKelvinSliderMouseWheel"
                             Tag="{StaticResource KelvinTrackBrush}"
                             Margin="0,2,0,3" />
 

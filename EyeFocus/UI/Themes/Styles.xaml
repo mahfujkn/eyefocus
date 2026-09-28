@@ -550,27 +550,47 @@
         <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
         <Setter Property="Height" Value="24" />
         <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="IsMoveToPointEnabled" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Slider">
                     <Grid VerticalAlignment="Center">
                         <!-- Pill Track -->
-                        <Border x:Name="TrackBackground" Height="6" CornerRadius="3" Background="{TemplateBinding Tag}" />
+                        <Border x:Name="TrackBackground" Height="6" CornerRadius="3" Background="{TemplateBinding Tag}" SnapsToDevicePixels="True" />
                         <Track x:Name="PART_Track">
                             <Track.Thumb>
-                                <Thumb>
+                                <Thumb Cursor="Hand">
                                     <Thumb.Template>
                                         <ControlTemplate TargetType="Thumb">
-                                            <!-- Crisp, High-Contrast Round Thumb with outline and subtle shadow (Visible on both Light & Dark modes) -->
-                                            <Grid Width="18" Height="18">
-                                                <Ellipse Fill="#FFFFFF"
+                                            <!-- Crisp, High-Contrast Round Thumb with outline, subtle shadow and hover/active states -->
+                                            <Grid Width="22" Height="22" Background="Transparent" SnapsToDevicePixels="True">
+                                                <Ellipse x:Name="ThumbHalo" Width="22" Height="22" Fill="{DynamicResource PrimaryBrush}" Opacity="0" />
+                                                <Ellipse x:Name="ThumbBody" Width="18" Height="18"
+                                                         Fill="#FFFFFF"
                                                          Stroke="{DynamicResource OutlineBrush}"
-                                                         StrokeThickness="1.5">
+                                                         StrokeThickness="1.5"
+                                                         HorizontalAlignment="Center" VerticalAlignment="Center">
                                                     <Ellipse.Effect>
-                                                        <DropShadowEffect BlurRadius="4" ShadowDepth="1.5" Direction="270" Opacity="0.3" Color="#000000" />
+                                                        <DropShadowEffect BlurRadius="5" ShadowDepth="1.5" Direction="270" Opacity="0.3" Color="#000000" />
                                                     </Ellipse.Effect>
                                                 </Ellipse>
                                             </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="ThumbHalo" Property="Opacity" Value="0.18" />
+                                                    <Setter TargetName="ThumbBody" Property="Stroke" Value="{DynamicResource PrimaryBrush}" />
+                                                </Trigger>
+                                                <Trigger Property="IsDragging" Value="True">
+                                                    <Setter TargetName="ThumbHalo" Property="Opacity" Value="0.32" />
+                                                    <Setter TargetName="ThumbHalo" Property="Width" Value="24" />
+                                                    <Setter TargetName="ThumbHalo" Property="Height" Value="24" />
+                                                    <Setter TargetName="ThumbBody" Property="Stroke" Value="{DynamicResource PrimaryBrush}" />
+                                                    <Setter TargetName="ThumbBody" Property="StrokeThickness" Value="2" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </Thumb.Template>
                                 </Thumb>
