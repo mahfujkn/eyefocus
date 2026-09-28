@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="EyeFocus - Display Comfort Utility"
         Icon="Assets/app.ico"
-        Height="700" Width="920" MinHeight="620" MinWidth="800"
+        Height="740" Width="1060" MinHeight="660" MinWidth="960"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -37,91 +37,132 @@
         <Grid>
             <!-- 2 Primary Column Structure: Left Sidebar + Right Workspace Area -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="210" /> <!-- Left Vertical Sidebar -->
+                <ColumnDefinition Width="226" /> <!-- Left Vertical Sidebar -->
                 <ColumnDefinition Width="*" />   <!-- Right Content Area -->
             </Grid.ColumnDefinitions>
 
-            <!-- 1. LEFT FULL-HEIGHT VERTICAL SIDEBAR (Clean 11px Top-Left & Bottom-Left Corner Radius) -->
+            <!-- 1. LEFT FULL-HEIGHT VERTICAL SIDEBAR -->
             <Border Grid.Column="0"
                     Background="{DynamicResource SurfaceContainerLowBrush}"
                     BorderBrush="{DynamicResource OutlineVariantBrush}"
                     BorderThickness="0,0,1,0"
                     CornerRadius="11,0,0,11"
-                    Padding="12,16,12,14">
+                    Padding="14,16,14,14">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" /> <!-- Top Brand Section -->
-                        <RowDefinition Height="*" />    <!-- Navigation Items -->
-                        <RowDefinition Height="Auto" /> <!-- Footer Version -->
+                        <RowDefinition Height="*" />    <!-- Navigation & Quick Actions -->
+                        <RowDefinition Height="Auto" /> <!-- Health Footer Card -->
                     </Grid.RowDefinitions>
 
-                    <!-- Top Brand Header (Perfect Alignment of Icon & Text Format) -->
-                    <Grid Grid.Row="0" Margin="4,2,0,22" VerticalAlignment="Center">
+                    <!-- Top Brand Header (Aligned to Design Mockup) -->
+                    <Grid Grid.Row="0" Margin="2,4,0,20" VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Crisp Brand Icon Box (30x30 with 8px Corner Radius) -->
-                        <Border Grid.Column="0" Width="30" Height="30" CornerRadius="8"
-                                Background="{StaticResource TealPrimaryButtonBrush}"
+                        <!-- Brand Icon Box -->
+                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="10"
+                                Background="#E6F7F2"
                                 Margin="0,0,10,0" VerticalAlignment="Center">
-                            <Path Data="{StaticResource IconEyeFocusBrand}" Fill="{DynamicResource OnPrimaryBrush}"
-                                  Width="18" Height="18" Stretch="Uniform"
+                            <Path Data="{StaticResource IconEyeFocusBrand}" Fill="#00A88F"
+                                  Width="22" Height="22" Stretch="Uniform"
                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         
-                        <!-- Brand Title & Status Line Stack -->
+                        <!-- Brand Title & Tagline -->
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="EyeFocus" FontWeight="Bold" FontSize="15"
+                            <TextBlock Text="EyeFocus" FontWeight="Bold" FontSize="18"
                                        Foreground="{DynamicResource OnSurfaceBrush}"
                                        VerticalAlignment="Center" />
-                            <!-- Status Line (Aligned dot + text) -->
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,2,0,0">
-                                <Ellipse Width="5" Height="5" Fill="#10B981" Margin="0,0,5,0" VerticalAlignment="Center" />
-                                <TextBlock Text="LOCAL · OFFLINE" FontWeight="SemiBold" FontSize="9"
-                                           Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" />
-                            </StackPanel>
+                            <TextBlock Text="Care for your eyes.&#x0a;See a better tomorrow." FontSize="9.5"
+                                       Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0"
+                                       LineHeight="13" LineStackingStrategy="BlockLineHeight" />
                         </StackPanel>
                     </Grid>
 
-                    <!-- Vertical Navigation Items (Text + Icons) -->
-                    <StackPanel Grid.Row="1">
-                        <!-- 1. Display -->
-                        <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
-                                     Tag="{StaticResource IconDisplay}"
-                                     IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Dashboard, Mode=TwoWay}"
-                                     Content="Display" />
+                    <!-- Navigation Items & Quick Actions List -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Margin="0,0,2,0">
+                            <!-- 1. Display -->
+                            <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
+                                         Tag="{StaticResource IconDisplay}"
+                                         IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Dashboard, Mode=TwoWay}"
+                                         Content="Display" />
 
-                        <!-- 2. Monitors -->
-                        <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
-                                     Tag="{StaticResource IconMonitor}"
-                                     IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Monitors, Mode=TwoWay}"
-                                     Content="Monitors" />
+                            <!-- 2. Monitors -->
+                            <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
+                                         Tag="{StaticResource IconMonitor}"
+                                         IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Monitors, Mode=TwoWay}"
+                                         Content="Monitors" />
 
-                        <!-- 3. Settings -->
-                        <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
-                                     Tag="{StaticResource IconSettings}"
-                                     IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Settings, Mode=TwoWay}"
-                                     Content="Settings" />
+                            <!-- 3. Settings -->
+                            <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
+                                         Tag="{StaticResource IconSettings}"
+                                         IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Settings, Mode=TwoWay}"
+                                         Content="Settings" />
 
-                        <!-- 4. Privacy -->
-                        <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
-                                     Tag="{StaticResource IconPrivacy}"
-                                     IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Privacy, Mode=TwoWay}"
-                                     Content="Privacy &amp; Security" />
+                            <!-- 4. Privacy -->
+                            <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
+                                         Tag="{StaticResource IconPrivacy}"
+                                         IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Privacy, Mode=TwoWay}"
+                                         Content="Privacy" />
 
-                        <!-- 5. About & GitHub -->
-                        <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
-                                     Tag="{StaticResource IconAbout}"
-                                     IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=About, Mode=TwoWay}"
-                                     Content="About &amp; GitHub" />
-                    </StackPanel>
+                            <!-- QUICK ACTIONS SECTION -->
+                            <TextBlock Text="QUICK ACTIONS" FontWeight="Bold" FontSize="9.5"
+                                       Foreground="{DynamicResource OutlineBrush}" Margin="8,18,0,8" />
 
-                    <!-- Sidebar Footer Info -->
-                    <StackPanel Grid.Row="2" Margin="6,0,0,0">
-                        <TextBlock Text="Version 1.0.0 Stable" FontSize="10" Foreground="{DynamicResource OutlineBrush}" />
-                    </StackPanel>
+                            <!-- 1. Pause for 20 minutes -->
+                            <Button Style="{StaticResource SidebarActionButtonStyle}" Command="{Binding Pause20MinCommand}" ToolTip="Pause EyeFocus display effects for 20 minutes">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Path Data="{StaticResource IconCoffee}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Pause20MinText}" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+
+                            <!-- 2. Eye exercise -->
+                            <Button Style="{StaticResource SidebarActionButtonStyle}" Command="{Binding EyeExerciseCommand}" ToolTip="Start a 20-20-20 eye rest exercise">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Path Data="{StaticResource IconEyeExercise}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Eye exercise" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+
+                            <!-- 3. Screen dim -->
+                            <Button Style="{StaticResource SidebarActionButtonStyle}" Command="{Binding ScreenDimCommand}" ToolTip="Toggle extra software screen dimming">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Path Data="{StaticResource IconScreenDim}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Screen dim" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+
+                            <!-- 4. Focus mode -->
+                            <Button Style="{StaticResource SidebarActionButtonStyle}" Command="{Binding FocusModeCommand}" ToolTip="Toggle Coding/Comfort focus preset">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Path Data="{StaticResource IconFocus}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Focus mode" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- Bottom Health Card: Your eyes matter -->
+                    <Border Grid.Row="2" Background="{DynamicResource SurfaceBrush}"
+                            BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1"
+                            CornerRadius="10" Padding="12,10" Margin="0,12,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Path Grid.Column="0" Data="{StaticResource IconHealthWave}" Fill="#10B981" Width="18" Height="18" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,10,0" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Your eyes matter" FontWeight="Bold" FontSize="11.5" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                <TextBlock Text="A more comfortable display for a healthier you." FontSize="9" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </Grid>
             </Border>
 
@@ -326,6 +367,23 @@
 
                 <views:AutoDayNightConfigModal DataContext="{Binding AutoDayNightConfigVM}" Width="480" MaxHeight="600"
                                                 VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Grid>
+
+            <!-- 5. EYE EXERCISE MODAL OVERLAY -->
+            <Grid Grid.ColumnSpan="2" Background="#CC0A0D12">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding EyeExerciseVM.IsOpen}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <views:EyeExerciseModal DataContext="{Binding EyeExerciseVM}" Width="440" MaxHeight="520"
+                                        VerticalAlignment="Center" HorizontalAlignment="Center" />
             </Grid>
 
         </Grid>

@@ -49,12 +49,16 @@ namespace EyeFocus.ViewModels
                 {
                     OnPropertyChanged(nameof(PauseButtonText));
                     OnPropertyChanged(nameof(PauseButtonToolTip));
+                    OnPropertyChanged(nameof(StatusPillText));
+                    OnPropertyChanged(nameof(StatusPillDotBrush));
                 }
             }
         }
 
         public string PauseButtonText => IsPaused ? "Resume" : "Pause";
         public string PauseButtonToolTip => IsPaused ? "Resume EyeFocus display effects" : "Temporarily pause EyeFocus display effects";
+        public string StatusPillText => IsPaused ? "EyeFocus is paused" : "EyeFocus is active";
+        public string StatusPillDotBrush => IsPaused ? "#F59E0B" : "#10B981";
 
         private bool _isAutomaticDayNightEnabled;
         public bool IsAutomaticDayNightEnabled
@@ -217,6 +221,7 @@ namespace EyeFocus.ViewModels
         public ICommand SelectNightModeCommand { get; }
         public ICommand ConfigureAutoDayNightCommand { get; }
         public ICommand TogglePauseCommand { get; }
+        public ICommand CreateCustomProfileCommand { get; }
         public ICommand RestoreDisplayCommand { get; }
         public ICommand ResetToProfileDefaultCommand { get; }
         public ICommand ResetKelvinCommand { get; }
@@ -263,6 +268,7 @@ namespace EyeFocus.ViewModels
             SelectNightModeCommand = new RelayCommand(OnSelectNightMode);
             ConfigureAutoDayNightCommand = new RelayCommand(() => RequestOpenAutoDayNightConfig?.Invoke());
             TogglePauseCommand = new RelayCommand(OnTogglePause);
+            CreateCustomProfileCommand = new RelayCommand(TriggerOpenProfileEditor);
             RestoreDisplayCommand = new RelayCommand(OnRestoreDisplay);
             ResetToProfileDefaultCommand = new RelayCommand(OnResetToProfileDefault);
             ResetKelvinCommand = new RelayCommand(OnResetKelvin);
@@ -375,7 +381,7 @@ namespace EyeFocus.ViewModels
         {
             var activeId = ActiveProfile?.Id ?? _profileManager.GetActiveProfile().Id;
             ProfileCards.Clear();
-            foreach (var p in _profileManager.GetAllProfiles())
+            foreach (var p in _profileManager.GetAllProfiles().Where(p => p.Id != ProfileDefaults.IdNight))
             {
                 ProfileCards.Add(new ProfileCardItemViewModel(p, p.Id == activeId));
             }
@@ -627,6 +633,32 @@ namespace EyeFocus.ViewModels
         public string Description => Profile.Description;
         public string FormattedParams => $"{Profile.Kelvin}K · {Profile.Brightness}%";
 
+        public string IconBgBrush => Profile.Id.ToLowerInvariant() switch
+        {
+            ProfileDefaults.IdComfort => "#E6F7F2",
+            ProfileDefaults.IdGame => "#F3E8FF",
+            ProfileDefaults.IdMovie => "#FFE4E6",
+            ProfileDefaults.IdOffice => "#E0F2FE",
+            ProfileDefaults.IdEditing => "#FEF3C7",
+            ProfileDefaults.IdReading => "#DCFCE7",
+            ProfileDefaults.IdCoding => "#EDE9FE",
+            ProfileDefaults.IdCustom => "#F1F5F9",
+            _ => "#E6F7F2"
+        };
+
+        public string IconFgBrush => Profile.Id.ToLowerInvariant() switch
+        {
+            ProfileDefaults.IdComfort => "#00A88F",
+            ProfileDefaults.IdGame => "#8B5CF6",
+            ProfileDefaults.IdMovie => "#F43F5E",
+            ProfileDefaults.IdOffice => "#0284C7",
+            ProfileDefaults.IdEditing => "#D97706",
+            ProfileDefaults.IdReading => "#16A34A",
+            ProfileDefaults.IdCoding => "#6366F1",
+            ProfileDefaults.IdCustom => "#64748B",
+            _ => "#00A88F"
+        };
+
         public bool IsActive
         {
             get => _isActive;
@@ -643,16 +675,16 @@ namespace EyeFocus.ViewModels
         {
             return profile.Id.ToLowerInvariant() switch
             {
-                ProfileDefaults.IdComfort => "IconComfort",
+                ProfileDefaults.IdComfort => "IconLeaf",
                 ProfileDefaults.IdGame => "IconGame",
                 ProfileDefaults.IdMovie => "IconMovie",
-                ProfileDefaults.IdOffice => "IconOffice",
+                ProfileDefaults.IdOffice => "IconBriefcase",
                 ProfileDefaults.IdEditing => "IconPalette",
                 ProfileDefaults.IdReading => "IconBook",
                 ProfileDefaults.IdCoding => "IconCode",
                 ProfileDefaults.IdNight => "IconNight",
                 ProfileDefaults.IdCustom => "IconTune",
-                _ => !string.IsNullOrWhiteSpace(profile.IconKey) ? profile.IconKey : "IconComfort"
+                _ => !string.IsNullOrWhiteSpace(profile.IconKey) ? profile.IconKey : "IconLeaf"
             };
         }
     }

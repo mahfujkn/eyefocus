@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="680" d:DesignWidth="680"
+             d:DesignHeight="720" d:DesignWidth="840"
              FontFamily="Segoe UI"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
@@ -13,223 +13,255 @@
              RenderOptions.ClearTypeHint="Enabled">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <!-- Content Container (Generous cards filling vertical space comfortably without default scrollbar) -->
-        <StackPanel Margin="20,10,20,14" HorizontalAlignment="Stretch">
+        <StackPanel Margin="24,16,24,20" HorizontalAlignment="Stretch">
 
-            <!-- 1. PAGE HEADER & PAUSE ACTION -->
-            <Grid Margin="0,0,0,10">
+            <!-- 1. TOP HEADER & LIVE STATUS PILL -->
+            <Grid Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
+                <!-- Left: Category, Title & Subtitle -->
                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                    <TextBlock Text="Display" FontWeight="Bold" FontSize="20" Foreground="{DynamicResource OnSurfaceBrush}" />
-                    <TextBlock Text="Control brightness, color temperature, and display profiles." FontSize="12" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
+                    <TextBlock Text="DISPLAY" FontWeight="Bold" FontSize="10.5" Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,2" />
+                    <TextBlock Text="Optimize Your Display" FontWeight="Bold" FontSize="24" Foreground="{DynamicResource OnSurfaceBrush}" />
+                    <TextBlock Text="Reduce eye strain and create a more comfortable visual experience." FontSize="12.5" Foreground="{DynamicResource OutlineBrush}" Margin="0,3,0,0" />
                 </StackPanel>
 
-                <!-- Pause / Resume Action Button -->
-                <Button Grid.Column="1" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding TogglePauseCommand}"
-                        Padding="11,4" Height="27" VerticalAlignment="Center" ToolTip="{Binding PauseButtonToolTip}">
+                <!-- Right: Status Pill Button (Toggle Pause / Active) -->
+                <Button Grid.Column="1" Command="{Binding TogglePauseCommand}" VerticalAlignment="Center" Cursor="Hand" ToolTip="{Binding PauseButtonToolTip}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="{DynamicResource SurfaceBrush}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariantBrush}" />
+                            <Setter Property="BorderThickness" Value="1" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="PillBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="18" Padding="12,6" SnapsToDevicePixels="True">
+                                            <ContentPresenter VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="PillBorder" Property="Background" Value="{DynamicResource SurfaceContainerBrush}" />
+                                                <Setter TargetName="PillBorder" Property="BorderBrush" Value="{DynamicResource OutlineBrush}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <Path Width="10" Height="10" Stretch="Uniform" Margin="0,0,5,0" VerticalAlignment="Center">
-                            <Path.Style>
-                                <Style TargetType="Path">
-                                    <Setter Property="Data" Value="{StaticResource IconPause}" />
-                                    <Setter Property="Fill" Value="{DynamicResource OnSecondaryContainerBrush}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsPaused}" Value="True">
-                                            <Setter Property="Data" Value="{StaticResource IconPlay}" />
-                                            <Setter Property="Fill" Value="{DynamicResource PrimaryBrush}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Path.Style>
-                        </Path>
-                        <TextBlock Text="{Binding PauseButtonText}" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainerBrush}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsPaused}" Value="True">
-                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
+                        <Ellipse Width="7" Height="7" Fill="{Binding StatusPillDotBrush}" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding StatusPillText}" FontWeight="SemiBold" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <Path Data="{StaticResource IconChevronRight}" Fill="{DynamicResource OutlineBrush}" Width="8" Height="8" Stretch="Uniform" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
             </Grid>
 
-            <!-- 2. BRIGHTNESS CARD -->
-            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" Padding="16,10">
-                <StackPanel>
-                    <!-- Control Row: Icon + Label on Left, Value on Right -->
-                    <Grid Margin="0,0,0,3">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <Path Data="{StaticResource IconSun}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="13" Height="13" Stretch="Uniform" Margin="0,0,7,0" VerticalAlignment="Center" />
-                            <TextBlock Text="BRIGHTNESS" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <TextBlock Text="{Binding Brightness, StringFormat='{}{0}%'}"
-                                   FontWeight="Bold" FontSize="17"
-                                   Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                    </Grid>
+            <!-- 2. TWO-COLUMN TOP CARDS: BRIGHTNESS & COLOR TEMPERATURE -->
+            <Grid Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                    <!-- Brightness Slider with Glowing Teal Track -->
-                    <Slider Style="{StaticResource M3SliderStyle}"
-                            Value="{Binding Brightness, Mode=TwoWay}"
-                            Minimum="10" Maximum="100"
-                            SmallChange="1" LargeChange="5"
-                            IsMoveToPointEnabled="True"
-                            PreviewMouseWheel="OnBrightnessSliderMouseWheel"
-                            PreviewMouseLeftButtonDown="OnSliderPreviewMouseLeftButtonDown"
-                            MouseMove="OnSliderMouseMove"
-                            PreviewMouseLeftButtonUp="OnSliderPreviewMouseLeftButtonUp"
-                            Tag="{StaticResource BrightnessTrackBrush}"
-                            Margin="0,2,0,3" />
+                <!-- LEFT CARD: BRIGHTNESS -->
+                <Border Grid.Column="0" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="14" Padding="18,16">
+                    <StackPanel>
+                        <!-- Card Header -->
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                    <!-- Slider Footer: Hardware Badge + Reset -->
-                    <Grid Margin="0,2,0,0">
-                        <Border Background="{DynamicResource SurfaceContainerHighBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="4" Padding="6,2" HorizontalAlignment="Left">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Ellipse Width="5" Height="5" Fill="#10B981" Margin="0,0,5,0" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding HardwareControlBadgeText}" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Border>
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                            <TextBlock Text="More Dim → More Bright" FontSize="10" Foreground="{DynamicResource OutlineBrush}" Margin="0,0,8,0" VerticalAlignment="Center" />
-                            <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetBrightnessCommand}" Padding="8,2" Height="21" ToolTip="Reset brightness to profile default">
-                                <TextBlock Text="Reset" FontSize="10" />
-                            </Button>
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-            </Border>
-
-            <!-- 3. COLOR TEMPERATURE CARD -->
-            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" Padding="16,10">
-                <StackPanel>
-                    <!-- Control Row: Icon + Label on Left, Amber Value on Right -->
-                    <Grid Margin="0,0,0,3">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <Path Data="{StaticResource IconComfort}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="13" Height="13" Stretch="Uniform" Margin="0,0,7,0" VerticalAlignment="Center" />
-                            <TextBlock Text="COLOR TEMPERATURE" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <TextBlock Text="{Binding Kelvin, StringFormat='{}{0}K'}"
-                                   FontWeight="Bold" FontSize="17"
-                                   Foreground="{DynamicResource WarmAccentBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                    </Grid>
-
-                    <!-- Kelvin Slider with Thermal Spectrum Track -->
-                    <Slider Style="{StaticResource M3SliderStyle}"
-                            Value="{Binding Kelvin, Mode=TwoWay}"
-                            Minimum="2500" Maximum="7500"
-                            SmallChange="50" LargeChange="250"
-                            IsMoveToPointEnabled="True"
-                            PreviewMouseWheel="OnKelvinSliderMouseWheel"
-                            PreviewMouseLeftButtonDown="OnSliderPreviewMouseLeftButtonDown"
-                            MouseMove="OnSliderMouseMove"
-                            PreviewMouseLeftButtonUp="OnSliderPreviewMouseLeftButtonUp"
-                            Tag="{StaticResource KelvinTrackBrush}"
-                            Margin="0,2,0,3" />
-
-                    <!-- Slider Meta & Reset -->
-                    <Grid Margin="0,2,0,0">
-                        <TextBlock Text="2500K · More Warm" FontSize="10" Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" />
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                            <TextBlock Text="7500K · Less Warm" FontSize="10" Foreground="{DynamicResource OutlineBrush}" Margin="0,0,8,0" VerticalAlignment="Center" />
-                            <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetKelvinCommand}" Padding="8,2" Height="21" ToolTip="Reset color temperature to profile default">
-                                <TextBlock Text="Reset" FontSize="10" />
-                            </Button>
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-            </Border>
-
-            <!-- 4. DAY & NIGHT CARD (Ambient-Tinted Automation Card with 8px Radius) -->
-            <Border CornerRadius="8" Background="{StaticResource DayNightCardGradientBrush}"
-                    BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1"
-                    Padding="16,10" Margin="0,0,0,10">
-                <StackPanel>
-                    <!-- Header with Automation Switch & Configure Button -->
-                    <Grid Margin="0,0,0,8">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <Path Data="{StaticResource IconSun}" Fill="{DynamicResource WarmAccentBrush}" Width="13" Height="13" Stretch="Uniform" Margin="0,0,7,0" VerticalAlignment="Center" />
-                            <TextBlock Text="DAY &amp; NIGHT" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
-                            <Border Background="{DynamicResource SurfaceContainerHighBrush}" CornerRadius="4" Padding="6,1" Margin="8,0,0,0" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding AutoDayNightStatusText}" FontSize="9.5" Foreground="{DynamicResource PrimaryBrush}" />
+                            <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18" Background="#E6F7F2" Margin="0,0,12,0" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconSun}" Fill="#00A88F" Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
-                        </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                            <CheckBox Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding IsAutomaticDayNightEnabled, Mode=TwoWay}" ToolTip="Toggle automatic day/night switching">
-                                <TextBlock Text="Automatic" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
-                            </CheckBox>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Brightness" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                <TextBlock Text="Adjust screen brightness for comfortable viewing." FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
+                            </StackPanel>
 
-                            <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ConfigureAutoDayNightCommand}" Margin="10,0,0,0" Padding="8,2" Height="22" ToolTip="Configure day/night schedule times">
-                                <TextBlock Text="Configure" FontSize="10" />
+                            <!-- Percentage Pill Badge -->
+                            <Border Grid.Column="2" Background="{DynamicResource SurfaceContainerBrush}" CornerRadius="6" Padding="8,3" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Brightness, StringFormat='{}{0}%'}" FontWeight="Bold" FontSize="12.5" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            </Border>
+                        </Grid>
+
+                        <!-- Slider Row -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Path Grid.Column="0" Data="{StaticResource IconSunDim}" Fill="{DynamicResource OutlineBrush}" Width="16" Height="16" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+
+                            <Slider Grid.Column="1" Style="{StaticResource M3SliderStyle}"
+                                    Value="{Binding Brightness, Mode=TwoWay}"
+                                    Minimum="10" Maximum="100"
+                                    SmallChange="1" LargeChange="5"
+                                    IsMoveToPointEnabled="True"
+                                    PreviewMouseWheel="OnBrightnessSliderMouseWheel"
+                                    PreviewMouseLeftButtonDown="OnSliderPreviewMouseLeftButtonDown"
+                                    MouseMove="OnSliderMouseMove"
+                                    PreviewMouseLeftButtonUp="OnSliderPreviewMouseLeftButtonUp"
+                                    Tag="{StaticResource BrightnessTrackBrush}"
+                                    VerticalAlignment="Center" />
+
+                            <Path Grid.Column="2" Data="{StaticResource IconSunBright}" Fill="{DynamicResource OutlineBrush}" Width="16" Height="16" Stretch="Uniform" Margin="10,0,0,0" VerticalAlignment="Center" />
+                        </Grid>
+
+                        <!-- Hardware / Reset Sub-info -->
+                        <Grid Margin="0,6,0,0">
+                            <TextBlock Text="{Binding HardwareControlBadgeText}" FontSize="10" Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" />
+                            <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetBrightnessCommand}" HorizontalAlignment="Right" Padding="8,2" Height="20" ToolTip="Reset brightness to profile default">
+                                <TextBlock Text="Reset" FontSize="9.5" />
                             </Button>
-                        </StackPanel>
-                    </Grid>
+                        </Grid>
+                    </StackPanel>
+                </Border>
 
-                    <!-- Day / Night 2-Column Grid -->
-                    <Grid>
+                <!-- RIGHT CARD: COLOR TEMPERATURE -->
+                <Border Grid.Column="2" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="14" Padding="18,16">
+                    <StackPanel>
+                        <!-- Card Header -->
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18" Background="#FEF3C7" Margin="0,0,12,0" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconThermometer}" Fill="#D97706" Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Color Temperature" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                <TextBlock Text="Reduce blue light for warmer, more comfortable viewing." FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
+                            </StackPanel>
+
+                            <!-- Kelvin Pill Badge -->
+                            <Border Grid.Column="2" Background="#FEF3C7" CornerRadius="6" Padding="8,3" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Kelvin, StringFormat='{}{0}K'}" FontWeight="Bold" FontSize="12.5" Foreground="#D97706" />
+                            </Border>
+                        </Grid>
+
+                        <!-- Slider Row -->
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Path Grid.Column="0" Data="{StaticResource IconCoolSun}" Fill="{DynamicResource OutlineBrush}" Width="16" Height="16" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+
+                            <Slider Grid.Column="1" Style="{StaticResource M3SliderStyle}"
+                                    Value="{Binding Kelvin, Mode=TwoWay}"
+                                    Minimum="2500" Maximum="7500"
+                                    SmallChange="50" LargeChange="250"
+                                    IsMoveToPointEnabled="True"
+                                    PreviewMouseWheel="OnKelvinSliderMouseWheel"
+                                    PreviewMouseLeftButtonDown="OnSliderPreviewMouseLeftButtonDown"
+                                    MouseMove="OnSliderMouseMove"
+                                    PreviewMouseLeftButtonUp="OnSliderPreviewMouseLeftButtonUp"
+                                    Tag="{StaticResource KelvinTrackBrush}"
+                                    VerticalAlignment="Center" />
+
+                            <Path Grid.Column="2" Data="{StaticResource IconWarmSun}" Fill="#F59E0B" Width="16" Height="16" Stretch="Uniform" Margin="10,0,0,0" VerticalAlignment="Center" />
+                        </Grid>
+
+                        <!-- Descriptive Labels (Cooler vs Warmer) -->
+                        <Grid Margin="0,2,0,0">
+                            <StackPanel HorizontalAlignment="Left">
+                                <TextBlock Text="Cooler" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
+                                <TextBlock Text="(More blue light)" FontSize="9" Foreground="{DynamicResource OutlineBrush}" />
+                            </StackPanel>
+
+                            <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetKelvinCommand}" HorizontalAlignment="Center" Padding="8,2" Height="20" ToolTip="Reset color temperature to profile default">
+                                <TextBlock Text="Reset" FontSize="9.5" />
+                            </Button>
+
+                            <StackPanel HorizontalAlignment="Right">
+                                <TextBlock Text="Warmer" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" TextAlignment="Right" />
+                                <TextBlock Text="(Less blue light)" FontSize="9" Foreground="{DynamicResource OutlineBrush}" TextAlignment="Right" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- 3. DAY & NIGHT MODE SCHEDULE CARD -->
+            <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="14" Padding="18,16" Margin="0,0,0,16">
+                <StackPanel>
+                    <!-- Header -->
+                    <Grid Margin="0,0,0,14">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="8" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Day Mode Tile -->
-                        <Button Grid.Column="0" Command="{Binding SelectDayModeCommand}"
-                                Padding="10,8" Height="48" Cursor="Hand">
+                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18" Background="#E0F2FE" Margin="0,0,12,0" VerticalAlignment="Center">
+                            <Path Data="{StaticResource IconClock}" Fill="#0284C7" Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Day &amp; Night Mode" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Automatically adjust your display throughout the day." FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
+                        </StackPanel>
+
+                        <!-- Schedule Enabled Toggle Switch -->
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                            <CheckBox Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding IsAutomaticDayNightEnabled, Mode=TwoWay}" ToolTip="Toggle automatic day/night schedule">
+                                <TextBlock Text="Schedule enabled" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" Margin="6,0,0,0" />
+                            </CheckBox>
+                            <Button Style="{StaticResource M3IconButtonStyle}" Command="{Binding ConfigureAutoDayNightCommand}" Margin="8,0,0,0" Padding="4" ToolTip="Configure schedule hours">
+                                <Path Data="{StaticResource IconSettings}" Fill="{DynamicResource OutlineBrush}" Width="12" Height="12" Stretch="Uniform" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Schedule Visualization: 3-Section Horizontal Layout -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.3*" />
+                            <ColumnDefinition Width="14" />
+                            <ColumnDefinition Width="2.8*" />
+                            <ColumnDefinition Width="14" />
+                            <ColumnDefinition Width="2.3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Left: Day Mode Box -->
+                        <Button Grid.Column="0" Command="{Binding SelectDayModeCommand}" Cursor="Hand" Padding="0">
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Setter Property="Background" Value="{DynamicResource SurfaceContainerBrush}" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariantBrush}" />
+                                    <Setter Property="Background" Value="#FFFBEB" />
+                                    <Setter Property="BorderBrush" Value="#FEF3C7" />
                                     <Setter Property="BorderThickness" Value="1.5" />
-                                    <Setter Property="SnapsToDevicePixels" Value="True" />
-                                    <Setter Property="UseLayoutRounding" Value="True" />
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
-                                                <Border x:Name="BtnBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1.5" CornerRadius="8" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True" UseLayoutRounding="True">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto" />
-                                                            <ColumnDefinition Width="*" />
-                                                            <ColumnDefinition Width="Auto" />
-                                                        </Grid.ColumnDefinitions>
-
-                                                        <!-- Left Icon Box -->
-                                                        <Border Grid.Column="0" Width="28" Height="28" CornerRadius="6" Background="#24F59E0B" Margin="0,0,8,0" VerticalAlignment="Center">
-                                                            <Path Data="{StaticResource IconSun}" Fill="#FBBF24" Width="14" Height="14" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                        </Border>
-
-                                                        <!-- Center: Title + Subtitle -->
-                                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                            <TextBlock Text="Day Mode" FontWeight="Bold" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" />
-                                                            <TextBlock Text="Balanced Daylight" FontSize="10" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
-                                                        </StackPanel>
-
-                                                        <!-- Right: Values + Time -->
-                                                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                            <TextBlock Text="{Binding DayModeDetails}" FontWeight="Bold" FontSize="11" Foreground="#FBBF24" HorizontalAlignment="Right" />
-                                                            <TextBlock Text="{Binding DayStartTimeDisplay}" FontSize="9" Foreground="{DynamicResource OutlineBrush}" HorizontalAlignment="Right" Margin="0,1,0,0" />
-                                                        </StackPanel>
-                                                    </Grid>
+                                                <Border x:Name="BoxBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="12" Padding="14,12" SnapsToDevicePixels="True">
+                                                    <ContentPresenter />
                                                 </Border>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="BtnBorder" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
-                                                        <Setter TargetName="BtnBorder" Property="Background" Value="{DynamicResource SurfaceContainerHighBrush}" />
+                                                        <Setter TargetName="BoxBorder" Property="BorderBrush" Value="#F59E0B" />
                                                     </Trigger>
                                                     <DataTrigger Binding="{Binding IsDayModeActive}" Value="True">
-                                                        <Setter TargetName="BtnBorder" Property="Background" Value="{DynamicResource PrimaryContainerBrush}" />
-                                                        <Setter TargetName="BtnBorder" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
-                                                        <Setter TargetName="BtnBorder" Property="BorderThickness" Value="1.5" />
+                                                        <Setter TargetName="BoxBorder" Property="BorderBrush" Value="#F59E0B" />
+                                                        <Setter TargetName="BoxBorder" Property="BorderThickness" Value="2" />
                                                     </DataTrigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -237,56 +269,76 @@
                                     </Setter>
                                 </Style>
                             </Button.Style>
+                            <StackPanel>
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Width="30" Height="30" CornerRadius="15" Background="#FEF3C7" Margin="0,0,8,0" VerticalAlignment="Center">
+                                        <Path Data="{StaticResource IconSun}" Fill="#F59E0B" Width="15" Height="15" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Day Mode" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                    </StackPanel>
+                                </Grid>
+                                <TextBlock Text="Clear and vibrant for productivity during the day." FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,0,0,10" LineHeight="13" LineStackingStrategy="BlockLineHeight" />
+                                <!-- Time Badge Pill -->
+                                <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Left">
+                                    <TextBlock Text="7:00 AM – 6:00 PM" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                </Border>
+                            </StackPanel>
                         </Button>
 
-                        <!-- Night Mode Tile -->
-                        <Button Grid.Column="2" Command="{Binding SelectNightModeCommand}"
-                                Padding="10,8" Height="48" Cursor="Hand">
+                        <!-- Center: Timeline Bar Visualization -->
+                        <Grid Grid.Column="2" VerticalAlignment="Center">
+                            <StackPanel>
+                                <!-- Sun & Moon Markers above timeline -->
+                                <Grid Margin="12,0,12,6">
+                                    <Path HorizontalAlignment="Left" Data="{StaticResource IconSun}" Fill="#F59E0B" Width="16" Height="16" Stretch="Uniform" />
+                                    <Path HorizontalAlignment="Right" Data="{StaticResource IconNight}" Fill="#334155" Width="14" Height="14" Stretch="Uniform" />
+                                </Grid>
+
+                                <!-- Dual-Color Timeline Bar -->
+                                <Border Height="10" CornerRadius="5" ClipToBounds="True" Background="#334155">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="58*" />
+                                            <ColumnDefinition Width="42*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Background="#F59E0B" />
+                                        <Border Grid.Column="1" Background="#334155" />
+                                    </Grid>
+                                </Border>
+
+                                <!-- Time labels below bar -->
+                                <Grid Margin="6,6,6,0">
+                                    <TextBlock HorizontalAlignment="Left" Text="7:00 AM" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
+                                    <TextBlock HorizontalAlignment="Right" Text="6:00 PM" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Right: Night Mode Box -->
+                        <Button Grid.Column="4" Command="{Binding SelectNightModeCommand}" Cursor="Hand" Padding="0">
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Setter Property="Background" Value="{DynamicResource SurfaceContainerBrush}" />
-                                    <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariantBrush}" />
+                                    <Setter Property="Background" Value="#F0F7FF" />
+                                    <Setter Property="BorderBrush" Value="#E0F2FE" />
                                     <Setter Property="BorderThickness" Value="1.5" />
-                                    <Setter Property="SnapsToDevicePixels" Value="True" />
-                                    <Setter Property="UseLayoutRounding" Value="True" />
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
-                                                <Border x:Name="BtnBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1.5" CornerRadius="8" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True" UseLayoutRounding="True">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto" />
-                                                            <ColumnDefinition Width="*" />
-                                                            <ColumnDefinition Width="Auto" />
-                                                        </Grid.ColumnDefinitions>
-
-                                                        <!-- Left Icon Box -->
-                                                        <Border Grid.Column="0" Width="28" Height="28" CornerRadius="6" Background="#2438BDF8" Margin="0,0,8,0" VerticalAlignment="Center">
-                                                            <Path Data="{StaticResource IconNight}" Fill="#7DD3FC" Width="14" Height="14" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                        </Border>
-
-                                                        <!-- Center: Title + Subtitle -->
-                                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                            <TextBlock Text="Night Mode" FontWeight="Bold" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" />
-                                                            <TextBlock Text="Warm &amp; Relaxed" FontSize="10" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
-                                                        </StackPanel>
-
-                                                        <!-- Right: Values + Time -->
-                                                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                            <TextBlock Text="{Binding NightModeDetails}" FontWeight="Bold" FontSize="11" Foreground="#7DD3FC" HorizontalAlignment="Right" />
-                                                            <TextBlock Text="{Binding NightStartTimeDisplay}" FontSize="9" Foreground="{DynamicResource OutlineBrush}" HorizontalAlignment="Right" Margin="0,1,0,0" />
-                                                        </StackPanel>
-                                                    </Grid>
+                                                <Border x:Name="NightBoxBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="12" Padding="14,12" SnapsToDevicePixels="True">
+                                                    <ContentPresenter />
                                                 </Border>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="BtnBorder" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
-                                                        <Setter TargetName="BtnBorder" Property="Background" Value="{DynamicResource SurfaceContainerHighBrush}" />
+                                                        <Setter TargetName="NightBoxBorder" Property="BorderBrush" Value="#0284C7" />
                                                     </Trigger>
                                                     <DataTrigger Binding="{Binding IsNightModeActive}" Value="True">
-                                                        <Setter TargetName="BtnBorder" Property="Background" Value="{DynamicResource PrimaryContainerBrush}" />
-                                                        <Setter TargetName="BtnBorder" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
-                                                        <Setter TargetName="BtnBorder" Property="BorderThickness" Value="1.5" />
+                                                        <Setter TargetName="NightBoxBorder" Property="BorderBrush" Value="#0284C7" />
+                                                        <Setter TargetName="NightBoxBorder" Property="BorderThickness" Value="2" />
                                                     </DataTrigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -294,115 +346,136 @@
                                     </Setter>
                                 </Style>
                             </Button.Style>
+                            <StackPanel>
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Width="30" Height="30" CornerRadius="15" Background="#E0F2FE" Margin="0,0,8,0" VerticalAlignment="Center">
+                                        <Path Data="{StaticResource IconNight}" Fill="#0284C7" Width="14" Height="14" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Night Mode" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                    </StackPanel>
+                                </Grid>
+                                <TextBlock Text="Warmer, softer light for comfortable evening viewing." FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,0,0,10" LineHeight="13" LineStackingStrategy="BlockLineHeight" />
+                                <!-- Time Badge Pill -->
+                                <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Left">
+                                    <TextBlock Text="6:00 PM – 7:00 AM" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                </Border>
+                            </StackPanel>
                         </Button>
                     </Grid>
                 </StackPanel>
             </Border>
 
-            <!-- 5. DISPLAY PROFILES (Generous 54px Tiles Filling Bottom Space Beautifully) -->
-            <StackPanel>
-                <Grid Margin="0,0,0,8">
-                    <TextBlock Text="DISPLAY PROFILES" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+            <!-- 4. DISPLAY PROFILES GRID -->
+            <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="14" Padding="18,16">
+                <StackPanel>
+                    <!-- Header -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding RestoreDisplayCommand}" HorizontalAlignment="Right" Padding="8,3" Height="24" ToolTip="Restore display to Comfort default">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <Path Data="{StaticResource IconReset}" Fill="{DynamicResource OnSecondaryContainerBrush}" Width="9" Height="9" Stretch="Uniform" Margin="0,0,4,0" VerticalAlignment="Center" />
-                            <TextBlock Text="Restore Display" FontSize="10.5" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18" Background="#F1F5F9" Margin="0,0,12,0" VerticalAlignment="Center">
+                            <Path Data="{StaticResource IconGrid}" Fill="#475569" Width="16" Height="16" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Display Profiles" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Choose a preset that fits your activity, or customize your own." FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
                         </StackPanel>
-                    </Button>
-                </Grid>
 
-                <!-- 3x3 Profiles UniformGrid (Generous 52px Tiles Filling Empty Bottom Area) -->
-                <ItemsControl ItemsSource="{Binding ProfileCards}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="3" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Command="{Binding DataContext.SelectProfileCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                    CommandParameter="{Binding Id}"
-                                    Margin="3" Padding="10,8" Height="52"
-                                    Cursor="Hand">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Background" Value="{DynamicResource SurfaceContainerBrush}" />
-                                        <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariantBrush}" />
-                                        <Setter Property="BorderThickness" Value="1.5" />
-                                        <Setter Property="SnapsToDevicePixels" Value="True" />
-                                        <Setter Property="UseLayoutRounding" Value="True" />
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border x:Name="TileBorder"
-                                                            Background="{TemplateBinding Background}"
-                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                            BorderThickness="1.5"
-                                                            CornerRadius="8"
-                                                            Padding="{TemplateBinding Padding}"
-                                                            SnapsToDevicePixels="True"
-                                                            UseLayoutRounding="True">
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto" />
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="Auto" />
-                                                            </Grid.ColumnDefinitions>
+                        <!-- + Create Custom Profile Button -->
+                        <Button Grid.Column="2" Style="{StaticResource M3OutlinedButtonStyle}" Command="{Binding CreateCustomProfileCommand}" Padding="12,5" Height="30" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconPlus}" Fill="{DynamicResource PrimaryBrush}" Width="9" Height="9" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                <TextBlock Text="Create Custom Profile" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
 
-                                                            <!-- Icon Box -->
-                                                            <Border Grid.Column="0" x:Name="IconBox" Width="30" Height="30" CornerRadius="6" Background="{DynamicResource SurfaceContainerHighBrush}" Margin="0,0,10,0" VerticalAlignment="Center">
-                                                                <Path x:Name="IconPath"
-                                                                      Data="{Binding IconKey, Converter={StaticResource IconKeyToGeometryConverter}}"
-                                                                      Fill="{DynamicResource OnSurfaceVariantBrush}"
-                                                                      Width="14" Height="14" Stretch="Uniform"
-                                                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                            </Border>
+                    <!-- 3x3 Profiles UniformGrid (8 Profile Cards) -->
+                    <ItemsControl ItemsSource="{Binding ProfileCards}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="3" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding DataContext.SelectProfileCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding Id}"
+                                        Margin="4" Padding="0" Cursor="Hand">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="{DynamicResource SurfaceBrush}" />
+                                            <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariantBrush}" />
+                                            <Setter Property="BorderThickness" Value="1" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border x:Name="CardBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="12" Padding="12,12" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
 
-                                                            <!-- Name & Params -->
-                                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                                <TextBlock x:Name="ProfileNameText" Text="{Binding Name}" FontWeight="SemiBold" FontSize="12.5" Foreground="{DynamicResource OnSurfaceBrush}" />
-                                                                <TextBlock Text="{Binding FormattedParams}" FontSize="10" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
-                                                            </StackPanel>
+                                                                <!-- Colored Icon Circle -->
+                                                                <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18" Background="{Binding IconBgBrush}" Margin="0,0,10,0" VerticalAlignment="Center">
+                                                                    <Path Data="{Binding IconKey, Converter={StaticResource IconKeyToGeometryConverter}}"
+                                                                          Fill="{Binding IconFgBrush}"
+                                                                          Width="16" Height="16" Stretch="Uniform"
+                                                                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                </Border>
 
-                                                            <!-- Checkmark Circle when Active -->
-                                                            <Border Grid.Column="2" x:Name="ActiveCheck"
-                                                                    Width="16" Height="16" CornerRadius="8"
-                                                                    Background="{DynamicResource PrimaryBrush}"
-                                                                    Visibility="Collapsed"
-                                                                    VerticalAlignment="Center" Margin="4,0,0,0">
-                                                                <Path Data="{StaticResource IconCheck}"
-                                                                      Fill="{DynamicResource OnPrimaryBrush}"
-                                                                      Width="8.5" Height="8.5" Stretch="Uniform"
-                                                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                            </Border>
-                                                        </Grid>
-                                                    </Border>
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter TargetName="TileBorder" Property="Background" Value="{DynamicResource SurfaceContainerHighBrush}" />
-                                                            <Setter TargetName="TileBorder" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
-                                                        </Trigger>
-                                                        <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                            <Setter TargetName="TileBorder" Property="Background" Value="{DynamicResource PrimaryContainerBrush}" />
-                                                            <Setter TargetName="TileBorder" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
-                                                            <Setter TargetName="TileBorder" Property="BorderThickness" Value="1.5" />
-                                                            <Setter TargetName="IconBox" Property="Background" Value="{DynamicResource PrimaryBrush}" />
-                                                            <Setter TargetName="IconPath" Property="Fill" Value="{DynamicResource OnPrimaryBrush}" />
-                                                            <Setter TargetName="ProfileNameText" Property="Foreground" Value="{DynamicResource OnSurfaceBrush}" />
-                                                            <Setter TargetName="ActiveCheck" Property="Visibility" Value="Visible" />
-                                                        </DataTrigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
+                                                                <!-- Name & Description -->
+                                                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}" />
+                                                                    <TextBlock Text="{Binding Description}" FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,2,0,0" MaxHeight="30" LineHeight="13" LineStackingStrategy="BlockLineHeight" />
+                                                                </StackPanel>
+
+                                                                <!-- Active Checkmark Badge vs Inactive Chevron -->
+                                                                <Grid Grid.Column="2" VerticalAlignment="Center" Margin="6,0,0,0">
+                                                                    <!-- Checkmark badge when Active -->
+                                                                    <Border x:Name="ActiveBadge" Width="18" Height="18" CornerRadius="9" Background="#00A88F" Visibility="Collapsed">
+                                                                        <Path Data="{StaticResource IconCheck}" Fill="#FFFFFF" Width="9" Height="9" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                    </Border>
+
+                                                                    <!-- Chevron when Inactive -->
+                                                                    <Path x:Name="InactiveChevron" Data="{StaticResource IconChevronRight}" Fill="{DynamicResource OutlineBrush}" Width="8" Height="8" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                </Grid>
+                                                            </Grid>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                                                                <Setter TargetName="CardBorder" Property="Background" Value="{DynamicResource SurfaceContainerBrush}" />
+                                                            </Trigger>
+                                                            <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                                <Setter TargetName="CardBorder" Property="BorderBrush" Value="#00A88F" />
+                                                                <Setter TargetName="CardBorder" Property="BorderThickness" Value="1.5" />
+                                                                <Setter TargetName="ActiveBadge" Property="Visibility" Value="Visible" />
+                                                                <Setter TargetName="InactiveChevron" Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
 
         </StackPanel>
     </ScrollViewer>

@@ -29,8 +29,8 @@ namespace EyeFocus.Profiles
                     Green = 94,
                     Blue = 84,
                     SoftwareDim = 5,
-                    IconKey = "IconComfort",
-                    Description = "Balanced warmth and reduced brightness for comfortable everyday viewing.",
+                    IconKey = "IconLeaf",
+                    Description = "Balanced settings for everyday use. Reduce eye strain and stay comfortable.",
                     IsBuiltIn = true
                 },
                 new DisplayProfile
@@ -44,7 +44,7 @@ namespace EyeFocus.Profiles
                     Blue = 100,
                     SoftwareDim = 0,
                     IconKey = "IconGame",
-                    Description = "Bright, neutral settings optimized for gameplay.",
+                    Description = "Vivid colors and higher contrast for an immersive experience.",
                     IsBuiltIn = true
                 },
                 new DisplayProfile
@@ -58,7 +58,7 @@ namespace EyeFocus.Profiles
                     Blue = 88,
                     SoftwareDim = 0,
                     IconKey = "IconMovie",
-                    Description = "Warm cinematic presentation with balanced brightness for media.",
+                    Description = "Richer colors and dynamic contrast for a cinematic experience.",
                     IsBuiltIn = true
                 },
                 new DisplayProfile
@@ -71,8 +71,8 @@ namespace EyeFocus.Profiles
                     Green = 98,
                     Blue = 94,
                     SoftwareDim = 0,
-                    IconKey = "IconOffice",
-                    Description = "Neutral color temperature and moderate brightness for general productivity.",
+                    IconKey = "IconBriefcase",
+                    Description = "Optimized for productivity and all-day comfort.",
                     IsBuiltIn = true
                 },
                 new DisplayProfile
@@ -86,7 +86,7 @@ namespace EyeFocus.Profiles
                     Blue = 100,
                     SoftwareDim = 0,
                     IconKey = "IconPalette",
-                    Description = "Neutral color temperature and controlled brightness for color-sensitive work.",
+                    Description = "Accurate colors for professional photo and video work.",
                     IsBuiltIn = true
                 },
                 new DisplayProfile
@@ -100,7 +100,7 @@ namespace EyeFocus.Profiles
                     Blue = 78,
                     SoftwareDim = 5,
                     IconKey = "IconBook",
-                    Description = "Warm temperature with reduced brightness for comfortable reading.",
+                    Description = "Warmer tones and reduced blue light for comfortable reading.",
                     IsBuiltIn = true
                 },
                 new DisplayProfile
@@ -114,7 +114,7 @@ namespace EyeFocus.Profiles
                     Blue = 90,
                     SoftwareDim = 0,
                     IconKey = "IconCode",
-                    Description = "Balanced brightness and moderate warmth for extended coding sessions.",
+                    Description = "Lower eye strain for long coding sessions.",
                     IsBuiltIn = true
                 },
                 new DisplayProfile
@@ -128,7 +128,7 @@ namespace EyeFocus.Profiles
                     Blue = 68,
                     SoftwareDim = 10,
                     IconKey = "IconNight",
-                    Description = "Warm amber color temperature and lower brightness for dark environments.",
+                    Description = "Warmer, softer light for comfortable evening viewing.",
                     IsBuiltIn = true
                 },
                 new DisplayProfile
@@ -142,7 +142,7 @@ namespace EyeFocus.Profiles
                     Blue = 100,
                     SoftwareDim = 0,
                     IconKey = "IconTune",
-                    Description = "User-configured custom profile settings.",
+                    Description = "Create and save your own display settings.",
                     IsBuiltIn = true
                 }
             };

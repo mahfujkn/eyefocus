@@ -92,12 +92,28 @@ namespace EyeFocus.ViewModels
             set => SetProperty(ref _snackbarActionText, value);
         }
 
+        public EyeExerciseViewModel EyeExerciseVM { get; } = new();
+
+        private readonly System.Windows.Threading.DispatcherTimer _pauseTimer;
+        private int _pauseSecondsRemaining = 0;
+        private string _pause20MinText = "Pause for 20 minutes";
+
+        public string Pause20MinText
+        {
+            get => _pause20MinText;
+            set => SetProperty(ref _pause20MinText, value);
+        }
+
         public ICommand NavigateCommand { get; }
         public ICommand OpenProfileEditorForActiveCommand { get; }
         public ICommand ManageMonitorsCommand { get; }
         public ICommand ToggleThemeCommand { get; }
         public ICommand DismissSnackbarCommand { get; }
         public ICommand ExecuteSnackbarActionCommand { get; }
+        public ICommand Pause20MinCommand { get; }
+        public ICommand EyeExerciseCommand { get; }
+        public ICommand ScreenDimCommand { get; }
+        public ICommand FocusModeCommand { get; }
 
         public MainViewModel(
             IDisplayEngine displayEngine,
@@ -135,6 +151,17 @@ namespace EyeFocus.ViewModels
                 _snackbarActionCallback?.Invoke();
                 IsSnackbarVisible = false;
             });
+
+            _pauseTimer = new System.Windows.Threading.DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            _pauseTimer.Tick += OnPauseTimerTick;
+
+            Pause20MinCommand = new RelayCommand(OnTogglePause20Min);
+            EyeExerciseCommand = new RelayCommand(() => EyeExerciseVM.Open());
+            ScreenDimCommand = new RelayCommand(OnToggleScreenDim);
+            FocusModeCommand = new RelayCommand(OnToggleFocusMode);
 
             // Wire Snackbar Service
             SnackbarService.Instance.MessageRequested += (msg, actionText, actionCb) =>
@@ -235,6 +262,81 @@ namespace EyeFocus.ViewModels
         {
             var currentProfile = _profileManager.GetActiveProfile();
             ProfileEditorVM.OpenForProfile(currentProfile);
+        }
+
+        private void OnTogglePause20Min()
+        {
+            if (_pauseSecondsRemaining > 0)
+            {
+                _pauseTimer.Stop();
+                _pauseSecondsRemaining = 0;
+                Pause20MinText = "Pause for 20 minutes";
+                if (DashboardVM.IsPaused)
+                {
+                    DashboardVM.TogglePauseCommand.Execute(null);
+                }
+                SnackbarService.Instance.Show("EyeFocus resumed (Pause cancelled)");
+            }
+            else
+            {
+                if (!DashboardVM.IsPaused)
+                {
+                    DashboardVM.TogglePauseCommand.Execute(null);
+                }
+                _pauseSecondsRemaining = 20 * 60;
+                Pause20MinText = "Paused (20:00)";
+                _pauseTimer.Start();
+                SnackbarService.Instance.Show("EyeFocus paused for 20 minutes");
+            }
+        }
+
+        private void OnPauseTimerTick(object? sender, EventArgs e)
+        {
+            if (_pauseSecondsRemaining > 1)
+            {
+                _pauseSecondsRemaining--;
+                int m = _pauseSecondsRemaining / 60;
+                int s = _pauseSecondsRemaining % 60;
+                Pause20MinText = $"Paused ({m:D2}:{s:D2})";
+            }
+            else
+            {
+                _pauseTimer.Stop();
+                _pauseSecondsRemaining = 0;
+                Pause20MinText = "Pause for 20 minutes";
+                if (DashboardVM.IsPaused)
+                {
+                    DashboardVM.TogglePauseCommand.Execute(null);
+                }
+                SnackbarService.Instance.Show("20-minute pause completed. EyeFocus resumed!");
+            }
+        }
+
+        private void OnToggleScreenDim()
+        {
+            if (DashboardVM.SoftwareDim > 0)
+            {
+                DashboardVM.SoftwareDim = 0;
+                SnackbarService.Instance.Show("Screen dim disabled (0%)");
+            }
+            else
+            {
+                DashboardVM.SoftwareDim = 35;
+                SnackbarService.Instance.Show("Screen dim enabled (35% software overlay)");
+            }
+        }
+
+        private void OnToggleFocusMode()
+        {
+            var currentId = DashboardVM.ActiveProfile?.Id;
+            if (currentId == ProfileDefaults.IdCoding)
+            {
+                DashboardVM.SelectProfileCommand.Execute(ProfileDefaults.IdComfort);
+            }
+            else
+            {
+                DashboardVM.SelectProfileCommand.Execute(ProfileDefaults.IdCoding);
+            }
         }
 
         private void OnHotkeyTriggered(object? sender, HotkeyAction action)
