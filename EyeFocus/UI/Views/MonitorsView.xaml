@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="680"
-             FontFamily="Segoe UI"
+             FontFamily="Segoe UI Variable Text, Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, sans-serif"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
              TextOptions.TextFormattingMode="Display"
@@ -17,7 +17,7 @@
         <StackPanel Margin="20,12,20,20" HorizontalAlignment="Stretch">
 
             <!-- 1. Header -->
-            <Grid Margin="0,0,0,12" HorizontalAlignment="Stretch">
+            <Grid Margin="0,0,0,14" HorizontalAlignment="Stretch">
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="Monitors" FontWeight="Bold" FontSize="20" Foreground="{DynamicResource OnSurfaceBrush}" />
                     <TextBlock Text="Detected displays and hardware control capabilities." FontSize="12" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
@@ -35,13 +35,13 @@
             <ItemsControl ItemsSource="{Binding Monitors}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" HorizontalAlignment="Stretch" Padding="14,12">
+                        <Border Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="12" Margin="0,0,0,10" HorizontalAlignment="Stretch" Padding="16,14">
                             <StackPanel>
                                 <!-- Title, Primary Badge, & Resolution -->
                                 <Grid Margin="0,0,0,6">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding FriendlyName}" FontWeight="Bold" FontSize="13.5" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
-                                        <Border Background="{DynamicResource PrimaryContainerBrush}" CornerRadius="4" Padding="6,1" Margin="8,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding FriendlyName}" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                        <Border Background="{DynamicResource PrimaryContainerBrush}" CornerRadius="4" Padding="6,1.5" Margin="8,0,0,0" VerticalAlignment="Center">
                                             <TextBlock Text="PRIMARY" FontWeight="Bold" FontSize="8.5" Foreground="{DynamicResource PrimaryBrush}" />
                                         </Border>
                                     </StackPanel>
@@ -51,10 +51,10 @@
                                     </TextBlock>
                                 </Grid>
 
-                                <TextBlock Text="{Binding DeviceName, StringFormat='Device: {0}'}" FontSize="10.5" Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,8" />
+                                <TextBlock Text="{Binding DeviceName, StringFormat='Device: {0}'}" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,10" />
 
                                 <!-- Capabilities Information Strip -->
-                                <Border Background="{DynamicResource SurfaceContainerHighBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="6" Padding="10,6" Margin="0,0,0,2">
+                                <Border Background="{DynamicResource SurfaceContainerHighestBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="8" Padding="12,8" Margin="0,0,0,2">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
@@ -65,26 +65,26 @@
 
                                         <!-- DDC/CI -->
                                         <StackPanel Grid.Column="0">
-                                            <TextBlock Text="DDC/CI Brightness" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource OutlineBrush}" />
-                                            <TextBlock Text="{Binding SupportsDdcCi, Converter={x:Null}}" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource PrimaryBrush}" Margin="0,1,0,0" />
+                                            <TextBlock Text="DDC/CI Brightness" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
+                                            <TextBlock Text="{Binding SupportsDdcCi, Converter={x:Null}}" FontWeight="Bold" FontSize="11.5" Foreground="{DynamicResource PrimaryBrush}" Margin="0,1,0,0" />
                                         </StackPanel>
 
                                         <!-- Hardware Color -->
                                         <StackPanel Grid.Column="1">
-                                            <TextBlock Text="Hardware Color" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource OutlineBrush}" />
-                                            <TextBlock Text="{Binding SupportsHardwareBrightness, Converter={x:Null}}" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource PrimaryBrush}" Margin="0,1,0,0" />
+                                            <TextBlock Text="Hardware Color" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
+                                            <TextBlock Text="{Binding SupportsHardwareBrightness, Converter={x:Null}}" FontWeight="Bold" FontSize="11.5" Foreground="{DynamicResource PrimaryBrush}" Margin="0,1,0,0" />
                                         </StackPanel>
 
                                         <!-- Gamma -->
                                         <StackPanel Grid.Column="2">
-                                            <TextBlock Text="Windows Gamma" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource OutlineBrush}" />
-                                            <TextBlock Text="Ready ✓" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource PrimaryBrush}" Margin="0,1,0,0" />
+                                            <TextBlock Text="Windows Gamma" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
+                                            <TextBlock Text="Ready ✓" FontWeight="Bold" FontSize="11.5" Foreground="{DynamicResource PrimaryBrush}" Margin="0,1,0,0" />
                                         </StackPanel>
 
                                         <!-- Software Dimming -->
                                         <StackPanel Grid.Column="3">
-                                            <TextBlock Text="Software Dim" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource OutlineBrush}" />
-                                            <TextBlock Text="Ready ✓" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource PrimaryBrush}" Margin="0,1,0,0" />
+                                            <TextBlock Text="Software Dim" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
+                                            <TextBlock Text="Ready ✓" FontWeight="Bold" FontSize="11.5" Foreground="{DynamicResource PrimaryBrush}" Margin="0,1,0,0" />
                                         </StackPanel>
                                     </Grid>
                                 </Border>

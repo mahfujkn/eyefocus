@@ -174,6 +174,11 @@ namespace EyeFocus.UI.Themes
                 // Timeline Track
                 SetToken(app, "TimelineNightTrack", isLight ? "#CBD5E1" : "#334155");
 
+                // RGB Slider Tracks
+                SetToken(app, "SliderRedFill", "#EF4444");
+                SetToken(app, "SliderGreenFill", "#10B981");
+                SetToken(app, "SliderBlueFill", "#3B82F6");
+
                 ThemeChanged?.Invoke(_activeTheme);
             });
         }

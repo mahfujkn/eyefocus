@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="680"
-             FontFamily="Segoe UI"
+             FontFamily="Segoe UI Variable Text, Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, sans-serif"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
              TextOptions.TextFormattingMode="Display"
@@ -32,7 +32,7 @@
                 <!-- Title & Version -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,4">
                     <TextBlock Text="EyeFocus" FontWeight="Bold" FontSize="20" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
-                    <Border Background="{DynamicResource PrimaryContainerBrush}" CornerRadius="4" Padding="6,1" Margin="8,0,0,0" VerticalAlignment="Center">
+                    <Border Background="{DynamicResource PrimaryContainerBrush}" CornerRadius="4" Padding="6,1.5" Margin="8,0,0,0" VerticalAlignment="Center">
                         <TextBlock Text="{Binding Version}" FontWeight="Bold" FontSize="10" Foreground="{DynamicResource PrimaryBrush}" />
                     </Border>
                 </StackPanel>
@@ -48,9 +48,9 @@
             </StackPanel>
 
             <!-- 2. Official Repository & Releases Card -->
-            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+            <Border Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" Margin="0,0,0,10" HorizontalAlignment="Stretch">
                 <StackPanel>
-                    <TextBlock Text="OFFICIAL REPOSITORY &amp; RELEASES" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4" />
+                    <TextBlock Text="Official Repository &amp; Releases" FontWeight="Bold" FontSize="12.5" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,4" />
                     <TextBlock Text="EyeFocus is fully open-source under the MIT license. Star, inspect, or contribute on GitHub:"
                                FontSize="11.5" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,0,0,10" />
 
@@ -76,11 +76,11 @@
             </Border>
 
             <!-- 3. Developer Card -->
-            <Border Style="{StaticResource M3CardStyle}" HorizontalAlignment="Stretch">
+            <Border Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" HorizontalAlignment="Stretch">
                 <StackPanel>
-                    <TextBlock Text="DEVELOPED BY" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4" />
-                    <TextBlock Text="{Binding DeveloperName}" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,1" />
-                    <TextBlock Text="github.com/mahfujkn" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,0,10" />
+                    <TextBlock Text="Developed By" FontWeight="Bold" FontSize="12.5" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,4" />
+                    <TextBlock Text="{Binding DeveloperName}" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,2" />
+                    <TextBlock Text="github.com/mahfujkn" FontSize="11.5" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,0,10" />
 
                     <StackPanel Orientation="Horizontal">
                         <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding OpenDeveloperCommand}" Padding="10,4" Height="26">

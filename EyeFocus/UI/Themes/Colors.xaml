@@ -86,6 +86,9 @@
     <SolidColorBrush x:Key="SliderKelvinFillBrush" Color="#F59E0B" />
     <SolidColorBrush x:Key="BrightnessTrackBrush" Color="#00A88F" />
     <SolidColorBrush x:Key="KelvinTrackBrush" Color="#F59E0B" />
+    <SolidColorBrush x:Key="SliderRedFillBrush" Color="#EF4444" />
+    <SolidColorBrush x:Key="SliderGreenFillBrush" Color="#10B981" />
+    <SolidColorBrush x:Key="SliderBlueFillBrush" Color="#3B82F6" />
 
     <!-- Day & Night Automation Sub-Cards (Themed) -->
     <Color x:Key="DayModeCardBackgroundColor">#1C1914</Color>

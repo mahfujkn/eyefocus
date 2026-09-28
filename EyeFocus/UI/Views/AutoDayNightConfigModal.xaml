@@ -4,39 +4,48 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
+             FontFamily="Segoe UI Variable Text, Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, sans-serif"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             TextOptions.TextFormattingMode="Display"
+             TextOptions.TextRenderingMode="ClearType"
+             RenderOptions.ClearTypeHint="Enabled"
              d:DesignHeight="560" d:DesignWidth="480">
 
     <!-- Crisp, High-Contrast Modal Container (Matches Dashboard Precision) -->
-    <Border Background="{DynamicResource SurfaceContainerBrush}" BorderBrush="{DynamicResource OutlineBrush}" BorderThickness="1" CornerRadius="8" Padding="20">
+    <Border Background="{DynamicResource SurfaceContainerBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="12" Padding="20">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="24" ShadowDepth="6" Opacity="0.4" Color="#000000" />
+        </Border.Effect>
         <StackPanel>
             <!-- 1. Header Bar -->
-            <Grid Margin="0,0,0,14">
+            <Grid Margin="0,0,0,16">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Width="28" Height="28" CornerRadius="6" Background="{DynamicResource PrimaryContainerBrush}" Margin="0,0,8,0">
-                        <Path Data="{StaticResource IconSun}" Fill="{DynamicResource PrimaryBrush}" Width="14" Height="14" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Border Width="30" Height="30" CornerRadius="8" Background="{DynamicResource PrimaryContainerBrush}" Margin="0,0,10,0" VerticalAlignment="Center">
+                        <Path Data="{StaticResource IconSun}" Fill="{DynamicResource PrimaryBrush}" Width="13" Height="13" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="Automatic Day/Night" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource OnSurfaceBrush}" />
-                        <TextBlock Text="Configure automatic display mode switching" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,1,0,0" />
+                        <TextBlock Text="Automatic Day / Night" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource OnSurfaceBrush}" />
+                        <TextBlock Text="Configure automatic display mode switching" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
                     </StackPanel>
                 </StackPanel>
 
                 <Button Style="{StaticResource M3IconButtonStyle}" Command="{Binding CancelCommand}"
                         HorizontalAlignment="Right" VerticalAlignment="Center"
-                        Width="28" Height="28" Padding="0" ToolTip="Close">
+                        Width="26" Height="26" Padding="0" ToolTip="Close">
                     <Path Data="{StaticResource IconClose}" Fill="{DynamicResource OnSurfaceVariantBrush}"
-                          Width="10" Height="10" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                          Width="9" Height="9" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Button>
             </Grid>
 
             <!-- 2. Time Detection Section -->
-            <Border Style="{StaticResource M3CardStyle}" Background="{DynamicResource SurfaceContainerHighBrush}" Margin="0,0,0,10">
+            <Border Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="10" Padding="14,12" Margin="0,0,0,10">
                 <StackPanel>
-                    <TextBlock Text="TIME DETECTION" FontWeight="Bold" FontSize="10" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4" />
-                    <TextBlock Text="Choose whether to follow Windows local time or manually set a specific timezone." FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,8" />
+                    <TextBlock Text="Time Detection" FontWeight="Bold" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,3" />
+                    <TextBlock Text="Choose whether to follow Windows local time or manually set a specific timezone." FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,10" />
 
                     <!-- Segmented Control -->
-                    <Border Background="{DynamicResource SurfaceContainerBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="6" Padding="2" HorizontalAlignment="Left" Margin="0,0,0,10">
+                    <Border Background="{DynamicResource SurfaceContainerHighestBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="6" Padding="2" HorizontalAlignment="Left" Margin="0,0,0,10">
                         <StackPanel Orientation="Horizontal">
                             <RadioButton Style="{StaticResource M3SegmentedItemStyle}" Content="System Automatic" GroupName="TimeDetectionGroup"
                                          IsChecked="{Binding IsSystemAutomatic, Mode=TwoWay}" />
@@ -46,7 +55,7 @@
                     </Border>
 
                     <!-- When System Automatic: Info Card -->
-                    <Border Background="{DynamicResource SurfaceContainerBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="6" Padding="10,8" Margin="0,0,0,2">
+                    <Border Background="{DynamicResource SurfaceContainerLowestBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="6" Padding="10,8" Margin="0,0,0,2">
                         <Border.Style>
                             <Style TargetType="Border">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -75,7 +84,7 @@
                                 </Style.Triggers>
                             </Style>
                         </StackPanel.Style>
-                        <TextBlock Text="TIME ZONE" FontWeight="Bold" FontSize="10" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4" />
+                        <TextBlock Text="Time Zone" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,4" />
                         <ComboBox Style="{StaticResource M3ComboBoxStyle}"
                                   ItemsSource="{Binding TimeZones}"
                                   SelectedValuePath="Id"
@@ -87,9 +96,9 @@
             </Border>
 
             <!-- 3. Day and Night Schedule Times -->
-            <Border Style="{StaticResource M3CardStyle}" Background="{DynamicResource SurfaceContainerHighBrush}" Margin="0,0,0,10">
+            <Border Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="10" Padding="14,12" Margin="0,0,0,12">
                 <StackPanel>
-                    <TextBlock Text="SCHEDULE TIMES" FontWeight="Bold" FontSize="10" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,8" />
+                    <TextBlock Text="Schedule Times" FontWeight="Bold" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,10" />
 
                     <!-- Day Start Time Row -->
                     <Grid Margin="0,0,0,10">
@@ -99,13 +108,13 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                            <TextBlock Text="Day starts at" FontWeight="Bold" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" />
-                            <TextBlock Text="Automatic switching to Day Mode begins at this time." FontSize="10.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,1,0,0" />
+                            <TextBlock Text="Day starts at" FontWeight="SemiBold" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Automatic switching to Day Mode begins at this time" FontSize="10.5" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                             <ComboBox Style="{StaticResource M3ComboBoxStyle}" ItemsSource="{Binding Hours}" SelectedValue="{Binding DayHour, Mode=TwoWay}" Width="56" Height="30" />
-                            <TextBlock Text=":" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Margin="4,0" />
+                            <TextBlock Text=":" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" Margin="4,0" />
                             <ComboBox Style="{StaticResource M3ComboBoxStyle}" ItemsSource="{Binding Minutes}" SelectedValue="{Binding DayMinute, Mode=TwoWay}" Width="56" Height="30" />
                         </StackPanel>
                     </Grid>
@@ -118,13 +127,13 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                            <TextBlock Text="Night starts at" FontWeight="Bold" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" />
-                            <TextBlock Text="Automatic switching to Night Mode begins at this time." FontSize="10.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,1,0,0" />
+                            <TextBlock Text="Night starts at" FontWeight="SemiBold" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" />
+                            <TextBlock Text="Automatic switching to Night Mode begins at this time" FontSize="10.5" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                             <ComboBox Style="{StaticResource M3ComboBoxStyle}" ItemsSource="{Binding Hours}" SelectedValue="{Binding NightHour, Mode=TwoWay}" Width="56" Height="30" />
-                            <TextBlock Text=":" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Margin="4,0" />
+                            <TextBlock Text=":" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" Margin="4,0" />
                             <ComboBox Style="{StaticResource M3ComboBoxStyle}" ItemsSource="{Binding Minutes}" SelectedValue="{Binding NightMinute, Mode=TwoWay}" Width="56" Height="30" />
                         </StackPanel>
                     </Grid>
@@ -151,15 +160,15 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="6" />
+                    <ColumnDefinition Width="8" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="1" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding CancelCommand}" Padding="14,6" Height="32">
-                    <TextBlock Text="Cancel" Foreground="{DynamicResource OnSecondaryContainerBrush}" FontWeight="SemiBold" FontSize="11.5" VerticalAlignment="Center" />
+                    <TextBlock Text="Cancel" FontWeight="SemiBold" FontSize="11.5" VerticalAlignment="Center" />
                 </Button>
                 <Button Grid.Column="3" Style="{StaticResource M3FilledButtonStyle}" Command="{Binding SaveCommand}" Padding="16,6" Height="32">
-                    <TextBlock Text="Save Settings" Foreground="{DynamicResource OnPrimaryBrush}" FontWeight="Bold" FontSize="11.5" VerticalAlignment="Center" />
+                    <TextBlock Text="Save Settings" FontWeight="Bold" FontSize="11.5" VerticalAlignment="Center" />
                 </Button>
             </Grid>
         </StackPanel>

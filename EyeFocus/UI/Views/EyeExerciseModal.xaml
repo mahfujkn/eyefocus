@@ -4,48 +4,54 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
+             FontFamily="Segoe UI Variable Text, Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, sans-serif"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             TextOptions.TextFormattingMode="Display"
+             TextOptions.TextRenderingMode="ClearType"
+             RenderOptions.ClearTypeHint="Enabled"
              d:DesignHeight="460" d:DesignWidth="440">
 
-    <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}"
-            BorderThickness="1" CornerRadius="16" Padding="24" Width="440">
+    <Border Background="{DynamicResource SurfaceContainerBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}"
+            BorderThickness="1" CornerRadius="16" Padding="22" Width="440">
         <Border.Effect>
-            <DropShadowEffect BlurRadius="30" ShadowDepth="8" Opacity="0.3" Color="#000000" />
+            <DropShadowEffect BlurRadius="28" ShadowDepth="6" Opacity="0.4" Color="#000000" />
         </Border.Effect>
         <StackPanel>
             <!-- Header -->
             <Grid Margin="0,0,0,16">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Width="36" Height="36" CornerRadius="18" Background="#E6F7F2" Margin="0,0,12,0" VerticalAlignment="Center">
-                        <Path Data="{StaticResource IconEyeExercise}" Fill="#00A88F" Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Border Width="34" Height="34" CornerRadius="10" Background="{DynamicResource PrimaryContainerBrush}" Margin="0,0,10,0" VerticalAlignment="Center">
+                        <Path Data="{StaticResource IconEyeExercise}" Fill="{DynamicResource PrimaryBrush}" Width="16" Height="16" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Text="20-20-20 Eye Exercise" FontWeight="Bold" FontSize="16" Foreground="{DynamicResource OnSurfaceBrush}" />
-                        <TextBlock Text="Relax your eyes and reduce fatigue" FontSize="11.5" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
+                        <TextBlock Text="Relax your eyes and reduce strain" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,1,0,0" />
                     </StackPanel>
                 </StackPanel>
 
                 <!-- Close Button -->
                 <Button Style="{StaticResource M3IconButtonStyle}" Command="{Binding CloseCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="4" ToolTip="Close">
-                    <Path Data="{StaticResource IconClose}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="11" Height="11" Stretch="Uniform" />
+                    <Path Data="{StaticResource IconClose}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="10" Height="10" Stretch="Uniform" />
                 </Button>
             </Grid>
 
             <!-- Circular Progress & Timer Showcase -->
-            <Border Background="{DynamicResource SurfaceContainerBrush}" CornerRadius="14" Padding="20" Margin="0,0,0,16" HorizontalAlignment="Stretch">
+            <Border Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="12" Padding="20" Margin="0,0,0,14" HorizontalAlignment="Stretch">
                 <StackPanel HorizontalAlignment="Center">
                     <!-- Big Timer Circle Badge -->
-                    <Border Width="96" Height="96" CornerRadius="48" Background="#E6F7F2" BorderBrush="#00A88F" BorderThickness="3" HorizontalAlignment="Center" Margin="0,0,0,12">
-                        <TextBlock Text="{Binding TimerDisplay}" FontWeight="Bold" FontSize="28" Foreground="#00A88F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Border Width="96" Height="96" CornerRadius="48" Background="{DynamicResource PrimaryContainerBrush}" BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="2.5" HorizontalAlignment="Center" Margin="0,0,0,12">
+                        <TextBlock Text="{Binding TimerDisplay}" FontWeight="Bold" FontSize="28" Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
 
                     <!-- Instruction Text -->
-                    <TextBlock Text="{Binding InstructionText}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,6" />
+                    <TextBlock Text="{Binding InstructionText}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,4" />
                     <TextBlock Text="{Binding DetailText}" FontSize="11" Foreground="{DynamicResource OutlineBrush}" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="340" />
                 </StackPanel>
             </Border>
 
             <!-- 20-20-20 Rule Description Cards -->
-            <Grid Margin="0,0,0,20">
+            <Grid Margin="0,0,0,18">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="8" />
@@ -54,23 +60,23 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" Background="{DynamicResource SurfaceContainerBrush}" CornerRadius="8" Padding="8,10">
+                <Border Grid.Column="0" Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="8" Padding="8,10">
                     <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="20 Mins" FontWeight="Bold" FontSize="12.5" Foreground="#00A88F" HorizontalAlignment="Center" />
+                        <TextBlock Text="20 Mins" FontWeight="Bold" FontSize="12.5" Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Center" />
                         <TextBlock Text="Screen Time" FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" HorizontalAlignment="Center" Margin="0,2,0,0" />
                     </StackPanel>
                 </Border>
 
-                <Border Grid.Column="2" Background="{DynamicResource SurfaceContainerBrush}" CornerRadius="8" Padding="8,10">
+                <Border Grid.Column="2" Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="8" Padding="8,10">
                     <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="20 Feet" FontWeight="Bold" FontSize="12.5" Foreground="#F59E0B" HorizontalAlignment="Center" />
+                        <TextBlock Text="20 Feet" FontWeight="Bold" FontSize="12.5" Foreground="{DynamicResource WarmAccentBrush}" HorizontalAlignment="Center" />
                         <TextBlock Text="Look Distance" FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" HorizontalAlignment="Center" Margin="0,2,0,0" />
                     </StackPanel>
                 </Border>
 
-                <Border Grid.Column="4" Background="{DynamicResource SurfaceContainerBrush}" CornerRadius="8" Padding="8,10">
+                <Border Grid.Column="4" Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="8" Padding="8,10">
                     <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="20 Secs" FontWeight="Bold" FontSize="12.5" Foreground="#0284C7" HorizontalAlignment="Center" />
+                        <TextBlock Text="20 Secs" FontWeight="Bold" FontSize="12.5" Foreground="{DynamicResource TertiaryBrush}" HorizontalAlignment="Center" />
                         <TextBlock Text="Rest Duration" FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" HorizontalAlignment="Center" Margin="0,2,0,0" />
                     </StackPanel>
                 </Border>
@@ -84,12 +90,12 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetCommand}" Height="36">
-                    <TextBlock Text="Reset (20s)" FontSize="12" FontWeight="SemiBold" />
+                <Button Grid.Column="0" Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetCommand}" Height="34">
+                    <TextBlock Text="Reset (20s)" FontSize="11.5" FontWeight="SemiBold" />
                 </Button>
 
-                <Button Grid.Column="2" Style="{StaticResource M3FilledButtonStyle}" Command="{Binding StartCommand}" Height="36">
-                    <TextBlock Text="{Binding StartButtonText}" FontSize="12" FontWeight="Bold" />
+                <Button Grid.Column="2" Style="{StaticResource M3FilledButtonStyle}" Command="{Binding StartCommand}" Height="34">
+                    <TextBlock Text="{Binding StartButtonText}" FontSize="11.5" FontWeight="Bold" />
                 </Button>
             </Grid>
         </StackPanel>

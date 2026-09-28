@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="950" d:DesignWidth="680"
-             FontFamily="Segoe UI"
+             FontFamily="Segoe UI Variable Text, Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, sans-serif"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
              TextOptions.TextFormattingMode="Display"
@@ -17,19 +17,19 @@
         <StackPanel Margin="20,12,20,20" HorizontalAlignment="Stretch">
 
             <!-- 0. Page Header -->
-            <StackPanel Margin="0,0,0,12">
+            <StackPanel Margin="0,0,0,14">
                 <TextBlock Text="Settings" FontWeight="Bold" FontSize="20" Foreground="{DynamicResource OnSurfaceBrush}" />
                 <TextBlock Text="Configure display control behavior, theme appearance, and global shortcuts." FontSize="12" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
             </StackPanel>
 
             <!-- 1. APPEARANCE & THEME -->
-            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+            <Border Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" Margin="0,0,0,10" HorizontalAlignment="Stretch">
                 <StackPanel>
-                    <TextBlock Text="APPEARANCE &amp; THEME" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,4" />
-                    <TextBlock Text="Choose between System default, Clean Light, or Deep Charcoal Dark theme." FontSize="12" Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,10" />
+                    <TextBlock Text="Appearance &amp; Theme" FontWeight="Bold" FontSize="12.5" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,4" />
+                    <TextBlock Text="Choose between System default, Clean Light, or Deep Charcoal Dark theme." FontSize="11.5" Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,10" />
 
                     <!-- Segmented Theme Selection -->
-                    <Border Background="{DynamicResource SurfaceContainerHighBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="8" Padding="2" HorizontalAlignment="Left">
+                    <Border Background="{DynamicResource SurfaceContainerHighestBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="8" Padding="2" HorizontalAlignment="Left">
                         <StackPanel Orientation="Horizontal">
                             <RadioButton Style="{StaticResource M3SegmentedItemStyle}" Content="System" GroupName="ThemeGroup"
                                          IsChecked="{Binding IsThemeSystem, Mode=TwoWay}" />
@@ -43,9 +43,9 @@
             </Border>
 
             <!-- 2. GENERAL PREFERENCES (Clean Auto-Layout Rows with Right-Aligned Toggle Switches) -->
-            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+            <Border Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" Margin="0,0,0,10" HorizontalAlignment="Stretch">
                 <StackPanel>
-                    <TextBlock Text="GENERAL" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,12" />
+                    <TextBlock Text="General Preferences" FontWeight="Bold" FontSize="12.5" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,12" />
 
                     <!-- Row 1: Start with Windows -->
                     <Grid Margin="0,0,0,12">
@@ -123,9 +123,9 @@
             </Border>
 
             <!-- 3. DISPLAY CONTROL -->
-            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+            <Border Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" Margin="0,0,0,10" HorizontalAlignment="Stretch">
                 <StackPanel>
-                    <TextBlock Text="DISPLAY CONTROL" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,12" />
+                    <TextBlock Text="Display Control Engine" FontWeight="Bold" FontSize="12.5" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,12" />
 
                     <!-- Row 1: Software Dim Fallback -->
                     <Grid Margin="0,0,0,12">
@@ -173,12 +173,12 @@
             </Border>
 
             <!-- 4. KEYBOARD SHORTCUTS -->
-            <Border Style="{StaticResource M3CardStyle}" Margin="0,0,0,10" HorizontalAlignment="Stretch">
+            <Border Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" Margin="0,0,0,10" HorizontalAlignment="Stretch">
                 <StackPanel>
                     <Grid Margin="0,0,0,12">
-                        <TextBlock Text="KEYBOARD SHORTCUTS" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
+                        <TextBlock Text="Keyboard Shortcuts" FontWeight="Bold" FontSize="12.5" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
                         <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ReloadHotkeysCommand}" HorizontalAlignment="Right" Padding="8,3" Height="24">
-                            <TextBlock Text="Reload Hotkeys" FontSize="11" />
+                            <TextBlock Text="Reload Hotkeys" FontSize="11" FontWeight="SemiBold" />
                         </Button>
                     </Grid>
 
@@ -199,8 +199,8 @@
                                     <TextBlock Grid.Column="1" Text="{Binding ActionName}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
 
                                     <!-- Shortcut Badge -->
-                                    <Border Grid.Column="2" Background="{DynamicResource SurfaceContainerHighBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="6" Padding="8,2" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding DisplayShortcut}" FontFamily="Consolas, Courier New" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource PrimaryBrush}" />
+                                    <Border Grid.Column="2" Background="{DynamicResource SurfaceContainerHighestBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="6" Padding="8,2" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding DisplayShortcut}" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource PrimaryBrush}" />
                                     </Border>
                                 </Grid>
                             </DataTemplate>
@@ -210,9 +210,9 @@
             </Border>
 
             <!-- 5. DIAGNOSTICS & SYSTEM -->
-            <Border Style="{StaticResource M3CardStyle}" HorizontalAlignment="Stretch">
+            <Border Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" HorizontalAlignment="Stretch">
                 <StackPanel>
-                    <TextBlock Text="DIAGNOSTICS &amp; SYSTEM" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,12" />
+                    <TextBlock Text="Diagnostics &amp; System" FontWeight="Bold" FontSize="12.5" Foreground="{DynamicResource OnSurfaceBrush}" Margin="0,0,0,12" />
 
                     <!-- Debug Logging Row -->
                     <Grid Margin="0,0,0,14">
@@ -229,13 +229,13 @@
 
                     <StackPanel Orientation="Horizontal">
                         <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding OpenLogFolderCommand}" Margin="0,0,8,0" Padding="10,4" Height="28">
-                            <TextBlock Text="Open Logs Folder" FontSize="11" />
+                            <TextBlock Text="Open Logs Folder" FontSize="11" FontWeight="SemiBold" />
                         </Button>
                         <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ClearLogsCommand}" Margin="0,0,8,0" Padding="10,4" Height="28">
-                            <TextBlock Text="Clear Logs" FontSize="11" />
+                            <TextBlock Text="Clear Logs" FontSize="11" FontWeight="SemiBold" />
                         </Button>
                         <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding ResetDefaultsCommand}" Padding="10,4" Height="28">
-                            <TextBlock Text="Reset Defaults" Foreground="#EF4444" FontSize="11" />
+                            <TextBlock Text="Reset Defaults" Foreground="#EF4444" FontSize="11" FontWeight="SemiBold" />
                         </Button>
                     </StackPanel>
                 </StackPanel>

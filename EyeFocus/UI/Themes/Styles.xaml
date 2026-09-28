@@ -636,7 +636,7 @@
                 <ControlTemplate TargetType="RepeatButton">
                     <Grid Background="Transparent">
                         <Border Height="6" CornerRadius="3,0,0,3"
-                                Background="{Binding Tag, RelativeSource={RelativeSource AncestorType=Slider}}"
+                                Background="{Binding Tag, RelativeSource={RelativeSource AncestorType=Slider}, TargetNullValue={StaticResource PrimaryBrush}}"
                                 VerticalAlignment="Center" SnapsToDevicePixels="True" />
                     </Grid>
                 </ControlTemplate>
@@ -712,7 +712,7 @@
     <!-- 10. COMPACT TEXTBOX                                                       -->
     <!-- ========================================================================= -->
     <Style x:Key="M3TextBoxStyle" TargetType="TextBox">
-        <Setter Property="Background" Value="{DynamicResource SurfaceContainerBrush}" />
+        <Setter Property="Background" Value="{DynamicResource SurfaceContainerLowestBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariantBrush}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -851,7 +851,7 @@
     <!-- 12. CLEAN SECTION CARDS                                                   -->
     <!-- ========================================================================= -->
     <Style x:Key="M3CardStyle" TargetType="Border">
-        <Setter Property="Background" Value="{DynamicResource SurfaceContainerBrush}" />
+        <Setter Property="Background" Value="{DynamicResource SurfaceContainerLowBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariantBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="8" />
