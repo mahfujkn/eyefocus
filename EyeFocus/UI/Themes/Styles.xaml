@@ -223,9 +223,9 @@
     <Style x:Key="SidebarNavButtonStyle" TargetType="RadioButton">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariantBrush}" />
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="Padding" Value="4,6,12,6" />
+        <Setter Property="FontSize" Value="13.5" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Height" Value="38" />
         <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -238,48 +238,48 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="Transparent"
                             BorderThickness="0"
-                            CornerRadius="10"
-                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="8"
                             SnapsToDevicePixels="True"
                             UseLayoutRounding="True">
                         <Grid VerticalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Left Accent Active Indicator Bar (Mockup 3.5px teal vertical pill) -->
-                            <Border Grid.Column="0" x:Name="ActiveIndicator"
-                                    Width="3.5" Height="20" CornerRadius="1.75"
+                            <!-- Left Accent Active Indicator Bar (Matches screenshot: vertical teal pill at the left edge) -->
+                            <Border x:Name="ActiveIndicator"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Width="3.5" Height="20"
+                                    CornerRadius="1.75"
                                     Background="{DynamicResource PrimaryBrush}"
-                                    Visibility="Collapsed" Margin="0,0,8,0"
-                                    VerticalAlignment="Center" SnapsToDevicePixels="True" />
+                                    Visibility="Collapsed"
+                                    SnapsToDevicePixels="True" />
 
-                            <!-- Icon (Padded left when inactive to keep text alignment) -->
-                            <Path Grid.Column="1" x:Name="NavIcon"
-                                  Data="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}"
-                                  Fill="{TemplateBinding Foreground}"
-                                  Opacity="0.85"
-                                  Width="16" Height="16" Stretch="Uniform"
-                                  Margin="6,0,10,0" VerticalAlignment="Center" />
+                            <!-- Icon & Label Content (Clean static alignment, never jumps) -->
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="14,0,12,0">
+                                <Path x:Name="NavIcon"
+                                      Data="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                      Fill="{TemplateBinding Foreground}"
+                                      Width="18" Height="18" Stretch="Uniform"
+                                      Margin="0,0,10,0"
+                                      VerticalAlignment="Center" />
 
-                            <!-- Label -->
-                            <ContentPresenter Grid.Column="2" TextElement.Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" />
+                                <ContentPresenter TextElement.Foreground="{TemplateBinding Foreground}"
+                                                  TextElement.FontSize="{TemplateBinding FontSize}"
+                                                  TextElement.FontWeight="{TemplateBinding FontWeight}"
+                                                  VerticalAlignment="Center" />
+                            </StackPanel>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <!-- Hover State -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="BtnBorder" Property="Background" Value="{DynamicResource SurfaceContainerBrush}" />
                             <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}" />
-                            <Setter TargetName="NavIcon" Property="Opacity" Value="1.0" />
+                            <Setter TargetName="NavIcon" Property="Fill" Value="{DynamicResource OnSurfaceBrush}" />
                         </Trigger>
+                        <!-- Checked / Active State (Exact match to screenshot!) -->
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="BtnBorder" Property="Background" Value="{DynamicResource PrimaryContainerBrush}" />
                             <Setter TargetName="ActiveIndicator" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="NavIcon" Property="Margin" Value="0,0,10,0" />
                             <Setter TargetName="NavIcon" Property="Fill" Value="{DynamicResource PrimaryBrush}" />
-                            <Setter TargetName="NavIcon" Property="Opacity" Value="1.0" />
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
                             <Setter Property="FontWeight" Value="SemiBold" />
                         </Trigger>
