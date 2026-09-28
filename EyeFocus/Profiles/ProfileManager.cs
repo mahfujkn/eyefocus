@@ -42,6 +42,16 @@ namespace EyeFocus.Profiles
                 if (userOverride != null)
                 {
                     copy.CopyFrom(userOverride);
+                    // Built-in profiles must retain their canonical name and default description
+                    copy.Name = defaultProfile.Name;
+                    if (string.IsNullOrWhiteSpace(copy.Description))
+                    {
+                        copy.Description = defaultProfile.Description;
+                    }
+                    if (string.IsNullOrWhiteSpace(copy.IconKey))
+                    {
+                        copy.IconKey = defaultProfile.IconKey;
+                    }
                     copy.IsUserModified = true;
                 }
 

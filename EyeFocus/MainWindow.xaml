@@ -12,11 +12,11 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        FontFamily="Segoe UI"
+        FontFamily="Segoe UI Variable Text, Segoe UI, sans-serif"
         FontSize="13"
         SnapsToDevicePixels="True"
         UseLayoutRounding="True"
-        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="ClearType"
         RenderOptions.ClearTypeHint="Enabled">
 
@@ -32,7 +32,7 @@
             SnapsToDevicePixels="True"
             UseLayoutRounding="True"
             RenderOptions.ClearTypeHint="Enabled"
-            TextOptions.TextFormattingMode="Display"
+            TextOptions.TextFormattingMode="Ideal"
             TextOptions.TextRenderingMode="ClearType">
         <Grid>
             <!-- 2 Primary Column Structure: Left Sidebar + Right Workspace Area -->
@@ -43,7 +43,7 @@
 
             <!-- 1. LEFT FULL-HEIGHT VERTICAL SIDEBAR -->
             <Border Grid.Column="0"
-                    Background="{DynamicResource SurfaceContainerLowBrush}"
+                    Background="{DynamicResource SurfaceBrightBrush}"
                     BorderBrush="{DynamicResource OutlineVariantBrush}"
                     BorderThickness="0,0,1,0"
                     CornerRadius="11,0,0,11"
@@ -64,7 +64,7 @@
 
                         <!-- Brand Icon Box -->
                         <Border Grid.Column="0" Width="36" Height="36" CornerRadius="10"
-                                Background="#E6F7F2"
+                                Background="#E6F7F5"
                                 Margin="0,0,10,0" VerticalAlignment="Center">
                             <Path Data="{StaticResource IconEyeFocusBrand}" Fill="#00A88F"
                                   Width="22" Height="22" Stretch="Uniform"
@@ -74,11 +74,12 @@
                         <!-- Brand Title & Tagline -->
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="EyeFocus" FontWeight="Bold" FontSize="18"
+                                       FontFamily="Segoe UI Variable Display, Segoe UI Variable Text, Segoe UI, sans-serif"
                                        Foreground="{DynamicResource OnSurfaceBrush}"
                                        VerticalAlignment="Center" />
-                            <TextBlock Text="Care for your eyes.&#x0a;See a better tomorrow." FontSize="9.5"
+                            <TextBlock Text="Care for your eyes.&#x0a;See a better tomorrow." FontSize="10"
                                        Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0"
-                                       LineHeight="13" LineStackingStrategy="BlockLineHeight" />
+                                       LineHeight="13.5" LineStackingStrategy="BlockLineHeight" />
                         </StackPanel>
                     </Grid>
 
@@ -110,38 +111,38 @@
                                          Content="Privacy" />
 
                             <!-- QUICK ACTIONS SECTION -->
-                            <TextBlock Text="QUICK ACTIONS" FontWeight="Bold" FontSize="9.5"
-                                       Foreground="{DynamicResource OutlineBrush}" Margin="8,18,0,8" />
+                            <TextBlock Text="QUICK ACTIONS" FontWeight="SemiBold" FontSize="10"
+                                       Foreground="#94A3B8" Margin="8,20,0,8" />
 
                             <!-- 1. Pause for 20 minutes -->
                             <Button Style="{StaticResource SidebarActionButtonStyle}" Command="{Binding Pause20MinCommand}" ToolTip="Pause EyeFocus display effects for 20 minutes">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Path Data="{StaticResource IconCoffee}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Pause20MinText}" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                    <Path Data="{StaticResource IconCoffee}" Fill="{DynamicResource OutlineBrush}" Width="15" Height="15" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Pause20MinText}" FontSize="12.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
 
                             <!-- 2. Eye exercise -->
                             <Button Style="{StaticResource SidebarActionButtonStyle}" Command="{Binding EyeExerciseCommand}" ToolTip="Start a 20-20-20 eye rest exercise">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Path Data="{StaticResource IconEyeExercise}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <TextBlock Text="Eye exercise" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                    <Path Data="{StaticResource IconEyeExercise}" Fill="{DynamicResource OutlineBrush}" Width="15" Height="15" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Eye exercise" FontSize="12.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
 
                             <!-- 3. Screen dim -->
                             <Button Style="{StaticResource SidebarActionButtonStyle}" Command="{Binding ScreenDimCommand}" ToolTip="Toggle extra software screen dimming">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Path Data="{StaticResource IconScreenDim}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <TextBlock Text="Screen dim" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                    <Path Data="{StaticResource IconScreenDim}" Fill="{DynamicResource OutlineBrush}" Width="15" Height="15" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Screen dim" FontSize="12.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
 
                             <!-- 4. Focus mode -->
                             <Button Style="{StaticResource SidebarActionButtonStyle}" Command="{Binding FocusModeCommand}" ToolTip="Toggle Coding/Comfort focus preset">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Path Data="{StaticResource IconFocus}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="14" Height="14" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <TextBlock Text="Focus mode" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                    <Path Data="{StaticResource IconFocus}" Fill="{DynamicResource OutlineBrush}" Width="15" Height="15" Stretch="Uniform" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Focus mode" FontSize="12.5" Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -150,7 +151,7 @@
                     <!-- Bottom Health Card: Your eyes matter -->
                     <Border Grid.Row="2" Background="{DynamicResource SurfaceBrush}"
                             BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1"
-                            CornerRadius="10" Padding="12,10" Margin="0,12,0,0">
+                            CornerRadius="12" Padding="12,10" Margin="0,12,0,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -159,12 +160,13 @@
                             <Path Grid.Column="0" Data="{StaticResource IconHealthWave}" Fill="#10B981" Width="18" Height="18" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,10,0" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock Text="Your eyes matter" FontWeight="Bold" FontSize="11.5" Foreground="{DynamicResource OnSurfaceBrush}" />
-                                <TextBlock Text="A more comfortable display for a healthier you." FontSize="9" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,2,0,0" />
+                                <TextBlock Text="A more comfortable display for a healthier you." FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,2,0,0" />
                             </StackPanel>
                         </Grid>
                     </Border>
                 </Grid>
             </Border>
+
 
             <!-- 2. RIGHT AREA: TOPBAR + CONTENT WORKSPACE -->
             <Grid Grid.Column="1">

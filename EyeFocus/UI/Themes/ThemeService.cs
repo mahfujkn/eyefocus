@@ -58,13 +58,13 @@ namespace EyeFocus.UI.Themes
             {
                 if (_activeTheme == "Light")
                 {
-                    // Clean Windows Desktop Utility Light Theme
+                    // Clean Windows Desktop Utility Light Theme (Exact match to Mockup Design)
                     ApplyPalette(
                         app,
-                        primary: "#00808F",
+                        primary: "#00A88F",
                         onPrimary: "#FFFFFF",
-                        primaryContainer: "#E0F2FE",
-                        onPrimaryContainer: "#004D40",
+                        primaryContainer: "#E6F7F5",
+                        onPrimaryContainer: "#00A88F",
                         secondary: "#475569",
                         onSecondary: "#FFFFFF",
                         secondaryContainer: "#F1F5F9",
@@ -82,17 +82,17 @@ namespace EyeFocus.UI.Themes
                         surfaceContainerHigh: "#E2E8F0",
                         surfaceContainerHighest: "#CBD5E1",
                         onSurface: "#0F172A",
-                        onSurfaceVariant: "#334155",
+                        onSurfaceVariant: "#475569",
                         outline: "#64748B",
-                        outlineVariant: "#CBD5E1",
+                        outlineVariant: "#E2E8F0",
                         error: "#DC2626",
                         onError: "#FFFFFF",
                         errorContainer: "#FEE2E2",
                         onErrorContainer: "#7F1D1D",
-                        success: "#00808F",
-                        warmAccent: "#D97706",
-                        coolAccent: "#00808F",
-                        nightAccent: "#0284C7"
+                        success: "#10B981",
+                        warmAccent: "#F59E0B",
+                        coolAccent: "#00A88F",
+                        nightAccent: "#3B82F6"
                     );
                 }
                 else

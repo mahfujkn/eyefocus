@@ -81,21 +81,11 @@
     <SolidColorBrush x:Key="CoolAccentBrush" Color="{StaticResource CoolAccentColor}" />
     <SolidColorBrush x:Key="NightAccentBrush" Color="{StaticResource NightAccentColor}" />
 
-    <!-- Sliders Track Gradients from Redesign Concept -->
-    <!-- Thermal Kelvin Gradient: Warm Amber -> Pale Yellow -> Daylight Neutral -> Cool Sky Blue -->
-    <LinearGradientBrush x:Key="KelvinTrackBrush" StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Color="#F59E0B" Offset="0.0" />  <!-- Warm Amber (2500K) -->
-        <GradientStop Color="#F7D774" Offset="0.45" /> <!-- Soft Warm (4500K) -->
-        <GradientStop Color="#D9E7F2" Offset="0.70" /> <!-- Daylight Neutral (5500K) -->
-        <GradientStop Color="#38BDF8" Offset="1.0" />  <!-- Cool Sky Blue (7500K) -->
-    </LinearGradientBrush>
-
-    <!-- Brightness Teal Gradient: Deep Dim Teal -> Glowing EyeFocus Teal -->
-    <LinearGradientBrush x:Key="BrightnessTrackBrush" StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Color="#134E4A" Offset="0.0" />
-        <GradientStop Color="#0D9488" Offset="0.5" />
-        <GradientStop Color="#2DD4BF" Offset="1.0" />
-    </LinearGradientBrush>
+    <!-- Sliders Track Fills from Redesign Concept (Solid left-fill matching mockup) -->
+    <SolidColorBrush x:Key="SliderBrightnessFillBrush" Color="#00A88F" />
+    <SolidColorBrush x:Key="SliderKelvinFillBrush" Color="#F59E0B" />
+    <SolidColorBrush x:Key="BrightnessTrackBrush" Color="#00A88F" />
+    <SolidColorBrush x:Key="KelvinTrackBrush" Color="#F59E0B" />
 
     <!-- Teal Button Primary Gradient -->
     <LinearGradientBrush x:Key="TealPrimaryButtonBrush" StartPoint="0,0" EndPoint="1,1">
