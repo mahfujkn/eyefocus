@@ -159,6 +159,19 @@ namespace EyeFocus
             LogService.Info("EyeFocus exiting...");
             try
             {
+                var currentSettings = _settingsStore?.Load();
+                if (currentSettings == null || currentSettings.RestoreOnExit)
+                {
+                    _displayEngine?.RestoreInitialState();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogService.Error("Error restoring display on application exit", ex);
+            }
+
+            try
+            {
                 _autoDayNightService?.Dispose();
                 _trayManager?.Dispose();
                 _hotkeyManager?.Dispose();

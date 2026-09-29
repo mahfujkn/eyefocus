@@ -45,7 +45,7 @@ namespace EyeFocus.Display.Native
         public static extern bool GetDeviceGammaRamp(IntPtr hdc, out RgbRamp lpRamp);
 
         [DllImport("gdi32.dll", EntryPoint = "CreateDCW", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern IntPtr CreateDC(string lpszDriver, string lpszDevice, string? lpszOutput, IntPtr lpInitData);
+        public static extern IntPtr CreateDC(string lpszDriver, string? lpszDevice, string? lpszOutput, IntPtr lpInitData);
 
         [DllImport("gdi32.dll", SetLastError = true)]
         public static extern bool DeleteDC(IntPtr hdc);

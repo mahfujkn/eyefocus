@@ -233,15 +233,18 @@ namespace EyeFocus.Display
             {
                 try
                 {
-                    // 1. Restore baseline gamma ramp
+                    // 1. Restore baseline gamma ramp (or clean identity ramp)
                     GammaController.RestoreBaselineGamma(monitor);
 
                     // 2. Clear software dimming
                     SoftwareDimmer.SetDimLevel(monitor, 0);
 
-                    // 3. Restore baseline hardware brightness
-                    uint targetBrightness = _baselineBrightness.TryGetValue(monitor.DeviceName, out var b) ? b : 100;
-                    if (targetBrightness == 0) targetBrightness = 100;
+                    // 3. Restore hardware brightness (restore captured baseline if high/normal, else 100%)
+                    uint targetBrightness = 100;
+                    if (_baselineBrightness.TryGetValue(monitor.DeviceName, out var b) && b >= 70)
+                    {
+                        targetBrightness = b;
+                    }
 
                     if (monitor.SupportsDdcCi && monitor.SupportsHardwareBrightness)
                     {
@@ -279,7 +282,7 @@ namespace EyeFocus.Display
             {
                 if (monitor.SupportsDdcCi && monitor.SupportsHardwareBrightness)
                 {
-                    if (DdcCiController.GetBrightness(monitor, out uint curB) && curB > 0)
+                    if (DdcCiController.GetBrightness(monitor, out uint curB) && curB >= 70)
                     {
                         _baselineBrightness[monitor.DeviceName] = curB;
                         LogService.Debug($"Captured baseline hardware brightness for {monitor.DeviceName}: {curB}%");
@@ -288,7 +291,7 @@ namespace EyeFocus.Display
                 }
                 else if (monitor.SupportsWmiBrightness || monitor.IsInternal)
                 {
-                    if (WmiBrightnessController.GetBrightness(monitor, out uint curB) && curB > 0)
+                    if (WmiBrightnessController.GetBrightness(monitor, out uint curB) && curB >= 70)
                     {
                         _baselineBrightness[monitor.DeviceName] = curB;
                         LogService.Debug($"Captured baseline WMI brightness for {monitor.DeviceName}: {curB}%");

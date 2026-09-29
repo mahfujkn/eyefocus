@@ -72,5 +72,26 @@ namespace EyeFocus.Tests
             Assert.True(ramp.Green[0] <= 100);
             Assert.True(ramp.Blue[0] <= 100);
         }
+
+        [Fact]
+        public void IsNeutralRamp_IdentityRamp_ReturnsTrue()
+        {
+            var identity = EyeFocus.Display.Native.GdiNative.RgbRamp.CreateIdentity();
+            Assert.True(GammaController.IsNeutralRamp(identity));
+        }
+
+        [Fact]
+        public void IsNeutralRamp_WarmComfortProfileRamp_ReturnsFalse()
+        {
+            var warmRamp = _gammaController.GenerateGammaRamp(4200, 100, 94, 84);
+            Assert.False(GammaController.IsNeutralRamp(warmRamp), "Warm Comfort profile (4200K) must not be classified as neutral baseline.");
+        }
+
+        [Fact]
+        public void IsNeutralRamp_NightProfileRamp_ReturnsFalse()
+        {
+            var nightRamp = _gammaController.GenerateGammaRamp(3200, 100, 80, 60);
+            Assert.False(GammaController.IsNeutralRamp(nightRamp), "Night profile (3200K) must not be classified as neutral baseline.");
+        }
     }
 }
