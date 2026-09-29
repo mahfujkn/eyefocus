@@ -1,7 +1,12 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using Color = System.Windows.Media.Color;
+using Brush = System.Windows.Media.Brush;
 using EyeFocus.Automation;
 using EyeFocus.Display;
 using EyeFocus.Models;
@@ -35,6 +40,16 @@ namespace EyeFocus.ViewModels
         private string _nightModeDetails = "3000K · 40%";
         private string _dayStartTimeDisplay = "06:00";
         private string _nightStartTimeDisplay = "21:00";
+
+        private readonly System.Windows.Threading.DispatcherTimer? _timelineClockTimer;
+        private string _currentTimeText = DateTime.Now.ToString("h:mm tt");
+        private GridLength _timelineLeftWeight = new(50, GridUnitType.Star);
+        private GridLength _timelineRightWeight = new(50, GridUnitType.Star);
+        private GridLength _timelineCol0Weight = new(29, GridUnitType.Star);
+        private GridLength _timelineCol1Weight = new(46, GridUnitType.Star);
+        private GridLength _timelineCol2Weight = new(25, GridUnitType.Star);
+        private Color _currentTimePinColor = Color.FromRgb(245, 158, 11);
+        private Brush _currentTimePinBrush = new SolidColorBrush(Color.FromRgb(245, 158, 11));
 
         private bool _isDayModeActive;
         private bool _isNightModeActive;
@@ -115,14 +130,79 @@ namespace EyeFocus.ViewModels
         public string DayStartTimeDisplay
         {
             get => _dayStartTimeDisplay;
-            set => SetProperty(ref _dayStartTimeDisplay, value);
+            set
+            {
+                if (SetProperty(ref _dayStartTimeDisplay, value))
+                {
+                    UpdateTimelineColumnWeights();
+                }
+            }
         }
 
         public string NightStartTimeDisplay
         {
             get => _nightStartTimeDisplay;
-            set => SetProperty(ref _nightStartTimeDisplay, value);
+            set
+            {
+                if (SetProperty(ref _nightStartTimeDisplay, value))
+                {
+                    UpdateTimelineColumnWeights();
+                }
+            }
         }
+
+        public string CurrentTimeText
+        {
+            get => _currentTimeText;
+            private set => SetProperty(ref _currentTimeText, value);
+        }
+
+        public GridLength TimelineLeftWeight
+        {
+            get => _timelineLeftWeight;
+            private set => SetProperty(ref _timelineLeftWeight, value);
+        }
+
+        public GridLength TimelineRightWeight
+        {
+            get => _timelineRightWeight;
+            private set => SetProperty(ref _timelineRightWeight, value);
+        }
+
+        public GridLength TimelineCol0Weight
+        {
+            get => _timelineCol0Weight;
+            private set => SetProperty(ref _timelineCol0Weight, value);
+        }
+
+        public GridLength TimelineCol1Weight
+        {
+            get => _timelineCol1Weight;
+            private set => SetProperty(ref _timelineCol1Weight, value);
+        }
+
+        public GridLength TimelineCol2Weight
+        {
+            get => _timelineCol2Weight;
+            private set => SetProperty(ref _timelineCol2Weight, value);
+        }
+
+        public Color CurrentTimePinColor
+        {
+            get => _currentTimePinColor;
+            private set => SetProperty(ref _currentTimePinColor, value);
+        }
+
+        public Brush CurrentTimePinBrush
+        {
+            get => _currentTimePinBrush;
+            private set => SetProperty(ref _currentTimePinBrush, value);
+        }
+
+        public string DayTimeFormatted => FormatTime12H(DayStartTimeDisplay);
+        public string NightTimeFormatted => FormatTime12H(NightStartTimeDisplay);
+        public string DayScheduleRange => $"{DayTimeFormatted} – {NightTimeFormatted}";
+        public string NightScheduleRange => $"{NightTimeFormatted} – {DayTimeFormatted}";
 
         public DisplayProfile ActiveProfile
         {
@@ -345,6 +425,21 @@ namespace EyeFocus.ViewModels
 
             RefreshProfilesList();
             LoadState();
+
+            try
+            {
+                _timelineClockTimer = new System.Windows.Threading.DispatcherTimer
+                {
+                    Interval = TimeSpan.FromSeconds(1)
+                };
+                _timelineClockTimer.Tick += (s, e) => UpdateLiveTimeline();
+                _timelineClockTimer.Start();
+            }
+            catch
+            {
+                // Fallback for headless test runners
+            }
+            UpdateLiveTimeline();
         }
 
         public void LoadState()
@@ -625,6 +720,87 @@ namespace EyeFocus.ViewModels
                 SelectedMonitorTitle = "All Displays";
                 SelectedMonitorDisplayDetail = "Synchronized Multi-Monitor";
             }
+        }
+
+        private void UpdateLiveTimeline()
+        {
+            var now = DateTime.Now;
+            CurrentTimeText = now.ToString("h:mm tt");
+
+            double currentMins = now.TimeOfDay.TotalMinutes;
+            double progress = Math.Clamp(currentMins / 1440.0, 0.005, 0.995);
+
+            TimelineLeftWeight = new GridLength(progress * 1000.0, GridUnitType.Star);
+            TimelineRightWeight = new GridLength((1.0 - progress) * 1000.0, GridUnitType.Star);
+
+            bool isDay = IsDayTime(now.TimeOfDay);
+            CurrentTimePinColor = isDay ? Color.FromRgb(245, 158, 11) : Color.FromRgb(56, 189, 248);
+            CurrentTimePinBrush = new SolidColorBrush(CurrentTimePinColor);
+
+            UpdateTimelineColumnWeights();
+        }
+
+        private void UpdateTimelineColumnWeights()
+        {
+            double dayStartMin = ParseTimeToMinutes(DayStartTimeDisplay, 420); // 7:00 AM default
+            double nightStartMin = ParseTimeToMinutes(NightStartTimeDisplay, 1080); // 6:00 PM default
+
+            if (nightStartMin <= dayStartMin)
+            {
+                nightStartMin = Math.Min(dayStartMin + 600, 1380);
+            }
+
+            double col0 = Math.Max(dayStartMin, 60);
+            double col1 = Math.Max(nightStartMin - dayStartMin, 120);
+            double col2 = Math.Max(1440 - nightStartMin, 60);
+
+            TimelineCol0Weight = new GridLength(col0, GridUnitType.Star);
+            TimelineCol1Weight = new GridLength(col1, GridUnitType.Star);
+            TimelineCol2Weight = new GridLength(col2, GridUnitType.Star);
+
+            OnPropertyChanged(nameof(DayTimeFormatted));
+            OnPropertyChanged(nameof(NightTimeFormatted));
+            OnPropertyChanged(nameof(DayScheduleRange));
+            OnPropertyChanged(nameof(NightScheduleRange));
+        }
+
+        private static double ParseTimeToMinutes(string timeStr, double defaultMinutes)
+        {
+            if (TimeSpan.TryParse(timeStr, out var ts))
+            {
+                return ts.TotalMinutes;
+            }
+            if (DateTime.TryParse(timeStr, out var dt))
+            {
+                return dt.TimeOfDay.TotalMinutes;
+            }
+            return defaultMinutes;
+        }
+
+        private static string FormatTime12H(string timeStr)
+        {
+            if (DateTime.TryParseExact(timeStr, new[] { "HH:mm", "H:mm", "h:mm tt", "hh:mm tt" },
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt))
+            {
+                return dt.ToString("h:mm tt");
+            }
+            if (DateTime.TryParse(timeStr, out var dt2))
+            {
+                return dt2.ToString("h:mm tt");
+            }
+            return string.IsNullOrWhiteSpace(timeStr) ? "7:00 AM" : timeStr;
+        }
+
+        private bool IsDayTime(TimeSpan currentTime)
+        {
+            double cur = currentTime.TotalMinutes;
+            double dayStart = ParseTimeToMinutes(DayStartTimeDisplay, 420);
+            double nightStart = ParseTimeToMinutes(NightStartTimeDisplay, 1080);
+            if (nightStart > dayStart)
+            {
+                return cur >= dayStart && cur < nightStart;
+            }
+            return cur >= dayStart || cur < nightStart;
         }
     }
 

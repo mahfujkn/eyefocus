@@ -137,6 +137,29 @@ namespace EyeFocus.Tests
             Assert.False(vm.IsActive);
         }
 
+        [Fact]
+        public void LiveTimeline_CalculatesProportionsAndFormats_Accurately()
+        {
+            var vm = new DisplayDashboardViewModel(
+                new FakeDisplayEngine(),
+                new FakeProfileManager(),
+                new FakeSettingsStore(),
+                new FakeAutoDayNightService());
+
+            vm.DayStartTimeDisplay = "07:00";
+            vm.NightStartTimeDisplay = "18:00";
+
+            Assert.Equal("7:00 AM", vm.DayTimeFormatted);
+            Assert.Equal("6:00 PM", vm.NightTimeFormatted);
+            Assert.Equal("7:00 AM – 6:00 PM", vm.DayScheduleRange);
+            Assert.Equal("6:00 PM – 7:00 AM", vm.NightScheduleRange);
+
+            Assert.True(vm.TimelineLeftWeight.Value > 0);
+            Assert.True(vm.TimelineRightWeight.Value > 0);
+            Assert.Equal(1000.0, Math.Round(vm.TimelineLeftWeight.Value + vm.TimelineRightWeight.Value, 1));
+            Assert.NotEmpty(vm.CurrentTimeText);
+        }
+
         private class FakeSettingsStore : ISettingsStore
         {
             private AppSettings _settings = new();
