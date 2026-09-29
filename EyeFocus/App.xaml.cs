@@ -120,6 +120,18 @@ namespace EyeFocus
                     Dispatcher.Invoke(() =>
                     {
                         LogService.Info("Exit requested from tray context menu.");
+                        try
+                        {
+                            var currentSettings = _settingsStore?.Load();
+                            if (currentSettings == null || currentSettings.RestoreOnExit)
+                            {
+                                _displayEngine?.RestoreInitialState();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            LogService.Error("Error restoring display on tray exit", ex);
+                        }
                         _mainWindow?.ForceExit();
                         Shutdown();
                     });

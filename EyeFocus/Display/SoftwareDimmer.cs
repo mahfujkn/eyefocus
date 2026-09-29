@@ -75,25 +75,49 @@ namespace EyeFocus.Display
 
         public void ClearAll()
         {
-            System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+            var app = System.Windows.Application.Current;
+            if (app != null && app.Dispatcher != null && !app.Dispatcher.HasShutdownStarted && !app.Dispatcher.HasShutdownFinished)
             {
-                lock (_lock)
+                if (app.Dispatcher.CheckAccess())
                 {
-                    foreach (var kvp in _overlays)
-                    {
-                        try
-                        {
-                            kvp.Value.SetDimLevel(0);
-                            kvp.Value.Close();
-                        }
-                        catch
-                        {
-                            // Ignore close errors
-                        }
-                    }
-                    _overlays.Clear();
+                    ClearAllInternal();
                 }
-            });
+                else
+                {
+                    try
+                    {
+                        app.Dispatcher.Invoke(ClearAllInternal);
+                    }
+                    catch
+                    {
+                        ClearAllInternal();
+                    }
+                }
+            }
+            else
+            {
+                ClearAllInternal();
+            }
+        }
+
+        private void ClearAllInternal()
+        {
+            lock (_lock)
+            {
+                foreach (var kvp in _overlays)
+                {
+                    try
+                    {
+                        kvp.Value.SetDimLevel(0);
+                        kvp.Value.Close();
+                    }
+                    catch
+                    {
+                        // Ignore close errors
+                    }
+                }
+                _overlays.Clear();
+            }
         }
 
         public void Dispose()
