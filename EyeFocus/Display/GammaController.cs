@@ -122,7 +122,7 @@ namespace EyeFocus.Display
         public bool RestoreBaselineGamma(MonitorInfo monitor)
         {
             var key = monitor.DeviceName;
-            if (_baselineRamps.TryGetValue(key, out var baseline))
+            if (_baselineRamps.TryGetValue(key, out var baseline) && IsNeutralRamp(baseline))
             {
                 return SetMonitorGammaRamp(monitor, ref baseline, isBaselineRestore: true);
             }
@@ -135,6 +135,37 @@ namespace EyeFocus.Display
             return SetMonitorGammaRamp(monitor, ref identity, isBaselineRestore: true);
         }
 
+        public static bool IsNeutralRamp(GdiNative.RgbRamp ramp)
+        {
+            if (ramp.Red == null || ramp.Green == null || ramp.Blue == null ||
+                ramp.Red.Length < 256 || ramp.Green.Length < 256 || ramp.Blue.Length < 256)
+            {
+                return false;
+            }
+
+            int r255 = ramp.Red[255];
+            int g255 = ramp.Green[255];
+            int b255 = ramp.Blue[255];
+
+            // If channels are below reasonable brightness or Blue is significantly lower than Red (warm tint / night light)
+            if (r255 < 50000 || g255 < 50000 || b255 < 50000)
+            {
+                return false;
+            }
+
+            if (b255 < r255 * 0.95)
+            {
+                return false;
+            }
+
+            if (Math.Abs(r255 - b255) > 4000 || Math.Abs(r255 - g255) > 4000)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private bool SetMonitorGammaRamp(MonitorInfo monitor, ref GdiNative.RgbRamp ramp, bool isBaselineRestore = false)
         {
             try
@@ -142,18 +173,34 @@ namespace EyeFocus.Display
                 var hdc = GdiNative.CreateDC("DISPLAY", monitor.DeviceName, null, IntPtr.Zero);
                 if (hdc == IntPtr.Zero)
                 {
+                    hdc = GdiNative.CreateDC("DISPLAY", null, null, IntPtr.Zero);
+                }
+                if (hdc == IntPtr.Zero)
+                {
                     LogService.Warn($"Failed to create DC for monitor: {monitor.DeviceName}");
                     return false;
                 }
 
-                // Capture baseline on first access
+                // Capture baseline on first access, only if it is genuinely neutral
                 var key = monitor.DeviceName;
                 if (!_baselineRamps.ContainsKey(key) && !isBaselineRestore)
                 {
                     if (GdiNative.GetDeviceGammaRamp(hdc, out var initialRamp))
                     {
-                        _baselineRamps[key] = initialRamp;
-                        LogService.Debug($"Captured baseline gamma ramp for {monitor.DeviceName}");
+                        if (IsNeutralRamp(initialRamp))
+                        {
+                            _baselineRamps[key] = initialRamp;
+                            LogService.Debug($"Captured neutral baseline gamma ramp for {monitor.DeviceName}");
+                        }
+                        else
+                        {
+                            _baselineRamps[key] = GdiNative.RgbRamp.CreateIdentity();
+                            LogService.Debug($"Current gamma ramp on {monitor.DeviceName} is warm/tinted; stored identity ramp as baseline.");
+                        }
+                    }
+                    else
+                    {
+                        _baselineRamps[key] = GdiNative.RgbRamp.CreateIdentity();
                     }
                 }
 
