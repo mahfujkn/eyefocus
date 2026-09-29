@@ -83,8 +83,8 @@
                         </StackPanel>
                     </Grid>
 
-                    <!-- Navigation Items & Quick Actions List -->
-                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <!-- Vertical Navigation Items (Text + Icons) & Quick Actions -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
                         <StackPanel Margin="0,0,2,0">
                             <!-- 1. Display -->
                             <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
@@ -108,11 +108,20 @@
                             <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
                                          Tag="{StaticResource IconPrivacy}"
                                          IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=Privacy, Mode=TwoWay}"
-                                         Content="Privacy" />
+                                         Content="Privacy &amp; Security" />
+
+                            <!-- 5. About & GitHub -->
+                            <RadioButton Style="{StaticResource SidebarNavButtonStyle}" GroupName="SidebarNav"
+                                         Tag="{StaticResource IconAbout}"
+                                         IsChecked="{Binding CurrentTab, Converter={StaticResource TabToBooleanConverter}, ConverterParameter=About, Mode=TwoWay}"
+                                         Content="About &amp; GitHub" />
+
+                            <!-- Separator Line -->
+                            <Rectangle Height="1" Fill="{DynamicResource OutlineVariantBrush}" Margin="8,14,8,12" SnapsToDevicePixels="True" />
 
                             <!-- QUICK ACTIONS SECTION -->
                             <TextBlock Text="QUICK ACTIONS" FontWeight="SemiBold" FontSize="10"
-                                       Foreground="#94A3B8" Margin="8,20,0,8" />
+                                       Foreground="#94A3B8" Margin="8,0,0,8" />
 
                             <!-- 1. Pause for 20 minutes -->
                             <Button Style="{StaticResource SidebarActionButtonStyle}" Command="{Binding Pause20MinCommand}" ToolTip="Pause EyeFocus display effects for 20 minutes">
@@ -148,22 +157,10 @@
                         </StackPanel>
                     </ScrollViewer>
 
-                    <!-- Bottom Health Card: Your eyes matter -->
-                    <Border Grid.Row="2" Background="{DynamicResource SurfaceBrush}"
-                            BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1"
-                            CornerRadius="12" Padding="12,10" Margin="0,12,0,0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Path Grid.Column="0" Data="{StaticResource IconHealthWave}" Fill="#10B981" Width="18" Height="18" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,10,0" />
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="Your eyes matter" FontWeight="Bold" FontSize="11.5" Foreground="{DynamicResource OnSurfaceBrush}" />
-                                <TextBlock Text="A more comfortable display for a healthier you." FontSize="9.5" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,2,0,0" />
-                            </StackPanel>
-                        </Grid>
-                    </Border>
+                    <!-- Sidebar Footer Info -->
+                    <StackPanel Grid.Row="2" Margin="6,10,0,0">
+                        <TextBlock Text="Version 1.0.0 Stable" FontSize="10" Foreground="{DynamicResource OutlineBrush}" />
+                    </StackPanel>
                 </Grid>
             </Border>
 

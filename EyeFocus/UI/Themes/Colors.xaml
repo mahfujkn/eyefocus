@@ -71,6 +71,10 @@
     <SolidColorBrush x:Key="OutlineBrush" Color="{StaticResource OutlineColor}" />
     <SolidColorBrush x:Key="OutlineVariantBrush" Color="{StaticResource OutlineVariantColor}" />
 
+    <!-- Modern Toggle Switch Colors & Brushes (Sample Design) -->
+    <Color x:Key="SwitchTrackOffColor">#3E4C5E</Color>
+    <SolidColorBrush x:Key="SwitchTrackOffBrush" Color="{StaticResource SwitchTrackOffColor}" />
+
     <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}" />
     <SolidColorBrush x:Key="OnErrorBrush" Color="{StaticResource OnErrorColor}" />
     <SolidColorBrush x:Key="ErrorContainerBrush" Color="{StaticResource ErrorContainerColor}" />
@@ -125,7 +129,7 @@
     <Color x:Key="KelvinBadgeBorderColor">#5C3B08</Color>
 
     <!-- Timeline Track (Themed) -->
-    <Color x:Key="TimelineNightTrackColor">#334155</Color>
+    <Color x:Key="TimelineNightTrackColor">#4A5C91</Color>
 
     <!-- Corresponding SolidColorBrushes -->
     <SolidColorBrush x:Key="DayModeCardBackgroundBrush" Color="{StaticResource DayModeCardBackgroundColor}" />

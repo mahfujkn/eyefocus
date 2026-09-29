@@ -61,10 +61,10 @@ namespace EyeFocus.UI.Themes
                     // Clean Windows Desktop Utility Light Theme (Exact match to Mockup Design)
                     ApplyPalette(
                         app,
-                        primary: "#00A88F",
+                        primary: "#00796B",
                         onPrimary: "#F8FAFC",
-                        primaryContainer: "#E6F7F5",
-                        onPrimaryContainer: "#00A88F",
+                        primaryContainer: "#E5F5F6",
+                        onPrimaryContainer: "#00796B",
                         secondary: "#475569",
                         onSecondary: "#FFFFFF",
                         secondaryContainer: "#F1F5F9",
@@ -91,7 +91,7 @@ namespace EyeFocus.UI.Themes
                         onErrorContainer: "#7F1D1D",
                         success: "#10B981",
                         warmAccent: "#F59E0B",
-                        coolAccent: "#00A88F",
+                        coolAccent: "#00796B",
                         nightAccent: "#3B82F6"
                     );
                 }
@@ -172,7 +172,10 @@ namespace EyeFocus.UI.Themes
                 SetToken(app, "KelvinBadgeBorder", isLight ? "#FDE68A" : "#5C3B08");
 
                 // Timeline Track
-                SetToken(app, "TimelineNightTrack", isLight ? "#CBD5E1" : "#334155");
+                SetToken(app, "TimelineNightTrack", isLight ? "#4A5C91" : "#334155");
+
+                // Toggle Switch Off Track (Sample Design Synced with Theme)
+                SetToken(app, "SwitchTrackOff", isLight ? "#D1D5DB" : "#3E4C5E");
 
                 // RGB Slider Tracks
                 SetToken(app, "SliderRedFill", "#EF4444");

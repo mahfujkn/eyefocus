@@ -104,6 +104,23 @@ namespace EyeFocus.Tests
         }
 
         [Fact]
+        public void DisplayDashboardViewModel_ScheduleToggleText_ReflectsEnabledState()
+        {
+            var fakeProfileManager = new FakeProfileManager();
+            var fakeEngine = new FakeDisplayEngine();
+            var fakeSettingsStore = new FakeSettingsStore();
+            var fakeAutoService = new FakeAutoDayNightService();
+
+            var vm = new DisplayDashboardViewModel(fakeEngine, fakeProfileManager, fakeSettingsStore, fakeAutoService);
+
+            vm.IsAutomaticDayNightEnabled = true;
+            Assert.Equal("Schedule enabled", vm.ScheduleToggleText);
+
+            vm.IsAutomaticDayNightEnabled = false;
+            Assert.Equal("Schedule disabled", vm.ScheduleToggleText);
+        }
+
+        [Fact]
         public void EyeExerciseViewModel_OpenAndReset_OperatesCorrectly()
         {
             var vm = new EyeExerciseViewModel();

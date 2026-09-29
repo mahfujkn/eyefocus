@@ -82,9 +82,12 @@ namespace EyeFocus.ViewModels
                     {
                         SnackbarService.Instance.Show("Automatic Day/Night disabled (Manual Mode active)");
                     }
+                    OnPropertyChanged(nameof(ScheduleToggleText));
                 }
             }
         }
+
+        public string ScheduleToggleText => IsAutomaticDayNightEnabled ? "Schedule enabled" : "Schedule disabled";
 
         public string AutoDayNightStatusText
         {
@@ -302,6 +305,7 @@ namespace EyeFocus.ViewModels
                     _isAutomaticDayNightEnabled = _autoDayNightService.IsEnabled;
                     OnPropertyChanged(nameof(IsAutomaticDayNightEnabled));
                     OnPropertyChanged(nameof(AutoDayNightStatusText));
+                    OnPropertyChanged(nameof(ScheduleToggleText));
                     UpdateDayNightActiveStates();
                 });
             };
@@ -313,6 +317,7 @@ namespace EyeFocus.ViewModels
                     _isAutomaticDayNightEnabled = enabled;
                     OnPropertyChanged(nameof(IsAutomaticDayNightEnabled));
                     OnPropertyChanged(nameof(AutoDayNightStatusText));
+                    OnPropertyChanged(nameof(ScheduleToggleText));
                     UpdateDayNightActiveStates();
                 });
             };
@@ -333,6 +338,7 @@ namespace EyeFocus.ViewModels
                     _isAutomaticDayNightEnabled = newSettings.AutomaticDayNightEnabled;
                     OnPropertyChanged(nameof(IsAutomaticDayNightEnabled));
                     OnPropertyChanged(nameof(AutoDayNightStatusText));
+                    OnPropertyChanged(nameof(ScheduleToggleText));
                     UpdateDayNightActiveStates();
                 });
             };
@@ -363,6 +369,7 @@ namespace EyeFocus.ViewModels
             _isAutomaticDayNightEnabled = _autoDayNightService.IsEnabled;
             OnPropertyChanged(nameof(IsAutomaticDayNightEnabled));
             OnPropertyChanged(nameof(AutoDayNightStatusText));
+            OnPropertyChanged(nameof(ScheduleToggleText));
 
             var active = _profileManager.GetActiveProfile();
             SyncFromProfile(active);

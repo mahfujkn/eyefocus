@@ -19,6 +19,7 @@ namespace EyeFocus.Display
         public int CurrentKelvin { get; private set; } = 5500;
         public int CurrentBrightness { get; private set; } = 75;
         public int CurrentSoftwareDim { get; private set; } = 0;
+        private readonly System.Collections.Concurrent.ConcurrentDictionary<string, uint> _baselineBrightness = new();
 
         public DisplayEngine(
             IMonitorManager monitorManager,
@@ -159,6 +160,7 @@ namespace EyeFocus.Display
 
             foreach (var monitor in monitors)
             {
+                CaptureBaselineBrightnessIfNeeded(monitor);
                 bool hwSuccess = false;
 
                 if (settings.HardwareBrightnessPreference != "PreferSoftware")
@@ -229,15 +231,82 @@ namespace EyeFocus.Display
             var monitors = MonitorManager.GetMonitors();
             foreach (var monitor in monitors)
             {
-                GammaController.RestoreBaselineGamma(monitor);
-                SoftwareDimmer.SetDimLevel(monitor, 0);
+                try
+                {
+                    // 1. Restore baseline gamma ramp
+                    GammaController.RestoreBaselineGamma(monitor);
+
+                    // 2. Clear software dimming
+                    SoftwareDimmer.SetDimLevel(monitor, 0);
+
+                    // 3. Restore baseline hardware brightness
+                    uint targetBrightness = _baselineBrightness.TryGetValue(monitor.DeviceName, out var b) ? b : 100;
+                    if (targetBrightness == 0) targetBrightness = 100;
+
+                    if (monitor.SupportsDdcCi && monitor.SupportsHardwareBrightness)
+                    {
+                        DdcCiController.SetBrightness(monitor, targetBrightness);
+                    }
+                    else if (monitor.SupportsWmiBrightness || monitor.IsInternal)
+                    {
+                        WmiBrightnessController.SetBrightness(monitor, targetBrightness);
+                    }
+
+                    // 4. Restore hardware color temp if supported
+                    if (monitor.SupportsHardwareColorTemperature)
+                    {
+                        HardwareColorController.ApplyHardwareColorTemperature(monitor, 6500);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogService.Error($"Error restoring display state on monitor {monitor.DeviceName}", ex);
+                }
             }
+
             SoftwareDimmer.ClearAll();
+            CurrentKelvin = 6500;
+            CurrentBrightness = 100;
+            CurrentSoftwareDim = 0;
             LogService.Info("Restored baseline display state.");
+        }
+
+        private void CaptureBaselineBrightnessIfNeeded(MonitorInfo monitor)
+        {
+            if (_baselineBrightness.ContainsKey(monitor.DeviceName)) return;
+
+            try
+            {
+                if (monitor.SupportsDdcCi && monitor.SupportsHardwareBrightness)
+                {
+                    if (DdcCiController.GetBrightness(monitor, out uint curB) && curB > 0)
+                    {
+                        _baselineBrightness[monitor.DeviceName] = curB;
+                        LogService.Debug($"Captured baseline hardware brightness for {monitor.DeviceName}: {curB}%");
+                        return;
+                    }
+                }
+                else if (monitor.SupportsWmiBrightness || monitor.IsInternal)
+                {
+                    if (WmiBrightnessController.GetBrightness(monitor, out uint curB) && curB > 0)
+                    {
+                        _baselineBrightness[monitor.DeviceName] = curB;
+                        LogService.Debug($"Captured baseline WMI brightness for {monitor.DeviceName}: {curB}%");
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogService.Debug($"Could not query baseline brightness for {monitor.DeviceName}: {ex.Message}");
+            }
+
+            _baselineBrightness[monitor.DeviceName] = 100;
         }
 
         private void ApplyToSingleMonitor(MonitorInfo monitor, int kelvin, int brightness, int red, int green, int blue, int softwareDim, int? contrast)
         {
+            CaptureBaselineBrightnessIfNeeded(monitor);
             var settings = _settingsStore.Load();
 
             // 1. Color / Temperature (Hardware -> Gamma Fallback)

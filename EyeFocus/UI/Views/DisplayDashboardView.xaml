@@ -12,7 +12,7 @@
               TextOptions.TextRenderingMode="ClearType"
               RenderOptions.ClearTypeHint="Enabled">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="24,18,24,22" HorizontalAlignment="Stretch">
 
             <!-- 1. TOP HEADER & LIVE STATUS PILL -->
@@ -266,11 +266,39 @@
 
                         <!-- Schedule Enabled Toggle Switch -->
                         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                            <CheckBox Style="{StaticResource M3SwitchStyle}" IsChecked="{Binding IsAutomaticDayNightEnabled, Mode=TwoWay}" ToolTip="Toggle automatic day/night schedule">
-                                <TextBlock Text="Schedule enabled" FontSize="12.5" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" Margin="8,0,0,0" />
+                            <CheckBox Style="{StaticResource M3SwitchStyle}" 
+                                      IsChecked="{Binding IsAutomaticDayNightEnabled, Mode=TwoWay}" 
+                                      ToolTip="Toggle automatic day/night schedule"
+                                      VerticalAlignment="Center">
+                                <TextBlock Text="{Binding ScheduleToggleText}" 
+                                           FontSize="12.5" 
+                                           FontWeight="SemiBold" 
+                                           VerticalAlignment="Center">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="{DynamicResource OutlineBrush}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsAutomaticDayNightEnabled}" Value="True">
+                                                    <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </CheckBox>
-                            <Button Style="{StaticResource M3IconButtonStyle}" Command="{Binding ConfigureAutoDayNightCommand}" Margin="10,0,0,0" Padding="5" ToolTip="Configure schedule hours">
-                                <Path Data="{StaticResource IconSettings}" Fill="{DynamicResource OutlineBrush}" Width="13" Height="13" Stretch="Uniform" />
+                            <Button Style="{StaticResource M3IconButtonStyle}" 
+                                    Command="{Binding ConfigureAutoDayNightCommand}" 
+                                    Width="26" Height="26" 
+                                    Padding="0"
+                                    Margin="12,0,0,0" 
+                                    ToolTip="Configure schedule hours"
+                                    VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconSettings}" 
+                                      Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" 
+                                      Width="13" Height="13" 
+                                      Stretch="Uniform" 
+                                      HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center" />
                             </Button>
                         </StackPanel>
                     </Grid>
@@ -333,33 +361,69 @@
                             </StackPanel>
                         </Button>
 
-                        <!-- Center: Timeline Bar Visualization -->
-                        <Grid Grid.Column="2" VerticalAlignment="Center">
-                            <StackPanel>
-                                <!-- Sun & Moon Markers above timeline -->
-                                <Grid Margin="12,0,12,8">
-                                    <Path HorizontalAlignment="Left" Data="{StaticResource IconSun}" Fill="#F59E0B" Width="12" Height="12" Stretch="Uniform" />
-                                    <Path HorizontalAlignment="Right" Data="{StaticResource IconNight}" Fill="{DynamicResource NightAccentBrush}" Width="12" Height="12" Stretch="Uniform" />
-                                </Grid>
+                        <!-- Center: Timeline Bar Visualization (Exact match to Mockup) -->
+                        <Grid Grid.Column="2" VerticalAlignment="Center" Margin="10,0">
+                            <!-- Proportions matching mockup: Col 0: 20* (Before 7 AM) | Col 1: 44* (Day 7 AM - 6 PM) | Col 2: 36* (Night 6 PM+) -->
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20*" />
+                                <ColumnDefinition Width="44*" />
+                                <ColumnDefinition Width="36*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                                <!-- Dual-Color Timeline Bar -->
-                                <Border Height="10" CornerRadius="5" ClipToBounds="True" Background="{DynamicResource TimelineNightTrackBrush}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="58*" />
-                                            <ColumnDefinition Width="42*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Border Grid.Column="0" Background="#F59E0B" />
-                                        <Border Grid.Column="1" Background="{DynamicResource TimelineNightTrackBrush}" />
-                                    </Grid>
-                                </Border>
+                            <!-- Row 0: Sun & Moon Icons -->
+                            <!-- Sun Icon above Daytime segment -->
+                            <Path Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="12,0,0,10"
+                                  Data="{StaticResource IconSun}" Fill="#FEB836"
+                                  Width="24" Height="24" Stretch="Uniform" />
+                            <!-- Moon Icon above Nighttime segment -->
+                            <Path Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Margin="0,0,0,10"
+                                  Data="{StaticResource IconMoon}" Fill="{DynamicResource TimelineNightTrackBrush}"
+                                  Width="20" Height="20" Stretch="Uniform" />
 
-                                <!-- Time labels below bar -->
-                                <Grid Margin="6,8,6,0">
-                                    <TextBlock HorizontalAlignment="Left" Text="7:00 AM" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
-                                    <TextBlock HorizontalAlignment="Right" Text="6:00 PM" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
-                                </Grid>
-                            </StackPanel>
+                            <!-- Row 1: Dual-Color Rounded Pill Bar (Spans all 3 columns) -->
+                            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                  Height="12" VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20*" />
+                                    <ColumnDefinition Width="44*" />
+                                    <ColumnDefinition Width="36*" />
+                                </Grid.ColumnDefinitions>
+                                <!-- Golden Amber Day Bar covers Col 0 and Col 1 up to 6:00 PM with rounded left pill end -->
+                                <Border Grid.Column="0" Grid.ColumnSpan="2" Background="#FEB836" CornerRadius="6,0,0,6" SnapsToDevicePixels="True" />
+                                <!-- Slate Navy Night Bar in Col 2 with rounded right pill end -->
+                                <Border Grid.Column="2" Background="{DynamicResource TimelineNightTrackBrush}" CornerRadius="0,6,6,0" SnapsToDevicePixels="True" />
+                            </Grid>
+
+                            <!-- Dashed Marker 1 at 7:00 AM boundary (Col 1 Left edge, extends above & below bar) -->
+                            <Line Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"
+                                  X1="0" Y1="0" X2="0" Y2="27"
+                                  Stroke="#CBD5E1" StrokeThickness="1.5" StrokeDashArray="2,2"
+                                  VerticalAlignment="Center" SnapsToDevicePixels="True" />
+
+                            <!-- Dashed Marker 2 at 6:00 PM boundary (Col 2 Left edge, extends above & below bar) -->
+                            <Line Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"
+                                  X1="0" Y1="0" X2="0" Y2="27"
+                                  Stroke="#CBD5E1" StrokeThickness="1.5" StrokeDashArray="2,2"
+                                  VerticalAlignment="Center" SnapsToDevicePixels="True" />
+
+                            <!-- Row 2: Time Labels centered under dashed markers -->
+                            <!-- Label 1: 7:00 AM -->
+                            <Canvas Grid.Row="2" Grid.Column="1" Height="22" ClipToBounds="False">
+                                <TextBlock Text="7:00 AM" Canvas.Left="-26" Canvas.Top="8"
+                                           FontSize="11" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource OutlineBrush}" />
+                            </Canvas>
+                            <!-- Label 2: 6:00 PM -->
+                            <Canvas Grid.Row="2" Grid.Column="2" Height="22" ClipToBounds="False">
+                                <TextBlock Text="6:00 PM" Canvas.Left="-26" Canvas.Top="8"
+                                           FontSize="11" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource OutlineBrush}" />
+                            </Canvas>
                         </Grid>
 
                         <!-- Right: Night Mode Box -->
@@ -484,16 +548,10 @@
                                                                     <TextBlock Text="{Binding Description}" FontSize="11" Foreground="{DynamicResource OutlineBrush}" TextWrapping="Wrap" Margin="0,3,0,0" MaxHeight="32" LineHeight="15" LineStackingStrategy="BlockLineHeight" />
                                                                 </StackPanel>
 
-                                                                <!-- Active Checkmark Badge vs Inactive Chevron -->
-                                                                <Grid Grid.Column="2" VerticalAlignment="Center" Margin="8,0,0,0">
-                                                                    <!-- Checkmark badge when Active -->
-                                                                    <Border x:Name="ActiveBadge" Width="20" Height="20" CornerRadius="10" Background="{DynamicResource PrimaryBrush}" Visibility="Collapsed">
-                                                                        <Path Data="{StaticResource IconCheck}" Fill="{DynamicResource OnPrimaryBrush}" Width="10" Height="10" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                                    </Border>
-
-                                                                    <!-- Chevron when Inactive -->
-                                                                    <Path x:Name="InactiveChevron" Data="{StaticResource IconChevronRight}" Fill="#94A3B8" Width="8" Height="8" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                                </Grid>
+                                                                <!-- Active Checkmark Badge -->
+                                                                <Border x:Name="ActiveBadge" Grid.Column="2" Width="20" Height="20" CornerRadius="10" Background="{DynamicResource PrimaryBrush}" Visibility="Collapsed" VerticalAlignment="Center" Margin="8,0,0,0">
+                                                                    <Path Data="{StaticResource IconCheck}" Fill="{DynamicResource OnPrimaryBrush}" Width="10" Height="10" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                </Border>
                                                             </Grid>
                                                         </Border>
                                                         <ControlTemplate.Triggers>
@@ -505,7 +563,6 @@
                                                                 <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
                                                                 <Setter TargetName="CardBorder" Property="BorderThickness" Value="1.5" />
                                                                 <Setter TargetName="ActiveBadge" Property="Visibility" Value="Visible" />
-                                                                <Setter TargetName="InactiveChevron" Property="Visibility" Value="Collapsed" />
                                                             </DataTrigger>
                                                         </ControlTemplate.Triggers>
                                                     </ControlTemplate>

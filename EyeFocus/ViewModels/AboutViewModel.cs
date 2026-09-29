@@ -12,7 +12,7 @@ namespace EyeFocus.ViewModels
 
         public string RepositoryUrl => "https://github.com/mahfujkn/EyeFocus";
         public string ReleasesUrl => "https://github.com/mahfujkn/EyeFocus/releases";
-        public string DeveloperName => "Mahfuj Khan Rafsan";
+        public string DeveloperName { get; set; } = "Mahfuj Khan Rafsan";
         public string DeveloperUrl => "https://github.com/mahfujkn";
 
         public ICommand OpenRepositoryCommand { get; }
