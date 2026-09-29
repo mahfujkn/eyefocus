@@ -15,8 +15,7 @@
     <Border Background="{DynamicResource SurfaceContainerBrush}"
             BorderBrush="{DynamicResource OutlineVariantBrush}"
             BorderThickness="1"
-            CornerRadius="14"
-            ClipToBounds="True">
+            CornerRadius="14">
         <Border.Effect>
             <DropShadowEffect BlurRadius="28" ShadowDepth="8" Opacity="0.45" Color="#000000" />
         </Border.Effect>
@@ -32,6 +31,7 @@
                     Background="{DynamicResource SurfaceContainerLowBrush}"
                     BorderBrush="{DynamicResource OutlineVariantBrush}"
                     BorderThickness="0,0,0,1"
+                    CornerRadius="13,13,0,0"
                     Padding="18,12">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -180,6 +180,7 @@
                     Background="{DynamicResource SurfaceContainerLowBrush}"
                     BorderBrush="{DynamicResource OutlineVariantBrush}"
                     BorderThickness="0,1,0,0"
+                    CornerRadius="0,0,13,13"
                     Padding="16,10">
                 <Grid>
                     <Grid.ColumnDefinitions>
