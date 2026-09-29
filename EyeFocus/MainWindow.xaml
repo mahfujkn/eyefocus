@@ -159,7 +159,7 @@
 
                     <!-- Sidebar Footer Info -->
                     <StackPanel Grid.Row="2" Margin="6,10,0,0">
-                        <TextBlock Text="Version 1.0.0 Stable" FontSize="10" Foreground="{DynamicResource OutlineBrush}" />
+                        <TextBlock Text="{Binding AppVersion}" FontSize="10" Foreground="{DynamicResource OutlineBrush}" />
                     </StackPanel>
                 </Grid>
             </Border>

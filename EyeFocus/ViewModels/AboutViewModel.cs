@@ -6,7 +6,7 @@ namespace EyeFocus.ViewModels
     public class AboutViewModel : ViewModelBase
     {
         public string AppName => "EyeFocus";
-        public string Version => "v1.0.0 Stable";
+        public string Version => "v1.1.0";
         public string Tagline => "Your display. Your comfort. Your control.";
         public string Description => "EyeFocus is a privacy-first, open-source Windows display comfort utility for controlling brightness, color temperature, and display profiles locally with Material Design 3 Expressive UI.";
 

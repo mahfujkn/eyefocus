@@ -39,6 +39,7 @@ namespace EyeFocus.ViewModels
         private Action? _snackbarActionCallback;
 
         public ObservableCollection<MonitorSelectorItem> MonitorSelectorItems { get; } = new();
+        public string AppVersion => "Version 1.1.0";
 
         public string CurrentTab
         {
