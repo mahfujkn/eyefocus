@@ -9,6 +9,27 @@ namespace EyeFocus.UI.Views
         public DisplayDashboardView()
         {
             InitializeComponent();
+            Loaded += (s, e) =>
+            {
+                if (DataContext is ViewModels.DisplayDashboardViewModel vm)
+                {
+                    vm.StartTimelineClock();
+                }
+            };
+            Unloaded += (s, e) =>
+            {
+                if (DataContext is ViewModels.DisplayDashboardViewModel vm)
+                {
+                    vm.StopTimelineClock();
+                }
+            };
+            DataContextChanged += (s, e) =>
+            {
+                if (e.NewValue is ViewModels.DisplayDashboardViewModel vm && IsLoaded)
+                {
+                    vm.StartTimelineClock();
+                }
+            };
         }
 
         private void OnBrightnessSliderMouseWheel(object sender, MouseWheelEventArgs e)

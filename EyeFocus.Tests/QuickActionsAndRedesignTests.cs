@@ -38,6 +38,7 @@ namespace EyeFocus.Tests
         [Fact]
         public void ProfileCardItemViewModel_HasDistinctColorBrushes()
         {
+            EyeFocus.UI.Themes.ThemeService.ApplyTheme("Light");
             var profiles = ProfileDefaults.GetDefaultProfiles();
             var comfortProfile = profiles.First(p => p.Id == ProfileDefaults.IdComfort);
             var gameProfile = profiles.First(p => p.Id == ProfileDefaults.IdGame);
@@ -158,6 +159,10 @@ namespace EyeFocus.Tests
             Assert.True(vm.TimelineRightWeight.Value > 0);
             Assert.Equal(1000.0, Math.Round(vm.TimelineLeftWeight.Value + vm.TimelineRightWeight.Value, 1));
             Assert.NotEmpty(vm.CurrentTimeText);
+
+            Assert.NotNull(vm.TimelineSkyGradientBrush);
+            Assert.True(vm.TimelineSkyGradientBrush.GradientStops.Count >= 8);
+            Assert.True(vm.TimelineSkyGradientBrush.IsFrozen);
         }
 
         private class FakeSettingsStore : ISettingsStore

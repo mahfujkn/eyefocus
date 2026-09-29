@@ -52,9 +52,13 @@ namespace EyeFocus.UI.Themes
             }
 
             var app = System.Windows.Application.Current;
-            if (app == null) return;
+            if (app == null)
+            {
+                ThemeChanged?.Invoke(_activeTheme);
+                return;
+            }
 
-            app.Dispatcher.Invoke(() =>
+            Action applyAction = () =>
             {
                 if (_activeTheme == "Light")
                 {
@@ -183,7 +187,27 @@ namespace EyeFocus.UI.Themes
                 SetToken(app, "SliderBlueFill", "#3B82F6");
 
                 ThemeChanged?.Invoke(_activeTheme);
-            });
+            };
+
+            if (app.Dispatcher.CheckAccess())
+            {
+                applyAction();
+            }
+            else if (!app.Dispatcher.HasShutdownStarted && !app.Dispatcher.HasShutdownFinished)
+            {
+                try
+                {
+                    app.Dispatcher.Invoke(applyAction);
+                }
+                catch
+                {
+                    ThemeChanged?.Invoke(_activeTheme);
+                }
+            }
+            else
+            {
+                ThemeChanged?.Invoke(_activeTheme);
+            }
         }
 
         private static void ApplyPalette(

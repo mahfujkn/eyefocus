@@ -56,8 +56,8 @@ namespace EyeFocus
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            var settings = _settingsStore.Load();
-            if (settings.MinimizeToTray && !_isExplicitExit)
+            var settings = _settingsStore?.Load();
+            if (settings != null && settings.MinimizeToTray && !_isExplicitExit)
             {
                 e.Cancel = true;
                 this.Hide();

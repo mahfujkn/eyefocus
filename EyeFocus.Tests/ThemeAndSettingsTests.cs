@@ -95,6 +95,7 @@ namespace EyeFocus.Tests
                     Assert.NotNull(app.Resources["BrightnessBadgeBackgroundBrush"]);
                     Assert.NotNull(app.Resources["KelvinBadgeBackgroundBrush"]);
                     Assert.NotNull(app.Resources["BrightnessHeaderCircleBgBrush"]);
+                    window.Close();
                 }
                 catch (Exception ex)
                 {
@@ -105,7 +106,8 @@ namespace EyeFocus.Tests
             });
             thread.SetApartmentState(System.Threading.ApartmentState.STA);
             thread.Start();
-            thread.Join();
+            bool finished = thread.Join(8000);
+            Assert.True(finished, "STA thread timed out");
         }
     }
 }

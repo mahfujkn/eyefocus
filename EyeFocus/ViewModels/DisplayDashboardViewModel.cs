@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Color = System.Windows.Media.Color;
 using Brush = System.Windows.Media.Brush;
+using Point = System.Windows.Point;
 using EyeFocus.Automation;
 using EyeFocus.Display;
 using EyeFocus.Models;
@@ -41,7 +42,7 @@ namespace EyeFocus.ViewModels
         private string _dayStartTimeDisplay = "06:00";
         private string _nightStartTimeDisplay = "21:00";
 
-        private readonly System.Windows.Threading.DispatcherTimer? _timelineClockTimer;
+        private System.Windows.Threading.DispatcherTimer? _timelineClockTimer;
         private string _currentTimeText = DateTime.Now.ToString("h:mm tt");
         private GridLength _timelineLeftWeight = new(50, GridUnitType.Star);
         private GridLength _timelineRightWeight = new(50, GridUnitType.Star);
@@ -50,6 +51,7 @@ namespace EyeFocus.ViewModels
         private GridLength _timelineCol2Weight = new(25, GridUnitType.Star);
         private Color _currentTimePinColor = Color.FromRgb(245, 158, 11);
         private Brush _currentTimePinBrush = new SolidColorBrush(Color.FromRgb(245, 158, 11));
+        private LinearGradientBrush _timelineSkyGradientBrush = new();
 
         private bool _isDayModeActive;
         private bool _isNightModeActive;
@@ -197,6 +199,12 @@ namespace EyeFocus.ViewModels
         {
             get => _currentTimePinBrush;
             private set => SetProperty(ref _currentTimePinBrush, value);
+        }
+
+        public LinearGradientBrush TimelineSkyGradientBrush
+        {
+            get => _timelineSkyGradientBrush;
+            private set => SetProperty(ref _timelineSkyGradientBrush, value);
         }
 
         public string DayTimeFormatted => FormatTime12H(DayStartTimeDisplay);
@@ -426,19 +434,8 @@ namespace EyeFocus.ViewModels
             RefreshProfilesList();
             LoadState();
 
-            try
-            {
-                _timelineClockTimer = new System.Windows.Threading.DispatcherTimer
-                {
-                    Interval = TimeSpan.FromSeconds(1)
-                };
-                _timelineClockTimer.Tick += (s, e) => UpdateLiveTimeline();
-                _timelineClockTimer.Start();
-            }
-            catch
-            {
-                // Fallback for headless test runners
-            }
+            ThemeService.ThemeChanged += OnThemeChanged;
+
             UpdateLiveTimeline();
         }
 
@@ -722,6 +719,40 @@ namespace EyeFocus.ViewModels
             }
         }
 
+        public void StartTimelineClock()
+        {
+            try
+            {
+                if (_timelineClockTimer == null)
+                {
+                    _timelineClockTimer = new System.Windows.Threading.DispatcherTimer
+                    {
+                        Interval = TimeSpan.FromSeconds(1)
+                    };
+                    _timelineClockTimer.Tick += (s, e) => UpdateLiveTimeline();
+                }
+                if (!_timelineClockTimer.IsEnabled)
+                {
+                    _timelineClockTimer.Start();
+                }
+            }
+            catch
+            {
+            }
+            UpdateLiveTimeline();
+        }
+
+        public void StopTimelineClock()
+        {
+            try
+            {
+                _timelineClockTimer?.Stop();
+            }
+            catch
+            {
+            }
+        }
+
         private void UpdateLiveTimeline()
         {
             var now = DateTime.Now;
@@ -742,8 +773,8 @@ namespace EyeFocus.ViewModels
 
         private void UpdateTimelineColumnWeights()
         {
-            double dayStartMin = ParseTimeToMinutes(DayStartTimeDisplay, 420); // 7:00 AM default
-            double nightStartMin = ParseTimeToMinutes(NightStartTimeDisplay, 1080); // 6:00 PM default
+            double dayStartMin = ParseTimeToMinutes(DayStartTimeDisplay, 360); // 6:00 AM default
+            double nightStartMin = ParseTimeToMinutes(NightStartTimeDisplay, 1260); // 9:00 PM default
 
             if (nightStartMin <= dayStartMin)
             {
@@ -762,6 +793,83 @@ namespace EyeFocus.ViewModels
             OnPropertyChanged(nameof(NightTimeFormatted));
             OnPropertyChanged(nameof(DayScheduleRange));
             OnPropertyChanged(nameof(NightScheduleRange));
+
+            UpdateTimelineSkyGradient();
+        }
+
+        private void UpdateTimelineSkyGradient()
+        {
+            double dayStartMin = ParseTimeToMinutes(DayStartTimeDisplay, 360);
+            double nightStartMin = ParseTimeToMinutes(NightStartTimeDisplay, 1260);
+
+            if (nightStartMin <= dayStartMin)
+            {
+                nightStartMin = Math.Min(dayStartMin + 600, 1380);
+            }
+
+            double dayOffset = Math.Clamp(dayStartMin / 1440.0, 0.05, 0.90);
+            double nightOffset = Math.Clamp(nightStartMin / 1440.0, 0.10, 0.95);
+
+            // 40-minute smooth transition glow span
+            double span = 40.0 / 1440.0;
+
+            bool isDark = ThemeService.ActiveTheme != "Light";
+
+            // 24-hour Sky Spectrum Colors
+            Color nightSky = isDark ? Color.FromRgb(30, 41, 59) : Color.FromRgb(148, 163, 184); // #1E293B (Dark) vs #94A3B8 (Light)
+            Color dawnSky = isDark ? Color.FromRgb(59, 130, 246) : Color.FromRgb(96, 165, 250);  // Twilight blue/dawn glow
+            Color sunriseGold = Color.FromRgb(245, 158, 11);                                      // #F59E0B Golden sunrise
+            Color dayAmber = Color.FromRgb(254, 184, 54);                                         // #FEB836 Vibrant daylight amber
+            Color sunsetOrange = Color.FromRgb(249, 115, 22);                                     // #F97316 Warm dusk orange
+            Color duskSky = isDark ? Color.FromRgb(74, 92, 145) : Color.FromRgb(100, 116, 139);  // Twilight indigo/slate
+
+            var rawStops = new List<GradientStop>
+            {
+                new(nightSky, 0.0),
+                new(nightSky, Math.Clamp(dayOffset - span * 1.5, 0.0, 1.0)),
+                new(dawnSky, Math.Clamp(dayOffset - span * 0.4, 0.0, 1.0)),
+                new(sunriseGold, dayOffset),
+                new(dayAmber, Math.Clamp(dayOffset + span * 0.8, 0.0, 1.0)),
+                new(dayAmber, Math.Clamp(nightOffset - span * 0.8, 0.0, 1.0)),
+                new(sunsetOrange, nightOffset),
+                new(duskSky, Math.Clamp(nightOffset + span * 0.4, 0.0, 1.0)),
+                new(nightSky, Math.Clamp(nightOffset + span * 1.5, 0.0, 1.0)),
+                new(nightSky, 1.0)
+            };
+
+            rawStops.Sort((a, b) => a.Offset.CompareTo(b.Offset));
+
+            var brush = new LinearGradientBrush
+            {
+                StartPoint = new Point(0, 0),
+                EndPoint = new Point(1, 0)
+            };
+
+            foreach (var stop in rawStops)
+            {
+                brush.GradientStops.Add(stop);
+            }
+
+            brush.Freeze();
+            TimelineSkyGradientBrush = brush;
+        }
+
+        private void OnThemeChanged(string theme)
+        {
+            try
+            {
+                if (System.Windows.Application.Current?.Dispatcher != null && !System.Windows.Application.Current.Dispatcher.CheckAccess())
+                {
+                    System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(UpdateTimelineSkyGradient));
+                }
+                else
+                {
+                    UpdateTimelineSkyGradient();
+                }
+            }
+            catch
+            {
+            }
         }
 
         private static double ParseTimeToMinutes(string timeStr, double defaultMinutes)

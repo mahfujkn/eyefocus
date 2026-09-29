@@ -376,28 +376,25 @@
                             </Grid.RowDefinitions>
 
                             <!-- Row 0: Sun & Moon Icons -->
-                            <!-- Sun Icon above Daytime segment -->
-                            <Path Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="12,0,0,10"
+                            <!-- Sun Icon centered above Daytime segment -->
+                            <Path Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,10"
                                   Data="{StaticResource IconSun}" Fill="#FEB836"
                                   Width="24" Height="24" Stretch="Uniform" />
-                            <!-- Moon Icon above Nighttime segment -->
+                            <!-- Moon Icon centered above Nighttime segment -->
                             <Path Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Margin="0,0,0,10"
                                   Data="{StaticResource IconMoon}" Fill="{DynamicResource TimelineNightTrackBrush}"
                                   Width="20" Height="20" Stretch="Uniform" />
 
-                            <!-- Row 1: Dual-Color Rounded Pill Bar (Spans all 3 columns) -->
-                            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                                  Height="12" VerticalAlignment="Center">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding TimelineCol0Weight, FallbackValue='29*'}" />
-                                    <ColumnDefinition Width="{Binding TimelineCol1Weight, FallbackValue='46*'}" />
-                                    <ColumnDefinition Width="{Binding TimelineCol2Weight, FallbackValue='25*'}" />
-                                </Grid.ColumnDefinitions>
-                                <!-- Golden Amber Day Bar covers Col 0 and Col 1 up to Night start with rounded left pill end -->
-                                <Border Grid.Column="0" Grid.ColumnSpan="2" Background="#FEB836" CornerRadius="6,0,0,6" SnapsToDevicePixels="True" />
-                                <!-- Slate Navy Night Bar in Col 2 with rounded right pill end -->
-                                <Border Grid.Column="2" Background="{DynamicResource TimelineNightTrackBrush}" CornerRadius="0,6,6,0" SnapsToDevicePixels="True" />
-                            </Grid>
+                            <!-- Row 1: 24-Hour Dynamic Sky Gradient Track Pill (Smooth Continuous Transitions) -->
+                            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                    Height="12" CornerRadius="6"
+                                    Background="{Binding TimelineSkyGradientBrush}"
+                                    SnapsToDevicePixels="True"
+                                    VerticalAlignment="Center">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="4" ShadowDepth="1" Direction="270" Opacity="0.12" Color="#000000" />
+                                </Border.Effect>
+                            </Border>
 
                             <!-- Dashed Marker 1 at Day boundary (Col 1 Left edge, extends above & below bar) -->
                             <Line Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"
