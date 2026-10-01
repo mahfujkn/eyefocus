@@ -105,8 +105,8 @@
                                 <ColumnDefinition Width="20" />
                             </Grid.ColumnDefinitions>
 
-                            <Viewbox Grid.Column="0" Width="15" Height="15" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True">
-                                <Path Data="{StaticResource IconSunDim}" Fill="{DynamicResource PrimaryBrush}" Opacity="0.75" Stretch="Uniform" />
+                            <Viewbox Grid.Column="0" Width="11" Height="11" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True">
+                                <Path Data="{StaticResource IconSunBright}" Fill="{DynamicResource PrimaryBrush}" Stretch="Uniform" />
                             </Viewbox>
 
                             <Slider Grid.Column="1" Style="{StaticResource M3SliderStyle}"
@@ -122,7 +122,7 @@
                                     Margin="10,0"
                                     VerticalAlignment="Center" />
 
-                            <Viewbox Grid.Column="2" Width="15" Height="15" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True">
+                            <Viewbox Grid.Column="2" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True">
                                 <Path Data="{StaticResource IconSunBright}" Fill="{DynamicResource PrimaryBrush}" Stretch="Uniform" />
                             </Viewbox>
                         </Grid>
