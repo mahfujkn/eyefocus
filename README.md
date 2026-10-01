@@ -78,21 +78,27 @@ Designed with clean **Material Design 3 Expressive & Fluent UI** aesthetics, Eye
 
 ---
 
-### 3. Automatic Day & Night Schedule Configuration
+### 3. Monitors & Hardware Detection (Dark Mode)
 
-<img src="Screenshots/automatic-settings.png" alt="Automatic Day and Night Configuration" />
-
----
-
-### 4. Application Settings & Preferences (Light Mode)
-
-<img src="Screenshots/settings-light.png" alt="Settings and Preferences View" />
+<img src="Screenshots/monitors-dark.png" alt="Monitors and Hardware Detection Dark Mode" />
 
 ---
 
-### 5. Privacy by Design Guarantees (Light Mode)
+### 4. Application Settings & Preferences (Dark Mode)
 
-<img src="Screenshots/privacy-light.png" alt="Privacy and Security View" />
+<img src="Screenshots/settings-dark.png" alt="Application Settings and Preferences Dark Mode" />
+
+---
+
+### 5. Privacy by Design Guarantees (Dark Mode)
+
+<img src="Screenshots/privacy-dark.png" alt="Privacy by Design Guarantees Dark Mode" />
+
+---
+
+### 6. About & Official Links (Dark Mode)
+
+<img src="Screenshots/about-dark.png" alt="About and Official Links Dark Mode" />
 
 </div>
 
