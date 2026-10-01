@@ -192,7 +192,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Viewbox Grid.Column="0" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True">
-                                <Path Data="{StaticResource IconCoolSun}" Fill="{DynamicResource OutlineBrush}" Stretch="Uniform" />
+                                <Path Data="{StaticResource IconSnowflake}" Fill="{DynamicResource TertiaryBrush}" Stretch="Uniform" />
                             </Viewbox>
 
                             <Slider Grid.Column="1" Style="{StaticResource M3SliderStyle}"
@@ -209,7 +209,7 @@
                                     VerticalAlignment="Center" />
 
                             <Viewbox Grid.Column="2" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True">
-                                <Path Data="{StaticResource IconWarmSun}" Fill="#F59E0B" Stretch="Uniform" />
+                                <Path Data="{StaticResource IconFlame}" Fill="{DynamicResource WarmAccentBrush}" Stretch="Uniform" />
                             </Viewbox>
                         </Grid>
 
