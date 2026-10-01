@@ -66,6 +66,26 @@ namespace EyeFocus.ViewModels
             {
                 if (SetProperty(ref _currentTheme, value))
                 {
+                    OnPropertyChanged(nameof(IsDarkTheme));
+                    OnPropertyChanged(nameof(ThemeIconKey));
+                    OnPropertyChanged(nameof(ThemeTooltip));
+                }
+            }
+        }
+
+        public bool IsDarkTheme
+        {
+            get => string.Equals(ThemeService.ActiveTheme, "Dark", StringComparison.OrdinalIgnoreCase);
+            set
+            {
+                var targetTheme = value ? "Dark" : "Light";
+                if (!string.Equals(ThemeService.ActiveTheme, targetTheme, StringComparison.OrdinalIgnoreCase))
+                {
+                    CurrentTheme = targetTheme;
+                    ThemeService.ApplyTheme(targetTheme);
+                    _settingsStore.Update(s => s.Theme = targetTheme);
+                    SnackbarService.Instance.Show($"Switched to {targetTheme} theme");
+                    OnPropertyChanged(nameof(IsDarkTheme));
                     OnPropertyChanged(nameof(ThemeIconKey));
                     OnPropertyChanged(nameof(ThemeTooltip));
                 }
@@ -195,10 +215,12 @@ namespace EyeFocus.ViewModels
             ThemeService.ApplyTheme(_currentTheme);
             ThemeService.ThemeChanged += active =>
             {
+                OnPropertyChanged(nameof(IsDarkTheme));
                 OnPropertyChanged(nameof(ThemeIconKey));
                 OnPropertyChanged(nameof(ThemeTooltip));
             };
             OnPropertyChanged(nameof(CurrentTheme));
+            OnPropertyChanged(nameof(IsDarkTheme));
             OnPropertyChanged(nameof(ThemeIconKey));
             OnPropertyChanged(nameof(ThemeTooltip));
         }
@@ -211,6 +233,9 @@ namespace EyeFocus.ViewModels
 
             _settingsStore.Update(s => s.Theme = nextTheme);
             SnackbarService.Instance.Show($"Switched to {nextTheme} theme");
+            OnPropertyChanged(nameof(IsDarkTheme));
+            OnPropertyChanged(nameof(ThemeIconKey));
+            OnPropertyChanged(nameof(ThemeTooltip));
         }
 
         private void InitializeDisplayState()

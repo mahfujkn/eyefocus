@@ -75,6 +75,20 @@
     <Color x:Key="SwitchTrackOffColor">#3E4C5E</Color>
     <SolidColorBrush x:Key="SwitchTrackOffBrush" Color="{StaticResource SwitchTrackOffColor}" />
 
+    <!-- Theme Toggle Pill Switch Colors & Brushes -->
+    <Color x:Key="ThemePillTrackBackgroundColor">#131B26</Color>
+    <SolidColorBrush x:Key="ThemePillTrackBackgroundBrush" Color="{StaticResource ThemePillTrackBackgroundColor}" />
+    <Color x:Key="ThemePillTrackBorderColor">#243242</Color>
+    <SolidColorBrush x:Key="ThemePillTrackBorderBrush" Color="{StaticResource ThemePillTrackBorderColor}" />
+    <Color x:Key="ThemePillThumbBackgroundColor">#243347</Color>
+    <SolidColorBrush x:Key="ThemePillThumbBackgroundBrush" Color="{StaticResource ThemePillThumbBackgroundColor}" />
+    <Color x:Key="ThemePillThumbBorderColor">#384B62</Color>
+    <SolidColorBrush x:Key="ThemePillThumbBorderBrush" Color="{StaticResource ThemePillThumbBorderColor}" />
+    <Color x:Key="ThemePillSunColor">#5A6D82</Color>
+    <SolidColorBrush x:Key="ThemePillSunBrush" Color="{StaticResource ThemePillSunColor}" />
+    <Color x:Key="ThemePillMoonColor">#38BDF8</Color>
+    <SolidColorBrush x:Key="ThemePillMoonBrush" Color="{StaticResource ThemePillMoonColor}" />
+
     <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}" />
     <SolidColorBrush x:Key="OnErrorBrush" Color="{StaticResource OnErrorColor}" />
     <SolidColorBrush x:Key="ErrorContainerBrush" Color="{StaticResource ErrorContainerColor}" />

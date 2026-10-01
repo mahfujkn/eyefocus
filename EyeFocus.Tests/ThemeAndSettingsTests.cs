@@ -88,6 +88,8 @@ namespace EyeFocus.Tests
                     Assert.NotNull(app.Resources["BrightnessBadgeBackgroundBrush"]);
                     Assert.NotNull(app.Resources["KelvinBadgeBackgroundBrush"]);
                     Assert.NotNull(app.Resources["BrightnessHeaderCircleBgBrush"]);
+                    Assert.NotNull(app.Resources["ThemePillTrackBackgroundBrush"]);
+                    Assert.NotNull(app.Resources["ThemePillThumbBackgroundBrush"]);
 
                     EyeFocus.UI.Themes.ThemeService.ApplyTheme("Dark");
                     Assert.NotNull(app.Resources["DayModeCardBackgroundBrush"]);
@@ -95,6 +97,8 @@ namespace EyeFocus.Tests
                     Assert.NotNull(app.Resources["BrightnessBadgeBackgroundBrush"]);
                     Assert.NotNull(app.Resources["KelvinBadgeBackgroundBrush"]);
                     Assert.NotNull(app.Resources["BrightnessHeaderCircleBgBrush"]);
+                    Assert.NotNull(app.Resources["ThemePillTrackBackgroundBrush"]);
+                    Assert.NotNull(app.Resources["ThemePillThumbBackgroundBrush"]);
                     window.Close();
                     app.Dispatcher.InvokeShutdown();
                 }
@@ -109,6 +113,16 @@ namespace EyeFocus.Tests
             thread.Start();
             bool finished = thread.Join(8000);
             Assert.True(finished, "STA thread timed out");
+        }
+
+        [Fact]
+        public void ThemeService_AppliesAndSwitchesThemePillTokens()
+        {
+            EyeFocus.UI.Themes.ThemeService.ApplyTheme("Light");
+            Assert.Equal("Light", EyeFocus.UI.Themes.ThemeService.ActiveTheme);
+
+            EyeFocus.UI.Themes.ThemeService.ApplyTheme("Dark");
+            Assert.Equal("Dark", EyeFocus.UI.Themes.ThemeService.ActiveTheme);
         }
     }
 }

@@ -620,6 +620,121 @@
     <Style x:Key="ModernToggleSwitchStyle" TargetType="CheckBox" BasedOn="{StaticResource M3SwitchStyle}" />
 
     <!-- ========================================================================= -->
+    <!-- 8B. THEME DUAL-ICON SLIDING PILL SWITCH (Sun & Moon Pill from Mockup)     -->
+    <!-- ========================================================================= -->
+    <Style x:Key="ThemeTogglePillStyle" TargetType="ToggleButton">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Width" Value="56" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="ToolTip" Value="Toggle Light / Dark Mode" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <!-- Pill Track Container (56x28, CornerRadius=14) -->
+                    <Border x:Name="TrackBorder"
+                            Width="56" Height="28"
+                            CornerRadius="14"
+                            Background="{DynamicResource ThemePillTrackBackgroundBrush}"
+                            BorderBrush="{DynamicResource ThemePillTrackBorderBrush}"
+                            BorderThickness="1"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <!-- Sliding Elevated Thumb Disk (22x22, CornerRadius=11) -->
+                            <Border x:Name="ThumbDisk"
+                                    Width="22" Height="22"
+                                    CornerRadius="11"
+                                    Background="{DynamicResource ThemePillThumbBackgroundBrush}"
+                                    BorderBrush="{DynamicResource ThemePillThumbBorderBrush}"
+                                    BorderThickness="1"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Margin="3,0,0,0"
+                                    SnapsToDevicePixels="True"
+                                    UseLayoutRounding="True">
+                                <Border.RenderTransform>
+                                    <TranslateTransform x:Name="ThumbTransform" X="0" />
+                                </Border.RenderTransform>
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="4" ShadowDepth="1" Direction="270" Opacity="0.18" Color="#000000" />
+                                </Border.Effect>
+                            </Border>
+
+                            <!-- Icons Layer (Fixed 2 Slots: Left = Sun, Right = Moon) -->
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="28" />
+                                    <ColumnDefinition Width="28" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Left Slot: Sun Icon -->
+                                <Path x:Name="SunIcon"
+                                      Grid.Column="0"
+                                      Data="{StaticResource IconSun}"
+                                      Fill="{DynamicResource ThemePillSunBrush}"
+                                      Width="12" Height="12"
+                                      Stretch="Uniform"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      IsHitTestVisible="False" />
+
+                                <!-- Right Slot: Moon Icon -->
+                                <Path x:Name="MoonIcon"
+                                      Grid.Column="1"
+                                      Data="{StaticResource IconMoon}"
+                                      Fill="{DynamicResource ThemePillMoonBrush}"
+                                      Width="11" Height="11"
+                                      Stretch="Uniform"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      IsHitTestVisible="False" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Dark Mode (Checked = True) -->
+                        <Trigger Property="IsChecked" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ThumbTransform"
+                                                         Storyboard.TargetProperty="X"
+                                                         To="28" Duration="0:0:0.22">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ThumbTransform"
+                                                         Storyboard.TargetProperty="X"
+                                                         To="0" Duration="0:0:0.22">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="TrackBorder" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ========================================================================= -->
     <!-- 9. DESKTOP UTILITY SLIDER (Dynamic left fill + clean white thumb)          -->
     <!-- ========================================================================= -->
     <Style x:Key="SliderRepeatButtonTransparentStyle" TargetType="RepeatButton">

@@ -196,17 +196,12 @@
                                   WindowChrome.IsHitTestVisibleInChrome="True"
                                   ToolTip="Select display to control" />
 
-                        <!-- Center/Right: Theme Toggle -->
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
-                            <!-- Theme Switch Button -->
-                            <Button Style="{StaticResource M3IconButtonStyle}" Command="{Binding ToggleThemeCommand}"
-                                    Padding="4" Height="28" Width="28"
-                                    WindowChrome.IsHitTestVisibleInChrome="True"
-                                    ToolTip="{Binding ThemeTooltip}">
-                                <Path Data="{Binding ThemeIconKey, Converter={StaticResource IconKeyToGeometryConverter}}"
-                                      Fill="{DynamicResource WarmAccentBrush}"
-                                      Width="12" Height="12" Stretch="Uniform" />
-                            </Button>
+                        <!-- Center/Right: Theme Toggle Pill Switch (Matching Mockup Design) -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0">
+                            <ToggleButton Style="{StaticResource ThemeTogglePillStyle}"
+                                          IsChecked="{Binding IsDarkTheme, Mode=TwoWay}"
+                                          WindowChrome.IsHitTestVisibleInChrome="True"
+                                          ToolTip="{Binding ThemeTooltip}" />
                         </StackPanel>
 
                         <!-- Window Chrome Controls (Minimize / Maximize / Close) -->

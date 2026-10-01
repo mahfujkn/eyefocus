@@ -370,7 +370,7 @@ namespace EyeFocus.ViewModels
 
             _profileManager.ActiveProfileChanged += (s, p) =>
             {
-                System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+                RunOnUIThread(() =>
                 {
                     SyncFromProfile(p);
                     if (!IsPaused)
@@ -383,12 +383,12 @@ namespace EyeFocus.ViewModels
 
             _profileManager.ProfilesListChanged += (s, e) =>
             {
-                System.Windows.Application.Current?.Dispatcher?.Invoke(() => RefreshProfilesList());
+                RunOnUIThread(() => RefreshProfilesList());
             };
 
             _autoDayNightService.PeriodChanged += period =>
             {
-                System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+                RunOnUIThread(() =>
                 {
                     _isAutomaticDayNightEnabled = _autoDayNightService.IsEnabled;
                     OnPropertyChanged(nameof(IsAutomaticDayNightEnabled));
@@ -400,7 +400,7 @@ namespace EyeFocus.ViewModels
 
             _autoDayNightService.EnabledChanged += enabled =>
             {
-                System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+                RunOnUIThread(() =>
                 {
                     _isAutomaticDayNightEnabled = enabled;
                     OnPropertyChanged(nameof(IsAutomaticDayNightEnabled));
@@ -412,7 +412,7 @@ namespace EyeFocus.ViewModels
 
             _settingsStore.SettingsChanged += (s, newSettings) =>
             {
-                System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+                RunOnUIThread(() =>
                 {
                     DayStartTimeDisplay = string.IsNullOrWhiteSpace(newSettings.DayStartTime) ? "06:00" : newSettings.DayStartTime;
                     NightStartTimeDisplay = string.IsNullOrWhiteSpace(newSettings.NightStartTime) ? "21:00" : newSettings.NightStartTime;
@@ -909,6 +909,26 @@ namespace EyeFocus.ViewModels
                 return cur >= dayStart && cur < nightStart;
             }
             return cur >= dayStart || cur < nightStart;
+        }
+
+        private static void RunOnUIThread(Action action)
+        {
+            var app = System.Windows.Application.Current;
+            if (app == null || app.Dispatcher == null || app.Dispatcher.CheckAccess() || !app.Dispatcher.Thread.IsAlive || app.Dispatcher.HasShutdownStarted)
+            {
+                action();
+            }
+            else
+            {
+                try
+                {
+                    app.Dispatcher.Invoke(action);
+                }
+                catch
+                {
+                    action();
+                }
+            }
         }
     }
 

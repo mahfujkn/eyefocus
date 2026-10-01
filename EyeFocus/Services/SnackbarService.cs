@@ -18,7 +18,7 @@ namespace EyeFocus.Services
             _dismissTimer?.Stop();
             _dismissTimer?.Dispose();
 
-            System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+            SafeInvoke(() =>
             {
                 MessageRequested?.Invoke(message, actionText, actionCallback);
             });
@@ -26,7 +26,7 @@ namespace EyeFocus.Services
             _dismissTimer = new System.Timers.Timer(durationMs) { AutoReset = false };
             _dismissTimer.Elapsed += (s, e) =>
             {
-                System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+                SafeInvoke(() =>
                 {
                     DismissRequested?.Invoke();
                 });
@@ -37,10 +37,30 @@ namespace EyeFocus.Services
         public void Dismiss()
         {
             _dismissTimer?.Stop();
-            System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+            SafeInvoke(() =>
             {
                 DismissRequested?.Invoke();
             });
+        }
+
+        private static void SafeInvoke(Action action)
+        {
+            var app = System.Windows.Application.Current;
+            if (app == null || app.Dispatcher == null || app.Dispatcher.CheckAccess() || !app.Dispatcher.Thread.IsAlive || app.Dispatcher.HasShutdownStarted)
+            {
+                action();
+            }
+            else
+            {
+                try
+                {
+                    app.Dispatcher.Invoke(action);
+                }
+                catch
+                {
+                    action();
+                }
+            }
         }
     }
 }

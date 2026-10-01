@@ -186,6 +186,14 @@ namespace EyeFocus.UI.Themes
                 SetToken(app, "SliderGreenFill", "#10B981");
                 SetToken(app, "SliderBlueFill", "#3B82F6");
 
+                // Theme Toggle Pill Switch (Mockup Design)
+                SetToken(app, "ThemePillTrackBackground", isLight ? "#E5EDF4" : "#131B26");
+                SetToken(app, "ThemePillTrackBorder", isLight ? "#CBD5E1" : "#243242");
+                SetToken(app, "ThemePillThumbBackground", isLight ? "#FFFFFF" : "#243347");
+                SetToken(app, "ThemePillThumbBorder", isLight ? "#E2E8F0" : "#384B62");
+                SetToken(app, "ThemePillSun", isLight ? "#1E293B" : "#5A6D82");
+                SetToken(app, "ThemePillMoon", isLight ? "#687B93" : "#38BDF8");
+
                 ThemeChanged?.Invoke(_activeTheme);
             };
 
