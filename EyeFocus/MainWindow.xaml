@@ -185,16 +185,24 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Left: Display Selector Dropdown (Pill Style) -->
-                        <ComboBox Grid.Column="0"
-                                  Style="{StaticResource M3ComboBoxStyle}"
-                                  ItemsSource="{Binding MonitorSelectorItems}"
-                                  SelectedValuePath="Id"
-                                  DisplayMemberPath="DisplayText"
-                                  SelectedValue="{Binding SelectedMonitorId, Mode=TwoWay}"
-                                  Width="175" Height="28"
-                                  WindowChrome.IsHitTestVisibleInChrome="True"
-                                  ToolTip="Select display to control" />
+                        <!-- Left: Display Selector Dropdown (Pill Style) + Connected Badge (Matching Mockup Design) -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <ComboBox Style="{StaticResource M3ComboBoxStyle}"
+                                      ItemsSource="{Binding MonitorSelectorItems}"
+                                      SelectedValuePath="Id"
+                                      DisplayMemberPath="DisplayText"
+                                      SelectedValue="{Binding SelectedMonitorId, Mode=TwoWay}"
+                                      Height="32"
+                                      MinWidth="160"
+                                      WindowChrome.IsHitTestVisibleInChrome="True"
+                                      ToolTip="Select display to control" />
+
+                            <!-- Connected Status Indicator (Matching Mockup Design) -->
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="14,0,0,0">
+                                <Ellipse Width="7" Height="7" Fill="#10B981" Margin="0,0,7,0" VerticalAlignment="Center" />
+                                <TextBlock Text="Connected" FontSize="12" FontWeight="Normal" Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
 
                         <!-- Center/Right: Theme Toggle Pill Switch (Matching Mockup Design) -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0">
