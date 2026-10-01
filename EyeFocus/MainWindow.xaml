@@ -306,13 +306,18 @@
                         </views:AboutView.Style>
                     </views:AboutView>
 
-                    <!-- FLOATING UTILITY TOAST SNACKBAR -->
+                    <!-- FLOATING UTILITY TOAST SNACKBAR (Redesigned matching media_1790834433871.png) -->
                     <Border HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                            Margin="0,0,0,12" CornerRadius="6"
-                            Background="{DynamicResource SurfaceContainerHighestBrush}"
+                            Margin="0,0,0,16" CornerRadius="17"
+                            Background="{DynamicResource SurfaceBrightBrush}"
                             BorderBrush="{DynamicResource OutlineVariantBrush}"
                             BorderThickness="1"
-                            Padding="12,5">
+                            Padding="14,6,10,6"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="12" ShadowDepth="2" Direction="270" Opacity="0.14" Color="#000000" />
+                        </Border.Effect>
                         <Border.Style>
                             <Style TargetType="Border">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -324,9 +329,47 @@
                             </Style>
                         </Border.Style>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding SnackbarMessage}" FontWeight="SemiBold" FontSize="11" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
-                            <Button Style="{StaticResource M3IconButtonStyle}" Command="{Binding DismissSnackbarCommand}" Padding="2" ToolTip="Dismiss">
-                                <Path Data="{StaticResource IconClose}" Fill="{DynamicResource OnSurfaceVariantBrush}" Width="8" Height="8" Stretch="Uniform" />
+                            <!-- Leading Accent Icon (e.g. Sun, Moon, Profile Icons) -->
+                            <Viewbox Width="15" Height="15" VerticalAlignment="Center" Margin="0,0,9,0" SnapsToDevicePixels="True">
+                                <Path Data="{Binding SnackbarIconKey, Converter={StaticResource IconKeyToGeometryConverter}}"
+                                      Fill="{Binding SnackbarIconBrush}"
+                                      Stretch="Uniform" />
+                            </Viewbox>
+
+                            <!-- Toast Message Text -->
+                            <TextBlock Text="{Binding SnackbarMessage}"
+                                       FontWeight="SemiBold"
+                                       FontSize="12.5"
+                                       Foreground="{DynamicResource OnSurfaceBrush}"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,12,0" />
+
+                            <!-- Frameless Close / Dismiss Button (Matching Mockup) -->
+                            <Button Command="{Binding DismissSnackbarCommand}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Padding="3"
+                                    Width="20" Height="20"
+                                    Cursor="Hand"
+                                    VerticalAlignment="Center"
+                                    ToolTip="Dismiss">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="CloseBorder" Background="Transparent" CornerRadius="10">
+                                            <Path x:Name="ClosePath"
+                                                  Data="{StaticResource IconClose}"
+                                                  Fill="{DynamicResource OutlineBrush}"
+                                                  Width="8" Height="8" Stretch="Uniform"
+                                                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="CloseBorder" Property="Background" Value="{DynamicResource SurfaceContainerHighBrush}" />
+                                                <Setter TargetName="ClosePath" Property="Fill" Value="{DynamicResource OnSurfaceBrush}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
                             </Button>
                         </StackPanel>
                     </Border>

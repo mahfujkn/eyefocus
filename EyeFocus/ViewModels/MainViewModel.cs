@@ -104,7 +104,68 @@ namespace EyeFocus.ViewModels
         public string SnackbarMessage
         {
             get => _snackbarMessage;
-            set => SetProperty(ref _snackbarMessage, value);
+            set
+            {
+                if (SetProperty(ref _snackbarMessage, value))
+                {
+                    OnPropertyChanged(nameof(SnackbarIconKey));
+                    OnPropertyChanged(nameof(SnackbarIconBrush));
+                }
+            }
+        }
+
+        public string SnackbarIconKey
+        {
+            get
+            {
+                var msg = _snackbarMessage?.ToLowerInvariant() ?? "";
+                if (msg.Contains("light theme")) return "IconSun";
+                if (msg.Contains("dark theme")) return "IconMoon";
+                if (msg.Contains("pause")) return "IconPause";
+                if (msg.Contains("resumed")) return "IconPlay";
+                if (msg.Contains("dim")) return "IconScreenDim";
+                if (msg.Contains("comfort")) return "IconLeaf";
+                if (msg.Contains("reading")) return "IconBook";
+                if (msg.Contains("game")) return "IconGame";
+                if (msg.Contains("movie")) return "IconMovie";
+                if (msg.Contains("office")) return "IconBriefcase";
+                if (msg.Contains("editing")) return "IconPalette";
+                if (msg.Contains("coding")) return "IconCode";
+                if (msg.Contains("night")) return "IconNight";
+                if (msg.Contains("exercise")) return "IconEyeExercise";
+                if (msg.Contains("applied") || msg.Contains("saved") || msg.Contains("enabled")) return "IconCheck";
+                return "IconInfo";
+            }
+        }
+
+        private static readonly System.Windows.Media.Brush AmberBrush = CreateFrozenBrush(0xF5, 0x9E, 0x0B);
+        private static readonly System.Windows.Media.Brush CyanBrush = CreateFrozenBrush(0x38, 0xBD, 0xF8);
+        private static readonly System.Windows.Media.Brush GreenBrush = CreateFrozenBrush(0x10, 0xB9, 0x81);
+        private static readonly System.Windows.Media.Brush IndigoBrush = CreateFrozenBrush(0x63, 0x66, 0xF1);
+        private static readonly System.Windows.Media.Brush PurpleBrush = CreateFrozenBrush(0xA8, 0x55, 0xF7);
+        private static readonly System.Windows.Media.Brush RoseBrush = CreateFrozenBrush(0xF4, 0x3F, 0x5E);
+
+        private static System.Windows.Media.Brush CreateFrozenBrush(byte r, byte g, byte b)
+        {
+            var brush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(r, g, b));
+            brush.Freeze();
+            return brush;
+        }
+
+        public System.Windows.Media.Brush SnackbarIconBrush
+        {
+            get
+            {
+                var msg = _snackbarMessage?.ToLowerInvariant() ?? "";
+                if (msg.Contains("light theme")) return AmberBrush;
+                if (msg.Contains("dark theme")) return CyanBrush;
+                if (msg.Contains("comfort") || msg.Contains("reading") || msg.Contains("applied") || msg.Contains("saved")) return GreenBrush;
+                if (msg.Contains("coding")) return IndigoBrush;
+                if (msg.Contains("game")) return PurpleBrush;
+                if (msg.Contains("movie")) return RoseBrush;
+                if (msg.Contains("dim")) return CyanBrush;
+                return AmberBrush;
+            }
         }
 
         public string? SnackbarActionText
