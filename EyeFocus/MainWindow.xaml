@@ -25,7 +25,8 @@
     </WindowChrome.WindowChrome>
 
     <!-- Main Window Root Shell with Crisp 12px Rounded Corners & ClearType Rendering -->
-    <Border Background="{DynamicResource SurfaceBrush}"
+    <Border x:Name="RootBorder"
+            Background="{DynamicResource SurfaceBrush}"
             BorderBrush="{DynamicResource OutlineVariantBrush}"
             BorderThickness="1"
             CornerRadius="12"
@@ -208,13 +209,19 @@
                             </Button>
                         </StackPanel>
 
-                        <!-- Window Chrome Controls (Minimize / Close) -->
+                        <!-- Window Chrome Controls (Minimize / Maximize / Close) -->
                         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                             <Button Style="{StaticResource WindowChromeButtonStyle}"
                                     Tag="{StaticResource IconMinimize}"
                                     Click="OnMinimizeClick"
                                     WindowChrome.IsHitTestVisibleInChrome="True"
                                     ToolTip="Minimize" />
+                            <Button x:Name="BtnMaximizeRestore"
+                                    Style="{StaticResource WindowChromeButtonStyle}"
+                                    Tag="{StaticResource IconMaximize}"
+                                    Click="OnMaximizeRestoreClick"
+                                    WindowChrome.IsHitTestVisibleInChrome="True"
+                                    ToolTip="Maximize / Fullscreen" />
                             <Button Style="{StaticResource WindowCloseButtonStyle}"
                                     Tag="{StaticResource IconClose}"
                                     Click="OnCloseClick"

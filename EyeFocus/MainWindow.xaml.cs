@@ -41,6 +41,30 @@ namespace EyeFocus
             WindowState = WindowState.Minimized;
         }
 
+        private void OnMaximizeRestoreClick(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            base.OnStateChanged(e);
+            UpdateMaximizeRestoreButton();
+        }
+
+        private void UpdateMaximizeRestoreButton()
+        {
+            if (BtnMaximizeRestore == null) return;
+            bool isMax = WindowState == WindowState.Maximized;
+            BtnMaximizeRestore.Tag = FindResource(isMax ? "IconRestore" : "IconMaximize");
+            BtnMaximizeRestore.ToolTip = isMax ? "Restore Down" : "Maximize / Fullscreen";
+            if (RootBorder != null)
+            {
+                RootBorder.CornerRadius = isMax ? new CornerRadius(0) : new CornerRadius(12);
+                RootBorder.BorderThickness = isMax ? new Thickness(0) : new Thickness(1);
+            }
+        }
+
         private void OnCloseClick(object sender, RoutedEventArgs e)
         {
             var settings = _settingsStore.Load();
