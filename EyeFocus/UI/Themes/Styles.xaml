@@ -691,6 +691,7 @@
                                       Stretch="Uniform"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
+                                      Margin="2,0,0,0"
                                       IsHitTestVisible="False" />
                             </Grid>
                         </Grid>
