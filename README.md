@@ -1,4 +1,4 @@
-﻿# EyeFocus
+# EyeFocus
 
 <div align="center">
 
@@ -11,7 +11,7 @@
 ![Framework](https://img.shields.io/badge/.NET-8.0--windows-512BD4.svg)
 ![Privacy](https://img.shields.io/badge/Privacy-100%25%20Offline%20%26%20Local-success.svg)
 ![Design](https://img.shields.io/badge/Design-Material%20Design%203%20Expressive-teal.svg)
-[![Release Version](https://img.shields.io/badge/Version-v1.0.0-orange.svg)](https://github.com/mahfujkn/EyeFocus/releases)
+[![Release Version](https://img.shields.io/badge/Version-v1.1.0-teal.svg)](https://github.com/mahfujkn/EyeFocus/releases)
 
 [**Download Portable (.ZIP)**](https://github.com/mahfujkn/EyeFocus/releases) • [**Features**](#-features) • [**Installation**](#-installation--usage-guide) • [**Screenshots**](#-screenshots) • [**Tech Stack**](#️-technology-stack)
 </div>
@@ -103,7 +103,7 @@ Designed with clean **Material Design 3 Expressive & Fluent UI** aesthetics, Eye
 ### Method 1: Download Portable Release ZIP (Quickest & Easiest)
 
 1. Go to the official [**GitHub Releases Page**](https://github.com/mahfujkn/EyeFocus/releases).
-2. Download the latest **`EyeFocus-v1.0.0-Windows-Portable.zip`** release archive.
+2. Download the latest **`EyeFocus-v1.1.0-Windows-Portable.zip`** release archive.
 3. Extract the ZIP archive anywhere on your PC (e.g., `C:\EyeFocus` or Desktop).
 4. Double-click **`EyeFocus.exe`** to launch the application.
 5. 🎉 **EyeFocus** runs instantly as a standalone portable app — no installer, admin rights, or registry clutter required!

@@ -2,6 +2,24 @@
 
 All notable changes to **EyeFocus** will be documented in this file.
 
+## [1.1.0] - 2026-10-01 (Modern Glassmorphism Redesign & Iconography Polish)
+
+### Added & Improved
+- **Modern Dual-Icon Sliding Theme Pill Switch**:
+  - Replaced legacy toggle switch with a custom glassmorphism pill toggle featuring animated sliding thumb disk.
+  - Symmetrical upright Sun and Moon icons with concentric circular alignment.
+  - Smooth 220ms CubicEase animation transitioning between Light and Dark mode.
+- **Dedicated Color Temperature & Brightness Iconography**:
+  - **Color Temperature**: Distinct Snowflake (Cool light 6500K / Sky Blue `#38BDF8`) and Flame (Warm light 2700K / Amber `#F59E0B`) vector icons.
+  - **Brightness**: Crisp, equalized 15x15 radiant Sun vector icons with signature EyeFocus primary teal theme accent.
+- **Display Selector & Live Status Indicator**:
+  - Replaced native combo box with a modern pill-shaped dropdown with monitor outline icon.
+  - Added live glowing `● Connected` emerald status badge in the header bar.
+- **Modern Pill Toast / Snackbar Notifications**:
+  - Redesigned status messages to a floating capsule pill with dynamic leading accent icon (Sun, Moon, Shield, Sparkles) and clean frameless close button.
+- **Comprehensive Quality Assurance**:
+  - 58 passing automated unit tests covering display gamma, brightness transitions, theme switching, schedule evaluation, and profile storage.
+
 ## [1.0.1] - 2026-08-18 (Final UI/UX & Production Refinement)
 
 ### Added & Improved

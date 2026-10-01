@@ -1,4 +1,4 @@
-﻿## Build and Output Folders
+## Build and Output Folders
 [Bb]in/
 [Oo]bj/
 [Pp]ublish/
@@ -23,3 +23,7 @@ $RECYCLE.BIN/
 *.log
 *.tmp
 TestResults/
+
+## Local Backups and Archives
+backups/
+*.zip
