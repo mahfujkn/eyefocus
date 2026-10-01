@@ -96,6 +96,7 @@ namespace EyeFocus.Tests
                     Assert.NotNull(app.Resources["KelvinBadgeBackgroundBrush"]);
                     Assert.NotNull(app.Resources["BrightnessHeaderCircleBgBrush"]);
                     window.Close();
+                    app.Dispatcher.InvokeShutdown();
                 }
                 catch (Exception ex)
                 {

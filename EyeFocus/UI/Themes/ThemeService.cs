@@ -193,7 +193,7 @@ namespace EyeFocus.UI.Themes
             {
                 applyAction();
             }
-            else if (!app.Dispatcher.HasShutdownStarted && !app.Dispatcher.HasShutdownFinished)
+            else if (!app.Dispatcher.HasShutdownStarted && !app.Dispatcher.HasShutdownFinished && app.Dispatcher.Thread.IsAlive)
             {
                 try
                 {

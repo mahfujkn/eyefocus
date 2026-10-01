@@ -376,8 +376,8 @@
                             </Grid.RowDefinitions>
 
                             <!-- Row 0: Sun & Moon Icons -->
-                            <!-- Sun Icon centered above Daytime segment -->
-                            <Path Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,10"
+                            <!-- Sun Icon at the start of Daytime segment -->
+                            <Path Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="-6,0,0,10"
                                   Data="{StaticResource IconSun}" Fill="#FEB836"
                                   Width="24" Height="24" Stretch="Uniform" />
                             <!-- Moon Icon centered above Nighttime segment -->
@@ -396,18 +396,6 @@
                                 </Border.Effect>
                             </Border>
 
-                            <!-- Dashed Marker 1 at Day boundary (Col 1 Left edge, extends above & below bar) -->
-                            <Line Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"
-                                  X1="0" Y1="0" X2="0" Y2="27"
-                                  Stroke="#CBD5E1" StrokeThickness="1.5" StrokeDashArray="2,2"
-                                  VerticalAlignment="Center" SnapsToDevicePixels="True" />
-
-                            <!-- Dashed Marker 2 at Night boundary (Col 2 Left edge, extends above & below bar) -->
-                            <Line Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"
-                                  X1="0" Y1="0" X2="0" Y2="27"
-                                  Stroke="#CBD5E1" StrokeThickness="1.5" StrokeDashArray="2,2"
-                                  VerticalAlignment="Center" SnapsToDevicePixels="True" />
-
                             <!-- Live Current Time Indicator Overlay (Spans all columns) -->
                             <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                                   VerticalAlignment="Center" Height="28">
@@ -419,9 +407,9 @@
 
                                 <!-- Pin Container at Current Time Position -->
                                 <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <!-- Live Floating Time Tag above the bar -->
+                                    <!-- Live Floating Time Tag below the bar -->
                                     <Canvas Height="0" Width="0" ClipToBounds="False">
-                                        <Border Canvas.Left="-24" Canvas.Top="-30"
+                                        <Border Canvas.Left="-24" Canvas.Top="16"
                                                 Background="{DynamicResource SurfaceContainerBrush}"
                                                 BorderBrush="{Binding CurrentTimePinBrush}"
                                                 BorderThickness="1" CornerRadius="4"
@@ -492,16 +480,16 @@
                                 </Grid>
                             </Grid>
 
-                            <!-- Row 2: Time Labels centered under dashed markers -->
+                            <!-- Row 2: Time Labels under schedule boundaries -->
                             <!-- Label 1: Day start time -->
-                            <Canvas Grid.Row="2" Grid.Column="1" Height="22" ClipToBounds="False">
-                                <TextBlock Text="{Binding DayTimeFormatted}" Canvas.Left="-26" Canvas.Top="8"
+                            <Canvas Grid.Row="2" Grid.Column="1" Height="26" ClipToBounds="False">
+                                <TextBlock Text="{Binding DayTimeFormatted}" Canvas.Left="-26" Canvas.Top="18"
                                            FontSize="11" FontWeight="SemiBold"
                                            Foreground="{DynamicResource OutlineBrush}" />
                             </Canvas>
                             <!-- Label 2: Night start time -->
-                            <Canvas Grid.Row="2" Grid.Column="2" Height="22" ClipToBounds="False">
-                                <TextBlock Text="{Binding NightTimeFormatted}" Canvas.Left="-26" Canvas.Top="8"
+                            <Canvas Grid.Row="2" Grid.Column="2" Height="26" ClipToBounds="False">
+                                <TextBlock Text="{Binding NightTimeFormatted}" Canvas.Left="-26" Canvas.Top="18"
                                            FontSize="11" FontWeight="SemiBold"
                                            Foreground="{DynamicResource OutlineBrush}" />
                             </Canvas>
