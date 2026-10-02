@@ -13,7 +13,7 @@
 ![Design](https://img.shields.io/badge/Design-Material%20Design%203%20Expressive-teal.svg)
 [![Release Version](https://img.shields.io/badge/Version-v1.1.0-teal.svg)](https://github.com/mahfujkn/EyeFocus/releases)
 
-[**Download Portable (.ZIP)**](https://github.com/mahfujkn/EyeFocus/releases) • [**Features**](#-features) • [**Installation**](#-installation--usage-guide) • [**Screenshots**](#-screenshots) • [**Tech Stack**](#️-technology-stack)
+[**Download Installer (.EXE)**](https://github.com/mahfujkn/EyeFocus/releases) • [**Download Portable (.ZIP)**](https://github.com/mahfujkn/EyeFocus/releases) • [**Features**](#-features) • [**Installation**](#-installation--usage-guide) • [**Screenshots**](#-screenshots) • [**Tech Stack**](#️-technology-stack)
 </div>
 
 ---
@@ -106,17 +106,24 @@ Designed with clean **Material Design 3 Expressive & Fluent UI** aesthetics, Eye
 
 ## 🚀 Installation & Usage Guide
 
-### Method 1: Download Portable Release ZIP (Quickest & Easiest)
+### Method 1: Windows Application Installer (Recommended)
 
 1. Go to the official [**GitHub Releases Page**](https://github.com/mahfujkn/EyeFocus/releases).
-2. Download the latest **`EyeFocus-v1.1.0-Windows-Portable.zip`** release archive.
-3. Extract the ZIP archive anywhere on your PC (e.g., `C:\EyeFocus` or Desktop).
-4. Double-click **`EyeFocus.exe`** to launch the application.
-5. 🎉 **EyeFocus** runs instantly as a standalone portable app — no installer, admin rights, or registry clutter required!
+2. Download **`EyeFocus-v1.1.0-Setup.exe`**.
+3. Run the setup wizard to install EyeFocus directly into Windows.
+4. 🎉 **EyeFocus** integrates directly with your Start Menu, Desktop shortcuts, and Windows startup.
 
 ---
 
-### Method 2: Build From Source (.NET 8 SDK)
+### Method 2: Standalone Portable ZIP (No Install Required)
+
+1. Download **`EyeFocus-v1.1.0-Windows-Portable.zip`** from the [**GitHub Releases Page**](https://github.com/mahfujkn/EyeFocus/releases).
+2. Extract the ZIP archive anywhere on your PC (e.g., `C:\EyeFocus` or Desktop).
+3. Double-click **`EyeFocus.exe`** to start using EyeFocus immediately without any installation.
+
+---
+
+### Method 3: Build From Source (.NET 8 SDK)
 
 1. **Clone the repository**
 
