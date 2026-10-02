@@ -175,10 +175,12 @@ namespace EyeFocus.ViewModels
             OnPropertyChanged(nameof(IsThemeLight));
             OnPropertyChanged(nameof(IsThemeDark));
 
-            _startWithWindows = s.StartWithWindows;
-            if (!_startWithWindows && _startupManager.IsStartWithWindowsEnabled())
+            bool isStartupInRegistry = _startupManager.IsStartWithWindowsEnabled();
+            _startWithWindows = s.StartWithWindows || isStartupInRegistry;
+            if (_startWithWindows != s.StartWithWindows)
             {
-                _startupManager.SetStartWithWindows(false);
+                s.StartWithWindows = _startWithWindows;
+                _settingsStore.Save(s);
             }
             OnPropertyChanged(nameof(StartWithWindows));
 

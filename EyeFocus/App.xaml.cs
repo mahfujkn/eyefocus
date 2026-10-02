@@ -80,9 +80,17 @@ namespace EyeFocus
 
                 // 6. System Integration
                 var startupManager = new StartupManager();
-                if (!settings.StartWithWindows && startupManager.IsStartWithWindowsEnabled())
+                bool isStartupInRegistry = startupManager.IsStartWithWindowsEnabled();
+                if (isStartupInRegistry && !settings.StartWithWindows)
                 {
-                    startupManager.SetStartWithWindows(false);
+                    // Enabled via Windows Installer or Task Manager, sync settings!
+                    settings.StartWithWindows = true;
+                    _settingsStore.Save(settings);
+                    LogService.Info("Synchronized Windows startup state: Enabled.");
+                }
+                else if (settings.StartWithWindows && !isStartupInRegistry)
+                {
+                    startupManager.SetStartWithWindows(true, settings.StartMinimized);
                 }
                 _hotkeyManager = new HotkeyManager(_settingsStore);
                 _powerEventManager = new PowerEventManager(_displayEngine, profileManager);

@@ -19,8 +19,13 @@ namespace EyeFocus.SystemIntegration
         {
             try
             {
-                using var key = Registry.CurrentUser.OpenSubKey(RunRegistryKey, false);
-                return key?.GetValue(AppName) != null;
+                using var hkcuKey = Registry.CurrentUser.OpenSubKey(RunRegistryKey, false);
+                if (hkcuKey?.GetValue(AppName) != null) return true;
+
+                using var hklmKey = Registry.LocalMachine.OpenSubKey(RunRegistryKey, false);
+                if (hklmKey?.GetValue(AppName) != null) return true;
+
+                return false;
             }
             catch (Exception ex)
             {
@@ -34,23 +39,38 @@ namespace EyeFocus.SystemIntegration
             try
             {
                 using var key = Registry.CurrentUser.OpenSubKey(RunRegistryKey, true);
-                if (key == null) return;
-
-                if (enable)
+                if (key != null)
                 {
-                    var exePath = Environment.ProcessPath ?? AppContext.BaseDirectory;
-                    var command = $"\"{exePath}\"";
-                    if (startMinimized)
+                    if (enable)
                     {
-                        command += " --minimized";
+                        var exePath = Environment.ProcessPath ?? AppContext.BaseDirectory;
+                        var command = $"\"{exePath}\"";
+                        if (startMinimized)
+                        {
+                            command += " --minimized";
+                        }
+                        key.SetValue(AppName, command);
+                        LogService.Info($"Enabled Windows startup (HKCU): {command}");
                     }
-                    key.SetValue(AppName, command);
-                    LogService.Info($"Enabled Windows startup: {command}");
+                    else
+                    {
+                        key.DeleteValue(AppName, false);
+                        LogService.Info("Disabled Windows startup (HKCU).");
+                    }
                 }
-                else
+
+                // If disabling, also attempt to clean up HKLM entry if present
+                if (!enable)
                 {
-                    key.DeleteValue(AppName, false);
-                    LogService.Info("Disabled Windows startup.");
+                    try
+                    {
+                        using var hklmKey = Registry.LocalMachine.OpenSubKey(RunRegistryKey, true);
+                        hklmKey?.DeleteValue(AppName, false);
+                    }
+                    catch
+                    {
+                        // Ignore insufficient rights on HKLM if running as standard user
+                    }
                 }
             }
             catch (Exception ex)
