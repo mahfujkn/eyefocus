@@ -17,6 +17,12 @@ All notable changes to **EyeFocus** will be documented in this file.
   - Added live glowing `● Connected` emerald status badge in the header bar.
 - **Modern Pill Toast / Snackbar Notifications**:
   - Redesigned status messages to a floating capsule pill with dynamic leading accent icon (Sun, Moon, Shield, Sparkles) and clean frameless close button.
+- **Single-Instance Enforcement & Smart Window Activation**:
+  - System-wide named Mutex and Inter-Process Communication (IPC) prevent duplicate processes and duplicate tray icons when launching EyeFocus from Windows Search or Start Menu.
+  - Automatically signals and restores the running application to the foreground.
+- **Official Windows Installer Setup (.EXE)**:
+  - Official setup wizard installer (`EyeFocus-v1.1.0-Setup.exe`) alongside standalone portable archive.
+  - Clean Windows startup task integration with seamless in-app settings toggle synchronization and single Task Manager entry.
 - **Comprehensive Quality Assurance**:
   - 58 passing automated unit tests covering display gamma, brightness transitions, theme switching, schedule evaluation, and profile storage.
 
