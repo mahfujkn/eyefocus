@@ -107,6 +107,9 @@ namespace EyeFocus
                 WindowState = WindowState.Normal;
             }
             Activate();
+            Topmost = true;
+            Topmost = false;
+            Focus();
         }
     }
 }

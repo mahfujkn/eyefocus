@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using EyeFocus.Automation;
 using EyeFocus.Display;
@@ -13,6 +14,12 @@ namespace EyeFocus
 {
     public partial class App : System.Windows.Application
     {
+        private static Mutex? _singleInstanceMutex;
+        private static EventWaitHandle? _showWindowWaitHandle;
+        private static RegisteredWaitHandle? _waitHandleRegistration;
+        private const string MutexName = @"Local\EyeFocus_SingleInstance_Mutex_mahfujkn";
+        private const string EventName = @"Local\EyeFocus_ShowWindow_Event_mahfujkn";
+
         private ISettingsStore? _settingsStore;
         private IDisplayEngine? _displayEngine;
         private ISafetyManager? _safetyManager;
@@ -40,6 +47,56 @@ namespace EyeFocus
                     LogService.Error("Unhandled AppDomain Exception", ex);
                 }
             };
+
+            // Single-Instance application check
+            try
+            {
+                _singleInstanceMutex = new Mutex(true, MutexName, out bool createdNew);
+                if (!createdNew)
+                {
+                    LogService.Info("Another instance of EyeFocus is already running. Signaling existing instance to show window.");
+                    try
+                    {
+                        if (EventWaitHandle.TryOpenExisting(EventName, out var existingEvent))
+                        {
+                            using (existingEvent)
+                            {
+                                existingEvent.Set();
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogService.Error("Failed to signal existing EyeFocus instance", ex);
+                    }
+
+                    Shutdown(0);
+                    return;
+                }
+
+                // Register listener for secondary instance activation signals
+                _showWindowWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, EventName);
+                _waitHandleRegistration = ThreadPool.RegisterWaitForSingleObject(
+                    _showWindowWaitHandle,
+                    (state, timedOut) =>
+                    {
+                        if (!timedOut)
+                        {
+                            Dispatcher.BeginInvoke(() =>
+                            {
+                                LogService.Info("Received signal from secondary instance. Restoring main window.");
+                                _mainWindow?.ShowAndRestore();
+                            });
+                        }
+                    },
+                    null,
+                    -1,
+                    false);
+            }
+            catch (Exception ex)
+            {
+                LogService.Error("Error checking single-instance mutex", ex);
+            }
 
             try
             {
@@ -176,6 +233,25 @@ namespace EyeFocus
             catch (Exception ex)
             {
                 LogService.Error("Error restoring display on application exit", ex);
+            }
+
+            try
+            {
+                _waitHandleRegistration?.Unregister(null);
+                _showWindowWaitHandle?.Dispose();
+                if (_singleInstanceMutex != null)
+                {
+                    try
+                    {
+                        _singleInstanceMutex.ReleaseMutex();
+                    }
+                    catch { }
+                    _singleInstanceMutex.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogService.Error("Error cleaning up single-instance handles", ex);
             }
 
             try
