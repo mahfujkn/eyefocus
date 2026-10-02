@@ -3,6 +3,7 @@
 [Oo]bj/
 [Pp]ublish/
 [Aa]rtifacts/
+installer_output/
 
 ## Visual Studio & Rider Cache
 .vs/
