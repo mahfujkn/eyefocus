@@ -202,7 +202,6 @@
                                                                           Width="13" Height="13" Stretch="Uniform" />
                                                                 </MenuItem.Icon>
                                                             </MenuItem>
-                                                            <Separator Style="{StaticResource M3MenuSeparatorStyle}" />
                                                             <MenuItem Style="{StaticResource M3MenuItemStyle}"
                                                                       Header="Copy Display Specifications"
                                                                       Command="{Binding DataContext.CopySpecsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
