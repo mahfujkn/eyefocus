@@ -58,9 +58,10 @@
                                     <TextBlock Text="EyeFocus" FontWeight="Bold" FontSize="26"
                                                FontFamily="Segoe UI Variable Display, Segoe UI Variable Text, Segoe UI, sans-serif"
                                                Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
-                                    <Border Background="#150D9488" BorderBrush="#0D9488" BorderThickness="1"
+                                    <Border Background="{DynamicResource MonitorPrimaryBadgeBackgroundBrush}"
+                                            BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="1"
                                             CornerRadius="10" Padding="8,2" Margin="10,0,0,0" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Version}" FontWeight="Bold" FontSize="11.5" Foreground="#0D9488" />
+                                        <TextBlock Text="{Binding Version}" FontWeight="Bold" FontSize="11.5" Foreground="{DynamicResource PrimaryBrush}" />
                                     </Border>
                                 </StackPanel>
                             </StackPanel>
@@ -68,11 +69,11 @@
 
                         <!-- Tagline -->
                         <TextBlock Text="{Binding Tagline}" FontWeight="SemiBold" FontSize="13.5"
-                                   Foreground="#0D9488" Margin="0,10,0,8" />
+                                   Foreground="{DynamicResource PrimaryBrush}" Margin="0,10,0,8" />
 
                         <!-- Description -->
                         <TextBlock Text="{Binding Description}"
-                                   FontSize="12.5" Foreground="{DynamicResource OutlineBrush}"
+                                   FontSize="12.5" Foreground="{DynamicResource OnSurfaceVariantBrush}"
                                    TextWrapping="Wrap" LineHeight="19" Margin="0,0,16,14" />
 
                         <!-- 3 Feature Badges: Privacy First | Local & Offline | Open Source -->
@@ -83,7 +84,7 @@
                                     BorderThickness="1" CornerRadius="8"
                                     Padding="10,5" Margin="0,0,8,0">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Path Data="{StaticResource IconShield}" Fill="#0D9488"
+                                    <Path Data="{StaticResource IconShield}" Fill="{DynamicResource PrimaryBrush}"
                                           Width="12" Height="12" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
                                     <TextBlock Text="Privacy First" FontSize="11.5" FontWeight="SemiBold"
                                                Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
@@ -96,7 +97,7 @@
                                     BorderThickness="1" CornerRadius="8"
                                     Padding="10,5" Margin="0,0,8,0">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Path Data="{StaticResource IconLock}" Fill="#0D9488"
+                                    <Path Data="{StaticResource IconLock}" Fill="{DynamicResource PrimaryBrush}"
                                           Width="12" Height="12" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
                                     <TextBlock Text="Local &amp; Offline" FontSize="11.5" FontWeight="SemiBold"
                                                Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
@@ -109,7 +110,7 @@
                                     BorderThickness="1" CornerRadius="8"
                                     Padding="10,5">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Path Data="{StaticResource IconCode}" Fill="#0D9488"
+                                    <Path Data="{StaticResource IconCode}" Fill="{DynamicResource PrimaryBrush}"
                                           Width="12" Height="12" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
                                     <TextBlock Text="Open Source" FontSize="11.5" FontWeight="SemiBold"
                                                Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
@@ -145,9 +146,11 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <!-- Monitor Screen Frame (White/Silver bezel) -->
+                            <!-- Monitor Screen Frame (White/Silver bezel in light, dark-slate in dark) -->
                             <Border Grid.Row="0" Width="168" Height="106" CornerRadius="8"
-                                    Background="#FFFFFF" BorderBrush="#CBD5E1" BorderThickness="2" Padding="4">
+                                    Background="{DynamicResource AboutMonitorFrameBackgroundBrush}"
+                                    BorderBrush="{DynamicResource AboutMonitorFrameBorderBrush}"
+                                    BorderThickness="2" Padding="4">
                                 <Border CornerRadius="5" ClipToBounds="True">
                                     <Grid Background="#E0F2FE">
                                         <!-- Screen Horizon Sky -->
@@ -186,19 +189,22 @@
 
                             <!-- Monitor Stand Neck -->
                             <Border Grid.Row="1" Width="16" Height="16"
-                                    Background="#E2E8F0" HorizontalAlignment="Center" />
+                                    Background="{DynamicResource AboutMonitorStandBrush}" HorizontalAlignment="Center" />
 
                             <!-- Monitor Stand Base -->
                             <Border Grid.Row="2" Width="68" Height="6" CornerRadius="3"
-                                    Background="#CBD5E1" HorizontalAlignment="Center" />
+                                    Background="{DynamicResource AboutMonitorStandBrush}" HorizontalAlignment="Center" />
                         </Grid>
 
                         <!-- Floating Vision Eye Badge (Overlaid on screen bottom right) -->
                         <Border Width="48" Height="48" CornerRadius="24"
-                                Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1.5"
+                                Background="{DynamicResource AboutEyeBadgeBackgroundBrush}"
+                                BorderBrush="{DynamicResource AboutEyeBadgeBorderBrush}"
+                                BorderThickness="1.5"
                                 HorizontalAlignment="Right" VerticalAlignment="Center"
                                 Margin="0,18,6,0">
-                            <Path Data="{StaticResource IconEyeExercise}" Fill="#0D9488"
+                            <Path Data="{StaticResource IconEyeExercise}"
+                                  Fill="{DynamicResource AboutEyeBadgeForegroundBrush}"
                                   Width="24" Height="24" Stretch="Uniform"
                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
@@ -228,8 +234,8 @@
 
                             <!-- GitHub Circle Icon -->
                             <Border Grid.Column="0" Width="44" Height="44" CornerRadius="22"
-                                    Background="#E0F2FE" Margin="0,0,14,0" VerticalAlignment="Center">
-                                <Path Data="{StaticResource IconGitHub}" Fill="#0284C7"
+                                    Background="{DynamicResource AboutRepoIconBgBrush}" Margin="0,0,14,0" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconGitHub}" Fill="{DynamicResource AboutRepoIconFgBrush}"
                                       Width="22" Height="22" Stretch="Uniform"
                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
@@ -238,7 +244,7 @@
                                 <TextBlock Text="Official Repository &amp; Releases" FontWeight="Bold" FontSize="15"
                                            Foreground="{DynamicResource OnSurfaceBrush}" />
                                 <TextBlock Text="EyeFocus is fully open-source under the MIT license. Star, inspect, or contribute on GitHub."
-                                           FontSize="11.5" Foreground="{DynamicResource OutlineBrush}"
+                                           FontSize="11.5" Foreground="{DynamicResource OnSurfaceVariantBrush}"
                                            TextWrapping="Wrap" Margin="0,3,0,0" />
                             </StackPanel>
                         </Grid>
@@ -275,9 +281,11 @@
                     <!-- Right: Subtle Decorative Octocat Watermark Artwork -->
                     <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Border Width="96" Height="68" CornerRadius="12"
-                                Background="#F0F9FF" BorderBrush="#BAE6FD" BorderThickness="1"
+                                Background="{DynamicResource AboutRepoWatermarkBgBrush}"
+                                BorderBrush="{DynamicResource AboutRepoWatermarkBorderBrush}"
+                                BorderThickness="1"
                                 Margin="0,0,0,0">
-                            <Path Data="{StaticResource IconGitHub}" Fill="#38BDF8"
+                            <Path Data="{StaticResource IconGitHub}" Fill="{DynamicResource AboutRepoIconFgBrush}"
                                   Width="38" Height="38" Stretch="Uniform" Opacity="0.85"
                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
@@ -313,15 +321,15 @@
 
                             <!-- Developer User Avatar Icon -->
                             <Border Grid.Column="0" Width="44" Height="44" CornerRadius="22"
-                                    Background="#E6F5F2" Margin="0,0,14,0" VerticalAlignment="Center">
-                                <Path Data="{StaticResource IconUser}" Fill="#0D9488"
+                                    Background="{DynamicResource AboutDevAvatarBgBrush}" Margin="0,0,14,0" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconUser}" Fill="{DynamicResource AboutDevAvatarFgBrush}"
                                       Width="22" Height="22" Stretch="Uniform"
                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
 
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock Text="Developed By" FontWeight="SemiBold" FontSize="11"
-                                           Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,2" />
+                                           Foreground="{DynamicResource OnSurfaceVariantBrush}" Margin="0,0,0,2" />
                                 <TextBlock Text="{Binding DeveloperName, Mode=OneWay}"
                                            FontSize="16" FontWeight="Bold"
                                            Foreground="{DynamicResource OnSurfaceBrush}" />
@@ -349,7 +357,9 @@
                     <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <!-- Code Window Card -->
                         <Border Width="106" Height="68" CornerRadius="10"
-                                Background="#E6F5F2" BorderBrush="#99F6E4" BorderThickness="1"
+                                Background="{DynamicResource AboutDevGraphicBgBrush}"
+                                BorderBrush="{DynamicResource AboutDevGraphicBorderBrush}"
+                                BorderThickness="1"
                                 Padding="10,8">
                             <StackPanel>
                                 <!-- Window Dots -->
@@ -362,10 +372,10 @@
                                 <!-- Code Line Placeholders with </> -->
                                 <Grid>
                                     <TextBlock Text="&lt;/&gt;" FontSize="15" FontWeight="Bold"
-                                               Foreground="#0D9488" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                               Foreground="{DynamicResource AboutDevAvatarFgBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
                                     <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-                                        <Rectangle Width="44" Height="4" RadiusX="2" RadiusY="2" Fill="#5EEAD4" Margin="0,0,0,4" />
-                                        <Rectangle Width="32" Height="4" RadiusX="2" RadiusY="2" Fill="#99F6E4" />
+                                        <Rectangle Width="44" Height="4" RadiusX="2" RadiusY="2" Fill="{DynamicResource PrimaryBrush}" Margin="0,0,0,4" />
+                                        <Rectangle Width="32" Height="4" RadiusX="2" RadiusY="2" Fill="{DynamicResource PrimaryContainerBrush}" />
                                     </StackPanel>
                                 </Grid>
                             </StackPanel>

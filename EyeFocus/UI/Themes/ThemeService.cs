@@ -198,6 +198,33 @@ namespace EyeFocus.UI.Themes
                 SetToken(app, "AboutHeroCardBackground", isLight ? "#EBF5F3" : "#0E1B22");
                 SetToken(app, "AboutHeroCardBorder", isLight ? "#CDE8E2" : "#19353D");
 
+                // Monitors Capabilities Strip (Light is airy/soft light-teal tint, Dark is sleek deep container)
+                SetToken(app, "CapabilitiesStripBackground", isLight ? "#F1F7F6" : "#112028");
+                SetToken(app, "CapabilitiesStripBorder", isLight ? "#D2EAE4" : "#1B3B42");
+
+                // Monitor Primary Badge
+                SetToken(app, "MonitorPrimaryBadgeBackground", isLight ? "#E6F5F2" : "#134E4A");
+                SetToken(app, "MonitorPrimaryBadgeForeground", isLight ? "#0D9488" : "#5EEAD4");
+
+                // About Tab Themed Artwork
+                SetToken(app, "AboutMonitorFrameBackground", isLight ? "#FFFFFF" : "#1E293B");
+                SetToken(app, "AboutMonitorFrameBorder", isLight ? "#CBD5E1" : "#334155");
+                SetToken(app, "AboutMonitorStand", isLight ? "#CBD5E1" : "#334155");
+
+                SetToken(app, "AboutEyeBadgeBackground", isLight ? "#FFFFFF" : "#162E34");
+                SetToken(app, "AboutEyeBadgeBorder", isLight ? "#0D9488" : "#2DD4BF");
+                SetToken(app, "AboutEyeBadgeForeground", isLight ? "#0D9488" : "#2DD4BF");
+
+                SetToken(app, "AboutRepoIconBg", isLight ? "#E0F2FE" : "#0C2D48");
+                SetToken(app, "AboutRepoIconFg", isLight ? "#0284C7" : "#38BDF8");
+                SetToken(app, "AboutRepoWatermarkBg", isLight ? "#F0F9FF" : "#0F2233");
+                SetToken(app, "AboutRepoWatermarkBorder", isLight ? "#BAE6FD" : "#1B4260");
+
+                SetToken(app, "AboutDevAvatarBg", isLight ? "#E6F5F2" : "#13383B");
+                SetToken(app, "AboutDevAvatarFg", isLight ? "#0D9488" : "#2DD4BF");
+                SetToken(app, "AboutDevGraphicBg", isLight ? "#E6F5F2" : "#10292E");
+                SetToken(app, "AboutDevGraphicBorder", isLight ? "#99F6E4" : "#1B4D54");
+
                 ThemeChanged?.Invoke(_activeTheme);
             };
 

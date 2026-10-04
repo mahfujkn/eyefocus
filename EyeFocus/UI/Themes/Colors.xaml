@@ -203,4 +203,52 @@
     <SolidColorBrush x:Key="AboutHeroCardBackgroundBrush" Color="{StaticResource AboutHeroCardBackgroundColor}" />
     <SolidColorBrush x:Key="AboutHeroCardBorderBrush" Color="{StaticResource AboutHeroCardBorderColor}" />
 
+    <!-- Monitors Capabilities Strip (Themed) -->
+    <Color x:Key="CapabilitiesStripBackgroundColor">#112028</Color>
+    <Color x:Key="CapabilitiesStripBorderColor">#1B3B42</Color>
+    <SolidColorBrush x:Key="CapabilitiesStripBackgroundBrush" Color="{StaticResource CapabilitiesStripBackgroundColor}" />
+    <SolidColorBrush x:Key="CapabilitiesStripBorderBrush" Color="{StaticResource CapabilitiesStripBorderColor}" />
+
+    <!-- Monitor Primary Badge (Themed) -->
+    <Color x:Key="MonitorPrimaryBadgeBackgroundColor">#134E4A</Color>
+    <Color x:Key="MonitorPrimaryBadgeForegroundColor">#5EEAD4</Color>
+    <SolidColorBrush x:Key="MonitorPrimaryBadgeBackgroundBrush" Color="{StaticResource MonitorPrimaryBadgeBackgroundColor}" />
+    <SolidColorBrush x:Key="MonitorPrimaryBadgeForegroundBrush" Color="{StaticResource MonitorPrimaryBadgeForegroundColor}" />
+
+    <!-- About Tab Illustration & Artwork (Themed) -->
+    <Color x:Key="AboutMonitorFrameBackgroundColor">#1E293B</Color>
+    <Color x:Key="AboutMonitorFrameBorderColor">#334155</Color>
+    <SolidColorBrush x:Key="AboutMonitorFrameBackgroundBrush" Color="{StaticResource AboutMonitorFrameBackgroundColor}" />
+    <SolidColorBrush x:Key="AboutMonitorFrameBorderBrush" Color="{StaticResource AboutMonitorFrameBorderColor}" />
+
+    <Color x:Key="AboutMonitorStandColor">#334155</Color>
+    <SolidColorBrush x:Key="AboutMonitorStandBrush" Color="{StaticResource AboutMonitorStandColor}" />
+
+    <Color x:Key="AboutEyeBadgeBackgroundColor">#162E34</Color>
+    <Color x:Key="AboutEyeBadgeBorderColor">#2DD4BF</Color>
+    <Color x:Key="AboutEyeBadgeForegroundColor">#2DD4BF</Color>
+    <SolidColorBrush x:Key="AboutEyeBadgeBackgroundBrush" Color="{StaticResource AboutEyeBadgeBackgroundColor}" />
+    <SolidColorBrush x:Key="AboutEyeBadgeBorderBrush" Color="{StaticResource AboutEyeBadgeBorderColor}" />
+    <SolidColorBrush x:Key="AboutEyeBadgeForegroundBrush" Color="{StaticResource AboutEyeBadgeForegroundColor}" />
+
+    <Color x:Key="AboutRepoIconBgColor">#0C2D48</Color>
+    <Color x:Key="AboutRepoIconFgColor">#38BDF8</Color>
+    <SolidColorBrush x:Key="AboutRepoIconBgBrush" Color="{StaticResource AboutRepoIconBgColor}" />
+    <SolidColorBrush x:Key="AboutRepoIconFgBrush" Color="{StaticResource AboutRepoIconFgColor}" />
+
+    <Color x:Key="AboutRepoWatermarkBgColor">#0F2233</Color>
+    <Color x:Key="AboutRepoWatermarkBorderColor">#1B4260</Color>
+    <SolidColorBrush x:Key="AboutRepoWatermarkBgBrush" Color="{StaticResource AboutRepoWatermarkBgColor}" />
+    <SolidColorBrush x:Key="AboutRepoWatermarkBorderBrush" Color="{StaticResource AboutRepoWatermarkBorderColor}" />
+
+    <Color x:Key="AboutDevAvatarBgColor">#13383B</Color>
+    <Color x:Key="AboutDevAvatarFgColor">#2DD4BF</Color>
+    <SolidColorBrush x:Key="AboutDevAvatarBgBrush" Color="{StaticResource AboutDevAvatarBgColor}" />
+    <SolidColorBrush x:Key="AboutDevAvatarFgBrush" Color="{StaticResource AboutDevAvatarFgColor}" />
+
+    <Color x:Key="AboutDevGraphicBgColor">#10292E</Color>
+    <Color x:Key="AboutDevGraphicBorderColor">#1B4D54</Color>
+    <SolidColorBrush x:Key="AboutDevGraphicBgBrush" Color="{StaticResource AboutDevGraphicBgColor}" />
+    <SolidColorBrush x:Key="AboutDevGraphicBorderBrush" Color="{StaticResource AboutDevGraphicBorderColor}" />
+
 </ResourceDictionary>

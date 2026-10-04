@@ -69,6 +69,8 @@ namespace EyeFocus.Models
         public string ManufacturerDisplay => string.IsNullOrWhiteSpace(Manufacturer) ? "Generic" : Manufacturer;
         public string SerialDisplay => string.IsNullOrWhiteSpace(Serial) ? "Unknown" : Serial;
 
+        public string CleanDeviceName => (DeviceName ?? string.Empty).Replace(@"\\.\", "").Trim();
+
         public string DisplayTitle => $"{FriendlyName} {(IsPrimary ? "(Primary)" : "")}".Trim();
     }
 }
