@@ -177,8 +177,7 @@
                                                         <ContextMenu Style="{StaticResource M3ContextMenuStyle}">
                                                             <MenuItem Style="{StaticResource M3MenuItemStyle}"
                                                                       Header="Open Windows Display Settings"
-                                                                      Command="{Binding DataContext.OpenDisplaySettingsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                      CommandParameter="{Binding}">
+                                                                      Click="MenuItem_OpenDisplaySettings_Click">
                                                                 <MenuItem.Icon>
                                                                     <Path Data="{StaticResource IconMonitor}" Fill="{DynamicResource OnSurfaceBrush}"
                                                                           Width="13" Height="13" Stretch="Uniform" />
@@ -186,8 +185,7 @@
                                                             </MenuItem>
                                                             <MenuItem Style="{StaticResource M3MenuItemStyle}"
                                                                       Header="Identify Display"
-                                                                      Command="{Binding DataContext.IdentifyMonitorCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                      CommandParameter="{Binding}">
+                                                                      Click="MenuItem_IdentifyDisplay_Click">
                                                                 <MenuItem.Icon>
                                                                     <Path Data="{StaticResource IconEyeExercise}" Fill="{DynamicResource OnSurfaceBrush}"
                                                                           Width="13" Height="13" Stretch="Uniform" />
@@ -195,8 +193,7 @@
                                                             </MenuItem>
                                                             <MenuItem Style="{StaticResource M3MenuItemStyle}"
                                                                       Header="Re-detect Hardware Capabilities"
-                                                                      Command="{Binding DataContext.RedetectMonitorCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                      CommandParameter="{Binding}">
+                                                                      Click="MenuItem_RedetectCapabilities_Click">
                                                                 <MenuItem.Icon>
                                                                     <Path Data="{StaticResource IconRefresh}" Fill="{DynamicResource OnSurfaceBrush}"
                                                                           Width="13" Height="13" Stretch="Uniform" />
@@ -204,8 +201,7 @@
                                                             </MenuItem>
                                                             <MenuItem Style="{StaticResource M3MenuItemStyle}"
                                                                       Header="Copy Display Specifications"
-                                                                      Command="{Binding DataContext.CopySpecsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                      CommandParameter="{Binding}">
+                                                                      Click="MenuItem_CopySpecs_Click">
                                                                 <MenuItem.Icon>
                                                                     <Path Data="{StaticResource IconCode}" Fill="{DynamicResource OnSurfaceBrush}"
                                                                           Width="13" Height="13" Stretch="Uniform" />

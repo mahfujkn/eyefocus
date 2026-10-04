@@ -100,6 +100,9 @@ namespace EyeFocus.ViewModels
             {
                 try
                 {
+                    double scaleX = monitor.DpiScaleX > 0 ? monitor.DpiScaleX : 1.0;
+                    double scaleY = monitor.DpiScaleY > 0 ? monitor.DpiScaleY : 1.0;
+
                     var win = new System.Windows.Window
                     {
                         WindowStyle = System.Windows.WindowStyle.None,
@@ -108,10 +111,10 @@ namespace EyeFocus.ViewModels
                         Topmost = true,
                         ShowInTaskbar = false,
                         WindowStartupLocation = System.Windows.WindowStartupLocation.Manual,
-                        Left = monitor.Left,
-                        Top = monitor.Top,
-                        Width = monitor.Width,
-                        Height = monitor.Height
+                        Left = monitor.Left / scaleX,
+                        Top = monitor.Top / scaleY,
+                        Width = monitor.Width / scaleX,
+                        Height = monitor.Height / scaleY
                     };
 
                     var border = new System.Windows.Controls.Border
@@ -194,6 +197,7 @@ namespace EyeFocus.ViewModels
             try
             {
                 _displayEngine.MonitorManager.RefreshMonitors();
+                LoadMonitors();
                 if (monitor != null)
                 {
                     Services.SnackbarService.Instance.Show($"Re-detected capabilities for {monitor.FriendlyName}.");
@@ -229,7 +233,18 @@ namespace EyeFocus.ViewModels
                            $"Windows Gamma: {monitor.WindowsGammaDisplay}\n" +
                            $"Software Dim: {monitor.SoftwareDimDisplay}";
 
-                System.Windows.Clipboard.SetText(text);
+                for (int i = 0; i < 5; i++)
+                {
+                    try
+                    {
+                        System.Windows.Clipboard.SetDataObject(text, true);
+                        break;
+                    }
+                    catch
+                    {
+                        System.Threading.Thread.Sleep(50);
+                    }
+                }
                 Services.SnackbarService.Instance.Show($"Specifications copied for {monitor.FriendlyName}.");
             }
             catch (System.Exception ex)
