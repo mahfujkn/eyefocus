@@ -27,6 +27,7 @@ namespace EyeFocus.ViewModels
         private readonly IHotkeyManager _hotkeyManager;
         private readonly ISettingsStore _settingsStore;
         private readonly IAutoDayNightService _autoDayNightService;
+        private readonly SystemIntegration.IDisplayStateGuard? _displayStateGuard;
 
         private string _currentTab = "Dashboard"; // "Dashboard", "Monitors", "Settings", "Privacy", "About"
         private string _selectedMonitorId = "ALL";
@@ -203,18 +204,20 @@ namespace EyeFocus.ViewModels
             IHotkeyManager hotkeyManager,
             ISettingsStore settingsStore,
             IStartupManager startupManager,
-            IAutoDayNightService autoDayNightService)
+            IAutoDayNightService autoDayNightService,
+            SystemIntegration.IDisplayStateGuard? displayStateGuard = null)
         {
             _displayEngine = displayEngine;
             _profileManager = profileManager;
             _hotkeyManager = hotkeyManager;
             _settingsStore = settingsStore;
             _autoDayNightService = autoDayNightService;
+            _displayStateGuard = displayStateGuard;
 
             DashboardVM = new DisplayDashboardViewModel(_displayEngine, _profileManager, _settingsStore, _autoDayNightService);
             ProfileEditorVM = new ProfileEditorViewModel(_profileManager, _displayEngine);
             AutoDayNightConfigVM = new AutoDayNightConfigViewModel(_settingsStore, _autoDayNightService);
-            MonitorsVM = new MonitorsViewModel(_displayEngine, _profileManager);
+            MonitorsVM = new MonitorsViewModel(_displayEngine, _profileManager, displayStateGuard);
             SettingsVM = new SettingsViewModel(_settingsStore, startupManager, _hotkeyManager);
             AboutVM = new AboutViewModel();
 
@@ -315,6 +318,11 @@ namespace EyeFocus.ViewModels
             }
 
             _displayEngine.ApplyProfile(activeProfile);
+        }
+
+        public void EnforceActiveProfile()
+        {
+            _displayStateGuard?.EnforceActiveProfile();
         }
 
         private void PopulateMonitorSelector()

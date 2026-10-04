@@ -25,6 +25,7 @@ namespace EyeFocus
         private ISafetyManager? _safetyManager;
         private ITrayManager? _trayManager;
         private IPowerEventManager? _powerEventManager;
+        private IDisplayStateGuard? _displayStateGuard;
         private IHotkeyManager? _hotkeyManager;
         private IAutoDayNightService? _autoDayNightService;
         private MainWindow? _mainWindow;
@@ -85,6 +86,7 @@ namespace EyeFocus
                             Dispatcher.BeginInvoke(() =>
                             {
                                 LogService.Info("Received signal from secondary instance. Restoring main window.");
+                                _displayStateGuard?.EnforceActiveProfile();
                                 _mainWindow?.ShowAndRestore();
                             });
                         }
@@ -153,6 +155,9 @@ namespace EyeFocus
                 _powerEventManager = new PowerEventManager(_displayEngine, profileManager);
                 _powerEventManager.Initialize();
 
+                _displayStateGuard = new DisplayStateGuard(_displayEngine, profileManager, _settingsStore);
+                _displayStateGuard.Initialize();
+
                 _trayManager = new TrayManager(profileManager, _displayEngine, _settingsStore, _autoDayNightService);
                 _trayManager.Initialize();
 
@@ -163,14 +168,19 @@ namespace EyeFocus
                     _hotkeyManager,
                     _settingsStore,
                     startupManager,
-                    _autoDayNightService);
+                    _autoDayNightService,
+                    _displayStateGuard);
 
                 _mainWindow = new MainWindow(mainViewModel, _settingsStore, _hotkeyManager);
 
                 // Wire Tray events with Dispatcher invocation
                 _trayManager.OpenRequested += (s, ev) =>
                 {
-                    Dispatcher.Invoke(() => _mainWindow.ShowAndRestore());
+                    Dispatcher.Invoke(() =>
+                    {
+                        _displayStateGuard?.EnforceActiveProfile();
+                        _mainWindow.ShowAndRestore();
+                    });
                 };
                 _trayManager.SettingsRequested += (s, ev) =>
                 {
@@ -256,6 +266,7 @@ namespace EyeFocus
 
             try
             {
+                _displayStateGuard?.Dispose();
                 _autoDayNightService?.Dispose();
                 _trayManager?.Dispose();
                 _hotkeyManager?.Dispose();

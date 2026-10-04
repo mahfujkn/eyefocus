@@ -12,6 +12,7 @@ namespace EyeFocus.ViewModels
     {
         private readonly IDisplayEngine _displayEngine;
         private readonly IProfileManager _profileManager;
+        private readonly SystemIntegration.IDisplayStateGuard? _displayStateGuard;
         private MonitorInfo? _selectedMonitor;
 
         public ObservableCollection<MonitorInfo> Monitors { get; } = new();
@@ -29,10 +30,11 @@ namespace EyeFocus.ViewModels
         public ICommand RedetectMonitorCommand { get; }
         public ICommand CopySpecsCommand { get; }
 
-        public MonitorsViewModel(IDisplayEngine displayEngine, IProfileManager profileManager)
+        public MonitorsViewModel(IDisplayEngine displayEngine, IProfileManager profileManager, SystemIntegration.IDisplayStateGuard? displayStateGuard = null)
         {
             _displayEngine = displayEngine;
             _profileManager = profileManager;
+            _displayStateGuard = displayStateGuard;
 
             RefreshMonitorsCommand = new RelayCommand(OnRefreshMonitors);
             OpenDisplaySettingsCommand = new RelayCommand<MonitorInfo>(OnOpenDisplaySettings);
@@ -82,17 +84,8 @@ namespace EyeFocus.ViewModels
                     UseShellExecute = true
                 });
 
-                // Windows Display Settings probes hardware and temporarily resets GPU gamma.
-                // Automatically re-apply active profile after Windows finishes initialization.
-                System.Threading.Tasks.Task.Delay(1500).ContinueWith(_ =>
-                {
-                    try
-                    {
-                        var active = _profileManager.GetActiveProfile();
-                        _displayEngine.ApplyProfile(active);
-                    }
-                    catch { }
-                });
+                // Engage active recovery guard to seamlessly auto-restore profile as Windows probes displays
+                _displayStateGuard?.NotifySettingsOpened();
             }
             catch (System.Exception ex)
             {

@@ -110,6 +110,13 @@ namespace EyeFocus
             Topmost = true;
             Topmost = false;
             Focus();
+            _mainViewModel.EnforceActiveProfile();
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            _mainViewModel.EnforceActiveProfile();
         }
     }
 }

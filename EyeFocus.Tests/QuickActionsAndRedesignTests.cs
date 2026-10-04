@@ -165,6 +165,32 @@ namespace EyeFocus.Tests
             Assert.True(vm.TimelineSkyGradientBrush.IsFrozen);
         }
 
+        [Fact]
+        public void DisplayStateGuard_CanInitializeAndEnforce()
+        {
+            var settingsStore = new FakeSettingsStore();
+            var profileManager = new FakeProfileManager();
+            var displayEngine = new FakeDisplayEngine();
+
+            using var guard = new EyeFocus.SystemIntegration.DisplayStateGuard(displayEngine, profileManager, settingsStore);
+            guard.Initialize();
+            guard.NotifySettingsOpened();
+            guard.EnforceActiveProfile();
+
+            Assert.True(displayEngine.CurrentKelvin > 0);
+        }
+
+        [Fact]
+        public void GammaController_RampTracking_InitializesProperly()
+        {
+            var controller = new GammaController();
+            var monitor = new MonitorInfo { DeviceName = @"\\.\DISPLAY1", FriendlyName = "Main Display" };
+
+            // In test environment without hardware display, calling IsGammaRampReset returns false safely
+            bool isReset = controller.IsGammaRampReset(monitor);
+            Assert.False(isReset);
+        }
+
         internal class FakeSettingsStore : ISettingsStore
         {
             private AppSettings _settings = new();

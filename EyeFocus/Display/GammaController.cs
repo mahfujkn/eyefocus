@@ -9,6 +9,7 @@ namespace EyeFocus.Display
     public class GammaController : IGammaController
     {
         private readonly ConcurrentDictionary<string, GdiNative.RgbRamp> _baselineRamps = new();
+        private readonly ConcurrentDictionary<string, GdiNative.RgbRamp> _lastAppliedRamps = new();
 
         public (double R, double G, double B) KelvinToRgbMultipliers(int kelvin)
         {
@@ -116,7 +117,12 @@ namespace EyeFocus.Display
         public bool ApplyColorSettings(MonitorInfo monitor, int kelvin, int redPercent, int greenPercent, int bluePercent, int? contrastPercent = null)
         {
             var ramp = GenerateGammaRamp(kelvin, redPercent, greenPercent, bluePercent, contrastPercent);
-            return SetMonitorGammaRamp(monitor, ref ramp);
+            bool success = SetMonitorGammaRamp(monitor, ref ramp);
+            if (success)
+            {
+                _lastAppliedRamps[monitor.DeviceName] = ramp;
+            }
+            return success;
         }
 
         public bool RestoreBaselineGamma(MonitorInfo monitor)
@@ -124,7 +130,12 @@ namespace EyeFocus.Display
             var key = monitor.DeviceName;
             if (_baselineRamps.TryGetValue(key, out var baseline) && IsNeutralRamp(baseline))
             {
-                return SetMonitorGammaRamp(monitor, ref baseline, isBaselineRestore: true);
+                bool success = SetMonitorGammaRamp(monitor, ref baseline, isBaselineRestore: true);
+                if (success)
+                {
+                    _lastAppliedRamps[key] = baseline;
+                }
+                return success;
             }
             return ResetToIdentityGamma(monitor);
         }
@@ -132,7 +143,86 @@ namespace EyeFocus.Display
         public bool ResetToIdentityGamma(MonitorInfo monitor)
         {
             var identity = GdiNative.RgbRamp.CreateIdentity();
-            return SetMonitorGammaRamp(monitor, ref identity, isBaselineRestore: true);
+            bool success = SetMonitorGammaRamp(monitor, ref identity, isBaselineRestore: true);
+            if (success)
+            {
+                _lastAppliedRamps[monitor.DeviceName] = identity;
+            }
+            return success;
+        }
+
+        public bool GetCurrentGammaRamp(MonitorInfo monitor, out GdiNative.RgbRamp ramp)
+        {
+            ramp = default;
+            try
+            {
+                var hdc = GdiNative.CreateDC("DISPLAY", monitor.DeviceName, null, IntPtr.Zero);
+                if (hdc == IntPtr.Zero)
+                {
+                    hdc = GdiNative.CreateDC("DISPLAY", null, null, IntPtr.Zero);
+                }
+                if (hdc == IntPtr.Zero)
+                {
+                    return false;
+                }
+
+                bool success = GdiNative.GetDeviceGammaRamp(hdc, out ramp);
+                GdiNative.DeleteDC(hdc);
+                return success;
+            }
+            catch (Exception ex)
+            {
+                LogService.Debug($"Error reading gamma ramp for {monitor.DeviceName}: {ex.Message}");
+                return false;
+            }
+        }
+
+        public bool IsGammaRampReset(MonitorInfo monitor)
+        {
+            var key = monitor.DeviceName;
+            if (!_lastAppliedRamps.TryGetValue(key, out var lastApplied))
+            {
+                return false;
+            }
+
+            // If the last applied ramp was already neutral / 6500K identity (both red and blue are 65535 or near top),
+            // then an identity ramp is expected and is not considered an invalid reset.
+            if (lastApplied.Blue == null || lastApplied.Blue.Length < 256 ||
+                lastApplied.Red == null || lastApplied.Red.Length < 256)
+            {
+                return false;
+            }
+
+            if (lastApplied.Blue[255] >= 64000 && lastApplied.Red[255] >= 64000)
+            {
+                return false;
+            }
+
+            if (!GetCurrentGammaRamp(monitor, out var currentRamp))
+            {
+                return false;
+            }
+
+            if (currentRamp.Blue == null || currentRamp.Blue.Length < 256 ||
+                currentRamp.Red == null || currentRamp.Red.Length < 256)
+            {
+                return false;
+            }
+
+            int expectedBlue = lastApplied.Blue[255];
+            int expectedRed = lastApplied.Red[255];
+
+            int currentBlue = currentRamp.Blue[255];
+            int currentRed = currentRamp.Red[255];
+
+            // Windows Display Settings / DWM resets the ramp to neutral identity (where Blue[255]=65535 and Red[255]=65535).
+            // Detect if any channel has jumped towards 65535 by more than 3000 units.
+            if ((currentBlue - expectedBlue > 3000) || (currentRed - expectedRed > 3000))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public static bool IsNeutralRamp(GdiNative.RgbRamp ramp)
