@@ -2,7 +2,35 @@
 
 All notable changes to **EyeFocus** will be documented in this file.
 
-## [1.1.0] - 2026-10-01 (Modern Glassmorphism Redesign & Iconography Polish)
+## [1.1.0] - 2026-10-04 (Monitors & About Tab Redesign, Display Tools & Stability Update)
+
+### Added & Improved
+- **Redesigned Monitors & Hardware View**:
+  - Brand-new Material 3 Expressive display cards with clean typography and friendly monitor titles.
+  - Clean device name display: stripped internal `\\.\` prefix (e.g. `DISPLAY1` instead of `\\.\DISPLAY1`).
+  - Softened, theme-matched hardware capabilities strip (DDC/CI, Hardware Brightness, Windows Gamma, Software Dimming) in both Light & Dark modes.
+  - **Quick Display Tools Menu** on every monitor card via a 3-dot (`...`) button:
+    1. **Open Windows Display Settings**: Launches Windows official display settings (`ms-settings:display`).
+    2. **Identify Display**: Displays a high-contrast, translucent centered badge with large display number and friendly name for 2.5 seconds with smooth fade-out.
+    3. **Re-detect Hardware Capabilities**: Re-scans DDC/CI, WMI, and gamma support with instant UI refresh and snackbar toast notification.
+    4. **Copy Display Specifications**: Copies full display technical specs (Resolution, Refresh Rate, Scale, Connection, Capabilities) directly to clipboard.
+  - Direct event handler routing ensuring 100% reliable execution across WPF ContextMenu popup boundaries with equalized item spacing.
+- **Redesigned About & GitHub View**:
+  - Full Material 3 Expressive hero card layout with brand icon, official version badge (`v1.1.0 Stable`), and tagline.
+  - Highlights grid showcasing Vision & Eye Comfort, Real Hardware DDC/CI, and 100% Offline Privacy.
+  - Official Repository & Releases card with quick navigation.
+  - Developer card crediting **Mahfuj Khan Rafsan** with link to portfolio.
+  - Open source MIT License card.
+- **Windows Display Settings Auto-Restore Guard**:
+  - Windows DWM / Color Management temporarily resets GPU gamma LUT when `ms-settings:display` probes displays. EyeFocus now automatically guards and re-applies the active profile after Windows finishes initialization.
+- **Packaged Portable Archive Structure**:
+  - Extracting `EyeFocus-v1.1.0-Windows-Portable.zip` now creates a clean root `EyeFocus/` folder containing the executable and all components, preventing clutter during extraction.
+- **Single-File Published App Reliability**:
+  - Migrated embedded window icon to WPF pack URI (`pack://application:,,,/EyeFocus;component/Assets/app.ico`), eliminating startup exceptions in single-file deployment.
+- **Enhanced Test Suite**:
+  - 61 passing automated unit tests covering display gamma monotonicity, theme switching, schedule evaluation, and full ViewModel/Window instantiation.
+
+## [1.1.0-beta] - 2026-10-01 (Modern Glassmorphism Redesign & Iconography Polish)
 
 ### Added & Improved
 - **Modern Dual-Icon Sliding Theme Pill Switch**:
