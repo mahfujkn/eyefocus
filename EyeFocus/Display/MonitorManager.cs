@@ -124,6 +124,32 @@ namespace EyeFocus.Display
                 monitor.DpiScaleY = 1.0;
             }
 
+            // Query Display Mode (Refresh Rate, Color Depth)
+            try
+            {
+                var devMode = new User32Native.DEVMODE();
+                devMode.dmSize = (short)Marshal.SizeOf(typeof(User32Native.DEVMODE));
+                if (User32Native.EnumDisplaySettings(monitor.DeviceName, User32Native.ENUM_CURRENT_SETTINGS, ref devMode))
+                {
+                    if (devMode.dmDisplayFrequency > 0)
+                    {
+                        monitor.RefreshRate = devMode.dmDisplayFrequency;
+                    }
+                    if (devMode.dmBitsPerPel > 0)
+                    {
+                        monitor.BitsPerPixel = devMode.dmBitsPerPel;
+                    }
+                }
+            }
+            catch
+            {
+                monitor.RefreshRate = 60;
+                monitor.BitsPerPixel = 32;
+            }
+
+            // Connection type
+            monitor.ConnectionType = monitor.IsInternal ? "Internal Display" : "DisplayPort";
+
             // Query EDID / Hardware device strings via EnumDisplayDevices
             PopulateDeviceDetails(monitor);
 

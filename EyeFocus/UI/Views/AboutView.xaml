@@ -5,154 +5,381 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="840"
-             FontFamily="Segoe UI Variable Text, Segoe UI, sans-serif"
+             FontFamily="Segoe UI Variable Text, Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, sans-serif"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
-             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextFormattingMode="Display"
              TextOptions.TextRenderingMode="ClearType"
              RenderOptions.ClearTypeHint="Enabled">
 
-    <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Margin="28,24,28,32" HorizontalAlignment="Stretch" MaxWidth="720">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="28,16,28,28" HorizontalAlignment="Stretch" MaxWidth="800">
 
-            <!-- 1. Hero Branding Section -->
-            <StackPanel HorizontalAlignment="Center" Margin="0,8,0,24">
-                <!-- App Icon with Teal Gradient Surface -->
-                <Border Width="56" Height="56" CornerRadius="16"
-                        Background="{StaticResource TealPrimaryButtonBrush}"
-                        HorizontalAlignment="Center"
-                        Margin="0,0,0,14">
-                    <Path Data="{StaticResource IconEyeFocusBrand}"
-                          Fill="{DynamicResource OnPrimaryBrush}"
-                          Width="30" Height="30" Stretch="Uniform"
-                          HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </Border>
-
-                <!-- Title & Version Badge -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,6">
-                    <TextBlock Text="EyeFocus" FontWeight="Bold" FontSize="26"
-                               FontFamily="Segoe UI Variable Display, Segoe UI Variable Text, Segoe UI, sans-serif"
-                               Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
-                    <Border Background="{DynamicResource PrimaryContainerBrush}" BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="1"
-                            CornerRadius="10" Padding="8,2.5" Margin="10,0,0,0" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Version}" FontWeight="Bold" FontSize="11" Foreground="{DynamicResource PrimaryBrush}" />
-                    </Border>
-                </StackPanel>
-
-                <!-- Tagline -->
-                <TextBlock Text="{Binding Tagline}" FontWeight="SemiBold" FontSize="13.5"
-                           Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,8" />
-
-                <!-- Description -->
-                <TextBlock Text="{Binding Description}"
-                           FontSize="12" Foreground="{DynamicResource OutlineBrush}"
-                           TextAlignment="Center" TextWrapping="Wrap" LineHeight="19"
-                           MaxWidth="580" HorizontalAlignment="Center" />
+            <!-- 1. Header (Eyebrow + Large Title + Subtitle) -->
+            <StackPanel Margin="0,0,0,20">
+                <TextBlock Text="ABOUT" FontSize="11" FontWeight="SemiBold"
+                           Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,2" />
+                <TextBlock Text="About EyeFocus" FontWeight="Bold" FontSize="28"
+                           FontFamily="Segoe UI Variable Display, Segoe UI Variable Text, Segoe UI, sans-serif"
+                           Foreground="{DynamicResource OnSurfaceBrush}" />
+                <TextBlock Text="Learn more about EyeFocus, its mission, and the open-source project."
+                           FontSize="13" Foreground="{DynamicResource OutlineBrush}" Margin="0,4,0,0" />
             </StackPanel>
 
-            <!-- 2. Official Repository & Releases Card -->
+            <!-- 2. Hero Card (Top Card with Vector Display Illustration) -->
+            <Border Background="{DynamicResource AboutHeroCardBackgroundBrush}"
+                    BorderBrush="{DynamicResource AboutHeroCardBorderBrush}"
+                    BorderThickness="1" CornerRadius="16"
+                    Padding="24,20" Margin="0,0,0,16"
+                    HorizontalAlignment="Stretch">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="240" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left Content: App Brand, Tagline, Description, Feature Pills -->
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <!-- App Icon + Title + Version Badge -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <!-- App Icon with Teal Gradient Surface -->
+                            <Border Width="50" Height="50" CornerRadius="14"
+                                    Background="{StaticResource TealPrimaryButtonBrush}"
+                                    Margin="0,0,14,0" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconEyeFocusBrand}"
+                                      Fill="{DynamicResource OnPrimaryBrush}"
+                                      Width="26" Height="26" Stretch="Uniform"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+
+                            <!-- Title & Version Badge -->
+                            <StackPanel VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="EyeFocus" FontWeight="Bold" FontSize="26"
+                                               FontFamily="Segoe UI Variable Display, Segoe UI Variable Text, Segoe UI, sans-serif"
+                                               Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                    <Border Background="#150D9488" BorderBrush="#0D9488" BorderThickness="1"
+                                            CornerRadius="10" Padding="8,2" Margin="10,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Version}" FontWeight="Bold" FontSize="11.5" Foreground="#0D9488" />
+                                    </Border>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Tagline -->
+                        <TextBlock Text="{Binding Tagline}" FontWeight="SemiBold" FontSize="13.5"
+                                   Foreground="#0D9488" Margin="0,10,0,8" />
+
+                        <!-- Description -->
+                        <TextBlock Text="{Binding Description}"
+                                   FontSize="12.5" Foreground="{DynamicResource OutlineBrush}"
+                                   TextWrapping="Wrap" LineHeight="19" Margin="0,0,16,14" />
+
+                        <!-- 3 Feature Badges: Privacy First | Local & Offline | Open Source -->
+                        <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                            <!-- Pill 1: Privacy First -->
+                            <Border Background="{DynamicResource SurfaceBrightBrush}"
+                                    BorderBrush="{DynamicResource OutlineVariantBrush}"
+                                    BorderThickness="1" CornerRadius="8"
+                                    Padding="10,5" Margin="0,0,8,0">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Path Data="{StaticResource IconShield}" Fill="#0D9488"
+                                          Width="12" Height="12" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Privacy First" FontSize="11.5" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Pill 2: Local & Offline -->
+                            <Border Background="{DynamicResource SurfaceBrightBrush}"
+                                    BorderBrush="{DynamicResource OutlineVariantBrush}"
+                                    BorderThickness="1" CornerRadius="8"
+                                    Padding="10,5" Margin="0,0,8,0">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Path Data="{StaticResource IconLock}" Fill="#0D9488"
+                                          Width="12" Height="12" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Local &amp; Offline" FontSize="11.5" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Pill 3: Open Source -->
+                            <Border Background="{DynamicResource SurfaceBrightBrush}"
+                                    BorderBrush="{DynamicResource OutlineVariantBrush}"
+                                    BorderThickness="1" CornerRadius="8"
+                                    Padding="10,5">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Path Data="{StaticResource IconCode}" Fill="#0D9488"
+                                          Width="12" Height="12" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Open Source" FontSize="11.5" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Right Column: Stylized Vector Illustration matching Sample -->
+                    <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0">
+                        <!-- Background Ambient Orbit Curve -->
+                        <Path Data="M 10,75 C 20,20 180,10 220,60"
+                              Stroke="#34D399" StrokeThickness="1.5" StrokeDashArray="4 4" Opacity="0.5" />
+
+                        <!-- Ambient Floating Dots -->
+                        <Ellipse Width="16" Height="16" Fill="#FDE047" Margin="180,10,0,0"
+                                 HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <Ellipse Width="8" Height="8" Fill="#2DD4BF" Margin="30,45,0,0"
+                                 HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <Ellipse Width="6" Height="6" Fill="#FBBF24" Margin="205,80,0,0"
+                                 HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+                        <!-- Decorative Pastel Leaves -->
+                        <Path Data="M 0,0 C 10,-8 22,-2 24,14 C 14,16 2,12 0,0 Z"
+                              Fill="#34D399" Opacity="0.8" Margin="18,50,0,0"
+                              HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+                        <!-- Center Desktop Monitor Artwork -->
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Monitor Screen Frame (White/Silver bezel) -->
+                            <Border Grid.Row="0" Width="168" Height="106" CornerRadius="8"
+                                    Background="#FFFFFF" BorderBrush="#CBD5E1" BorderThickness="2" Padding="4">
+                                <Border CornerRadius="5" ClipToBounds="True">
+                                    <Grid Background="#E0F2FE">
+                                        <!-- Screen Horizon Sky -->
+                                        <Rectangle>
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                    <GradientStop Color="#BAE6FD" Offset="0.0" />
+                                                    <GradientStop Color="#E0F2FE" Offset="0.5" />
+                                                    <GradientStop Color="#FEF08A" Offset="1.0" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+
+                                        <!-- Golden Sun on Display -->
+                                        <Ellipse Width="24" Height="24" Fill="#FBBF24"
+                                                 Margin="0,16,28,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+                                        <!-- Layered Mountain Silhouettes -->
+                                        <Path Data="M 0,70 Q 35,46 75,58 Q 120,44 168,56 L 168,106 L 0,106 Z"
+                                              Fill="#0D9488" Opacity="0.9" />
+                                        <Path Data="M 0,78 Q 45,62 90,74 Q 135,64 168,72 L 168,106 L 0,106 Z"
+                                              Fill="#047857" />
+
+                                        <!-- Screen Glass Glare -->
+                                        <Rectangle Opacity="0.16">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStop Color="#FFFFFF" Offset="0.0" />
+                                                    <GradientStop Color="Transparent" Offset="0.45" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </Grid>
+                                </Border>
+                            </Border>
+
+                            <!-- Monitor Stand Neck -->
+                            <Border Grid.Row="1" Width="16" Height="16"
+                                    Background="#E2E8F0" HorizontalAlignment="Center" />
+
+                            <!-- Monitor Stand Base -->
+                            <Border Grid.Row="2" Width="68" Height="6" CornerRadius="3"
+                                    Background="#CBD5E1" HorizontalAlignment="Center" />
+                        </Grid>
+
+                        <!-- Floating Vision Eye Badge (Overlaid on screen bottom right) -->
+                        <Border Width="48" Height="48" CornerRadius="24"
+                                Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1.5"
+                                HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Margin="0,18,6,0">
+                            <Path Data="{StaticResource IconEyeExercise}" Fill="#0D9488"
+                                  Width="24" Height="24" Stretch="Uniform"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- 3. Official Repository & Releases Card -->
             <Border Background="{DynamicResource SurfaceBrightBrush}"
                     BorderBrush="{DynamicResource OutlineVariantBrush}"
                     BorderThickness="1" CornerRadius="16"
                     Padding="22,18" Margin="0,0,0,16"
                     HorizontalAlignment="Stretch">
-                <StackPanel>
-                    <Grid Margin="0,0,0,14">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="160" />
+                    </Grid.ColumnDefinitions>
 
-                        <!-- GitHub Circle Icon -->
-                        <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20"
-                                Background="{DynamicResource ScheduleHeaderCircleBgBrush}"
-                                Margin="0,0,14,0" VerticalAlignment="Center">
-                            <Path Data="{StaticResource IconGitHub}" Fill="{DynamicResource ScheduleHeaderCircleFgBrush}"
-                                  Width="18" Height="18" Stretch="Uniform"
+                    <!-- Left: GitHub Info & Actions -->
+                    <StackPanel Grid.Column="0">
+                        <Grid Margin="0,0,0,14">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- GitHub Circle Icon -->
+                            <Border Grid.Column="0" Width="44" Height="44" CornerRadius="22"
+                                    Background="#E0F2FE" Margin="0,0,14,0" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconGitHub}" Fill="#0284C7"
+                                      Width="22" Height="22" Stretch="Uniform"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Official Repository &amp; Releases" FontWeight="Bold" FontSize="15"
+                                           Foreground="{DynamicResource OnSurfaceBrush}" />
+                                <TextBlock Text="EyeFocus is fully open-source under the MIT license. Star, inspect, or contribute on GitHub."
+                                           FontSize="11.5" Foreground="{DynamicResource OutlineBrush}"
+                                           TextWrapping="Wrap" Margin="0,3,0,0" />
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Orientation="Horizontal" Margin="58,0,0,0">
+                            <!-- View on GitHub Button (Filled Primary) -->
+                            <Button Style="{StaticResource M3FilledButtonStyle}"
+                                    Command="{Binding OpenRepositoryCommand}"
+                                    Margin="0,0,12,0" Padding="16,6" Height="34">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Path Data="{StaticResource IconGitHub}" Fill="{DynamicResource OnPrimaryBrush}"
+                                          Width="14" Height="14" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="View on GitHub" Foreground="{DynamicResource OnPrimaryBrush}"
+                                               FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center" />
+                                    <Path Data="{StaticResource IconExternalLink}" Fill="{DynamicResource OnPrimaryBrush}"
+                                          Width="10" Height="10" Stretch="Uniform" Margin="8,0,0,0" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Official Releases Button (Tonal / Outlined) -->
+                            <Button Style="{StaticResource M3OutlinedButtonStyle}"
+                                    Command="{Binding OpenReleasesCommand}"
+                                    Padding="16,6" Height="34">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Path Data="{StaticResource IconExternalLink}" Fill="{DynamicResource PrimaryBrush}"
+                                          Width="11" Height="11" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Official Releases" Foreground="{DynamicResource PrimaryBrush}"
+                                               FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Right: Subtle Decorative Octocat Watermark Artwork -->
+                    <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Border Width="96" Height="68" CornerRadius="12"
+                                Background="#F0F9FF" BorderBrush="#BAE6FD" BorderThickness="1"
+                                Margin="0,0,0,0">
+                            <Path Data="{StaticResource IconGitHub}" Fill="#38BDF8"
+                                  Width="38" Height="38" Stretch="Uniform" Opacity="0.85"
                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
-
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="Official Repository &amp; Releases" FontWeight="Bold" FontSize="15"
-                                       Foreground="{DynamicResource OnSurfaceBrush}" />
-                            <TextBlock Text="EyeFocus is fully open-source under the MIT license. Star, inspect, or contribute on GitHub:"
-                                       FontSize="11.5" Foreground="{DynamicResource OutlineBrush}"
-                                       TextWrapping="Wrap" Margin="0,2,0,0" />
-                        </StackPanel>
+                        <!-- Floating Pastel Bubbles -->
+                        <Ellipse Width="10" Height="10" Fill="#FBBF24" Margin="110,6,0,0"
+                                 HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <Ellipse Width="8" Height="8" Fill="#34D399" Margin="8,54,0,0"
+                                 HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <Ellipse Width="6" Height="6" Fill="#60A5FA" Margin="105,48,0,0"
+                                 HorizontalAlignment="Left" VerticalAlignment="Top" />
                     </Grid>
-
-                    <StackPanel Orientation="Horizontal" Margin="54,0,0,0">
-                        <!-- View on GitHub Button (Filled Primary Solid) -->
-                        <Button Style="{StaticResource M3FilledButtonStyle}" Command="{Binding OpenRepositoryCommand}"
-                                Margin="0,0,10,0" Padding="14,6" Height="32">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Path Data="{StaticResource IconGitHub}" Fill="{DynamicResource OnPrimaryBrush}"
-                                      Width="14" Height="14" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                <TextBlock Text="View on GitHub" Foreground="{DynamicResource OnPrimaryBrush}"
-                                           FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center" />
-                                <Path Data="{StaticResource IconExternalLink}" Fill="{DynamicResource OnPrimaryBrush}"
-                                      Width="10" Height="10" Stretch="Uniform" Margin="7,0,0,0" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Button>
-
-                        <!-- Official Releases Button (Tonal Secondary) -->
-                        <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding OpenReleasesCommand}"
-                                Padding="14,6" Height="32">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Path Data="{StaticResource IconExternalLink}" Fill="{DynamicResource OnSecondaryContainerBrush}"
-                                      Width="12" Height="12" Stretch="Uniform" Margin="0,0,7,0" VerticalAlignment="Center" />
-                                <TextBlock Text="Official Releases" Foreground="{DynamicResource OnSecondaryContainerBrush}"
-                                           FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                </StackPanel>
+                </Grid>
             </Border>
 
-            <!-- 3. Developer Card -->
+            <!-- 4. Developed By Card -->
             <Border Background="{DynamicResource SurfaceBrightBrush}"
                     BorderBrush="{DynamicResource OutlineVariantBrush}"
                     BorderThickness="1" CornerRadius="16"
                     Padding="22,18" HorizontalAlignment="Stretch">
-                <StackPanel>
-                    <Grid Margin="0,0,0,14">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="160" />
+                    </Grid.ColumnDefinitions>
 
-                        <!-- Developer Circle Icon -->
-                        <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20"
-                                Background="{DynamicResource BrightnessHeaderCircleBgBrush}"
-                                Margin="0,0,14,0" VerticalAlignment="Center">
-                            <Path Data="{StaticResource IconFocus}" Fill="{DynamicResource BrightnessHeaderCircleFgBrush}"
-                                  Width="18" Height="18" Stretch="Uniform"
-                                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <!-- Left: Developer Avatar & GitHub Profile Button -->
+                    <StackPanel Grid.Column="0">
+                        <Grid Margin="0,0,0,14">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Developer User Avatar Icon -->
+                            <Border Grid.Column="0" Width="44" Height="44" CornerRadius="22"
+                                    Background="#E6F5F2" Margin="0,0,14,0" VerticalAlignment="Center">
+                                <Path Data="{StaticResource IconUser}" Fill="#0D9488"
+                                      Width="22" Height="22" Stretch="Uniform"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Developed By" FontWeight="SemiBold" FontSize="11"
+                                           Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,2" />
+                                <TextBlock Text="{Binding DeveloperName, Mode=OneWay}"
+                                           FontSize="16" FontWeight="Bold"
+                                           Foreground="{DynamicResource OnSurfaceBrush}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Orientation="Horizontal" Margin="58,0,0,0">
+                            <!-- GitHub Profile Button -->
+                            <Button Style="{StaticResource M3FilledButtonStyle}"
+                                    Command="{Binding OpenDeveloperCommand}"
+                                    Padding="16,6" Height="34">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Path Data="{StaticResource IconGitHub}" Fill="{DynamicResource OnPrimaryBrush}"
+                                          Width="14" Height="14" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="GitHub Profile" Foreground="{DynamicResource OnPrimaryBrush}"
+                                               FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center" />
+                                    <Path Data="{StaticResource IconExternalLink}" Fill="{DynamicResource OnPrimaryBrush}"
+                                          Width="10" Height="10" Stretch="Uniform" Margin="8,0,0,0" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Right: Subtle Code Editor Window Graphic -->
+                    <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <!-- Code Window Card -->
+                        <Border Width="106" Height="68" CornerRadius="10"
+                                Background="#E6F5F2" BorderBrush="#99F6E4" BorderThickness="1"
+                                Padding="10,8">
+                            <StackPanel>
+                                <!-- Window Dots -->
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <Ellipse Width="6" Height="6" Fill="#0D9488" Margin="0,0,4,0" />
+                                    <Ellipse Width="6" Height="6" Fill="#14B8A6" Margin="0,0,4,0" />
+                                    <Ellipse Width="6" Height="6" Fill="#5EEAD4" />
+                                </StackPanel>
+
+                                <!-- Code Line Placeholders with </> -->
+                                <Grid>
+                                    <TextBlock Text="&lt;/&gt;" FontSize="15" FontWeight="Bold"
+                                               Foreground="#0D9488" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
+                                        <Rectangle Width="44" Height="4" RadiusX="2" RadiusY="2" Fill="#5EEAD4" Margin="0,0,0,4" />
+                                        <Rectangle Width="32" Height="4" RadiusX="2" RadiusY="2" Fill="#99F6E4" />
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
                         </Border>
 
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="Developed By" FontWeight="SemiBold" FontSize="11"
-                                       Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,2" />
-                            <TextBlock Text="{Binding DeveloperName, Mode=OneWay}"
-                                       FontSize="15.5" FontWeight="Bold"
-                                       Foreground="{DynamicResource OnSurfaceBrush}" />
-                        </StackPanel>
+                        <!-- Decorative Floating Pastel Leaves -->
+                        <Path Data="M 0,0 C 8,-10 20,-4 22,12 C 12,14 2,10 0,0 Z"
+                              Fill="#34D399" Opacity="0.8" Margin="95,44,0,0"
+                              HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <Path Data="M 0,0 C -6,-8 -16,-2 -18,10 C -10,12 -2,8 0,0 Z"
+                              Fill="#2DD4BF" Opacity="0.7" Margin="4,2,0,0"
+                              HorizontalAlignment="Left" VerticalAlignment="Top" />
                     </Grid>
-
-                    <StackPanel Orientation="Horizontal" Margin="54,0,0,0">
-                        <Button Style="{StaticResource M3FilledButtonStyle}" Command="{Binding OpenDeveloperCommand}"
-                                Padding="14,6" Height="32">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Path Data="{StaticResource IconGitHub}" Fill="{DynamicResource OnPrimaryBrush}"
-                                      Width="14" Height="14" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                <TextBlock Text="GitHub Profile" Foreground="{DynamicResource OnPrimaryBrush}"
-                                           FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center" />
-                                <Path Data="{StaticResource IconExternalLink}" Fill="{DynamicResource OnPrimaryBrush}"
-                                      Width="10" Height="10" Stretch="Uniform" Margin="7,0,0,0" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                </StackPanel>
+                </Grid>
             </Border>
 
         </StackPanel>

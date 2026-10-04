@@ -197,4 +197,10 @@
         <GradientStop Color="#12F59E0B" Offset="1.0" />
     </LinearGradientBrush>
 
+    <!-- About Tab Hero Card Colors & Brushes -->
+    <Color x:Key="AboutHeroCardBackgroundColor">#0E1B22</Color>
+    <Color x:Key="AboutHeroCardBorderColor">#19353D</Color>
+    <SolidColorBrush x:Key="AboutHeroCardBackgroundBrush" Color="{StaticResource AboutHeroCardBackgroundColor}" />
+    <SolidColorBrush x:Key="AboutHeroCardBorderBrush" Color="{StaticResource AboutHeroCardBorderColor}" />
+
 </ResourceDictionary>

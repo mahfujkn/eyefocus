@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="680"
+             d:DesignHeight="720" d:DesignWidth="840"
              FontFamily="Segoe UI Variable Text, Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, sans-serif"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
@@ -12,21 +12,34 @@
              TextOptions.TextRenderingMode="ClearType"
              RenderOptions.ClearTypeHint="Enabled">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <!-- Content Container (20px horizontal padding, 12px top, 20px bottom) -->
-        <StackPanel Margin="20,12,20,20" HorizontalAlignment="Stretch">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+    </UserControl.Resources>
 
-            <!-- 1. Header -->
-            <Grid Margin="0,0,0,14" HorizontalAlignment="Stretch">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <!-- Content Container -->
+        <StackPanel Margin="28,16,28,28" HorizontalAlignment="Stretch">
+
+            <!-- 1. Header (Monitors + Detect Displays Button) -->
+            <Grid Margin="0,0,0,18" HorizontalAlignment="Stretch">
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Monitors" FontWeight="Bold" FontSize="20" Foreground="{DynamicResource OnSurfaceBrush}" />
-                    <TextBlock Text="Detected displays and hardware control capabilities." FontSize="12" Foreground="{DynamicResource OutlineBrush}" Margin="0,2,0,0" />
+                    <TextBlock Text="Monitors" FontWeight="Bold" FontSize="26"
+                               FontFamily="Segoe UI Variable Display, Segoe UI Variable Text, Segoe UI, sans-serif"
+                               Foreground="{DynamicResource OnSurfaceBrush}" />
+                    <TextBlock Text="Detected displays and hardware control capabilities."
+                               FontSize="13" Foreground="{DynamicResource OutlineBrush}" Margin="0,3,0,0" />
                 </StackPanel>
 
-                <Button Style="{StaticResource M3TonalButtonStyle}" Command="{Binding RefreshMonitorsCommand}" HorizontalAlignment="Right" Padding="12,5" Height="28" VerticalAlignment="Center">
+                <!-- Detect Displays Button -->
+                <Button Style="{StaticResource M3TonalButtonStyle}"
+                        Command="{Binding RefreshMonitorsCommand}"
+                        HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Padding="14,6" Height="34">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <Path Data="{StaticResource IconRefresh}" Fill="{DynamicResource OnSecondaryContainerBrush}" Width="10" Height="10" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center" />
-                        <TextBlock Text="Detect Displays" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <Path Data="{StaticResource IconRefresh}" Fill="{DynamicResource OnSurfaceBrush}"
+                              Width="12" Height="12" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="Detect Displays" FontSize="12" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
             </Grid>
@@ -35,59 +48,328 @@
             <ItemsControl ItemsSource="{Binding Monitors}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="{DynamicResource SurfaceContainerLowBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="12" Margin="0,0,0,10" HorizontalAlignment="Stretch" Padding="16,14">
+                        <Border Background="{DynamicResource SurfaceBrightBrush}"
+                                BorderBrush="{DynamicResource OutlineVariantBrush}"
+                                BorderThickness="1" CornerRadius="16"
+                                Margin="0,0,0,16" Padding="22,20"
+                                HorizontalAlignment="Stretch">
                             <StackPanel>
-                                <!-- Title, Primary Badge, & Resolution -->
-                                <Grid Margin="0,0,0,6">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding FriendlyName}" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
-                                        <Border Background="{DynamicResource PrimaryContainerBrush}" CornerRadius="4" Padding="6,1.5" Margin="8,0,0,0" VerticalAlignment="Center">
-                                            <TextBlock Text="PRIMARY" FontWeight="Bold" FontSize="8.5" Foreground="{DynamicResource PrimaryBrush}" />
-                                        </Border>
-                                    </StackPanel>
+                                <!-- Top Part: Graphic on left + Title, Specs, Capabilities on right -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                                    <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}">
-                                        <Run Text="{Binding Width}" /> × <Run Text="{Binding Height}" /> · <Run Text="{Binding DpiScaleX, StringFormat='{}{0:P0}'}" /> DPI
-                                    </TextBlock>
+                                    <!-- Monitor Device Illustration (Vector High-Fidelity) -->
+                                    <Grid Grid.Column="0" Width="160" Height="120"
+                                          HorizontalAlignment="Center" VerticalAlignment="Top"
+                                          Margin="0,2,22,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Outer Display Frame & Screen -->
+                                        <Border Grid.Row="0" Width="154" Height="96" CornerRadius="6"
+                                                Background="#0F172A" BorderBrush="#1E293B" BorderThickness="2" Padding="3">
+                                            <Border CornerRadius="4" ClipToBounds="True">
+                                                <Grid Background="#0A0F1D">
+                                                    <!-- Vibrant Landscape Wallpaper -->
+                                                    <Rectangle>
+                                                        <Rectangle.Fill>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                                <GradientStop Color="#60A5FA" Offset="0.0" />
+                                                                <GradientStop Color="#93C5FD" Offset="0.45" />
+                                                                <GradientStop Color="#FEF08A" Offset="0.85" />
+                                                                <GradientStop Color="#FDE047" Offset="1.0" />
+                                                            </LinearGradientBrush>
+                                                        </Rectangle.Fill>
+                                                    </Rectangle>
+
+                                                    <!-- Distant Mountains -->
+                                                    <Path Data="M 0,64 Q 28,36 60,52 Q 86,32 120,50 Q 138,40 154,52 L 154,96 L 0,96 Z"
+                                                          Fill="#3B82F6" Opacity="0.85" />
+                                                    <Path Data="M 0,70 Q 38,48 76,62 Q 112,44 154,60 L 154,96 L 0,96 Z"
+                                                          Fill="#2563EB" Opacity="0.9" />
+
+                                                    <!-- Rolling Green Hills -->
+                                                    <Path Data="M 0,76 Q 42,58 86,72 Q 124,62 154,70 L 154,96 L 0,96 Z"
+                                                          Fill="#22C55E" />
+                                                    <Path Data="M 0,82 Q 32,72 70,80 Q 112,70 154,78 L 154,96 L 0,96 Z"
+                                                          Fill="#15803D" />
+
+                                                    <!-- Glass Highlight Reflection -->
+                                                    <Rectangle Opacity="0.15">
+                                                        <Rectangle.Fill>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                                <GradientStop Color="#FFFFFF" Offset="0.0" />
+                                                                <GradientStop Color="Transparent" Offset="0.5" />
+                                                            </LinearGradientBrush>
+                                                        </Rectangle.Fill>
+                                                    </Rectangle>
+                                                </Grid>
+                                            </Border>
+                                        </Border>
+
+                                        <!-- Stand Neck -->
+                                        <Border Grid.Row="1" Width="14" Height="15"
+                                                Background="#1E293B" HorizontalAlignment="Center" />
+
+                                        <!-- Stand Base -->
+                                        <Border Grid.Row="2" Width="66" Height="5" CornerRadius="2.5"
+                                                Background="#0F172A" HorizontalAlignment="Center" />
+                                    </Grid>
+
+                                    <!-- Right Content -->
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Top">
+
+                                        <!-- Row 1: FriendlyName, Primary Badge & Specs -->
+                                        <Grid Margin="0,0,0,4">
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding FriendlyName}" FontWeight="Bold" FontSize="18"
+                                                           Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+
+                                                <!-- Primary Badge -->
+                                                <Border Background="#E6F5F2" CornerRadius="10" Padding="8,2"
+                                                        Margin="10,0,0,0" VerticalAlignment="Center"
+                                                        Visibility="{Binding IsPrimary, Converter={StaticResource BoolToVisConverter}}">
+                                                    <TextBlock Text="Primary" FontWeight="SemiBold" FontSize="11" Foreground="#0D9488" />
+                                                </Border>
+                                            </StackPanel>
+
+                                            <!-- Header Right Specs: Resolution, Hz, DPI, More -->
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <!-- Resolution -->
+                                                <Path Data="{StaticResource IconMonitor}" Fill="{DynamicResource OutlineBrush}"
+                                                      Width="13" Height="13" Stretch="Uniform" Margin="0,0,5,0" VerticalAlignment="Center" />
+                                                <TextBlock Text="{Binding ResolutionDisplay}" FontSize="12" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" Margin="0,0,14,0" />
+
+                                                <!-- Refresh Rate -->
+                                                <Path Data="{StaticResource IconRefresh}" Fill="{DynamicResource OutlineBrush}"
+                                                      Width="12" Height="12" Stretch="Uniform" Margin="0,0,5,0" VerticalAlignment="Center" />
+                                                <TextBlock Text="{Binding RefreshRateDisplay}" FontSize="12" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" Margin="0,0,14,0" />
+
+                                                <!-- DPI -->
+                                                <Path Data="{StaticResource IconDpi}" Fill="{DynamicResource OutlineBrush}"
+                                                      Width="12" Height="12" Stretch="Uniform" Margin="0,0,5,0" VerticalAlignment="Center" />
+                                                <TextBlock Text="{Binding ScalingPercentageDisplay}" FontSize="12" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OutlineBrush}" VerticalAlignment="Center" Margin="0,0,12,0" />
+
+                                                <!-- More Options Button -->
+                                                <Border Width="28" Height="28" CornerRadius="14"
+                                                        Background="{DynamicResource SurfaceContainerHighBrush}"
+                                                        VerticalAlignment="Center">
+                                                    <Path Data="{StaticResource IconMoreHoriz}" Fill="{DynamicResource OutlineBrush}"
+                                                          Width="14" Height="14" Stretch="Uniform"
+                                                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Border>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <!-- Row 2: Device String -->
+                                        <TextBlock Text="{Binding DeviceName, StringFormat='Device: {0}'}"
+                                                   FontSize="12" Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,14" />
+
+                                        <!-- Row 3: Capabilities Strip (4 Columns with icons & checkmarks) -->
+                                        <Border Background="{DynamicResource SurfaceContainerHighestBrush}"
+                                                BorderBrush="{DynamicResource OutlineVariantBrush}"
+                                                BorderThickness="1" CornerRadius="12" Padding="14,10">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- 1. DDC/CI Brightness -->
+                                                <Grid Grid.Column="0">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <Path Data="{StaticResource IconSun}" Fill="#0D9488"
+                                                              Width="18" Height="18" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                                        <StackPanel VerticalAlignment="Center">
+                                                            <TextBlock Text="DDC/CI Brightness" FontSize="10" FontWeight="SemiBold"
+                                                                       Foreground="{DynamicResource OutlineBrush}" />
+                                                            <TextBlock Text="{Binding DdcCiDisplay}" FontSize="12" FontWeight="Bold"
+                                                                       Foreground="#0D9488" Margin="0,1,0,0" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <Path Data="{StaticResource IconCheckCircle}" Fill="#10B981"
+                                                          Width="15" Height="15" Stretch="Uniform"
+                                                          HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                </Grid>
+
+                                                <!-- Divider 1 -->
+                                                <Rectangle Grid.Column="1" Width="1" Fill="{DynamicResource OutlineVariantBrush}" Margin="10,2" />
+
+                                                <!-- 2. Hardware Color -->
+                                                <Grid Grid.Column="2">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <Path Data="{StaticResource IconThermometer}" Fill="#0D9488"
+                                                              Width="18" Height="18" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                                        <StackPanel VerticalAlignment="Center">
+                                                            <TextBlock Text="Hardware Color" FontSize="10" FontWeight="SemiBold"
+                                                                       Foreground="{DynamicResource OutlineBrush}" />
+                                                            <TextBlock Text="{Binding HardwareColorDisplay}" FontSize="12" FontWeight="Bold"
+                                                                       Foreground="#0D9488" Margin="0,1,0,0" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <Path Data="{StaticResource IconCheckCircle}" Fill="#10B981"
+                                                          Width="15" Height="15" Stretch="Uniform"
+                                                          HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                </Grid>
+
+                                                <!-- Divider 2 -->
+                                                <Rectangle Grid.Column="3" Width="1" Fill="{DynamicResource OutlineVariantBrush}" Margin="10,2" />
+
+                                                <!-- 3. Windows Gamma -->
+                                                <Grid Grid.Column="4">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <Path Data="{StaticResource IconGammaVenn}" Fill="#0D9488"
+                                                              Width="18" Height="18" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                                        <StackPanel VerticalAlignment="Center">
+                                                            <TextBlock Text="Windows Gamma" FontSize="10" FontWeight="SemiBold"
+                                                                       Foreground="{DynamicResource OutlineBrush}" />
+                                                            <TextBlock Text="{Binding WindowsGammaDisplay}" FontSize="12" FontWeight="Bold"
+                                                                       Foreground="#0D9488" Margin="0,1,0,0" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <Path Data="{StaticResource IconCheckCircle}" Fill="#10B981"
+                                                          Width="15" Height="15" Stretch="Uniform"
+                                                          HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                </Grid>
+
+                                                <!-- Divider 3 -->
+                                                <Rectangle Grid.Column="5" Width="1" Fill="{DynamicResource OutlineVariantBrush}" Margin="10,2" />
+
+                                                <!-- 4. Software Dim -->
+                                                <Grid Grid.Column="6">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <Path Data="{StaticResource IconSettings}" Fill="#0D9488"
+                                                              Width="18" Height="18" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                                        <StackPanel VerticalAlignment="Center">
+                                                            <TextBlock Text="Software Dim" FontSize="10" FontWeight="SemiBold"
+                                                                       Foreground="{DynamicResource OutlineBrush}" />
+                                                            <TextBlock Text="{Binding SoftwareDimDisplay}" FontSize="12" FontWeight="Bold"
+                                                                       Foreground="#0D9488" Margin="0,1,0,0" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <Path Data="{StaticResource IconCheckCircle}" Fill="#10B981"
+                                                          Width="15" Height="15" Stretch="Uniform"
+                                                          HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                </Grid>
+
+                                            </Grid>
+                                        </Border>
+
+                                    </StackPanel>
                                 </Grid>
 
-                                <TextBlock Text="{Binding DeviceName, StringFormat='Device: {0}'}" FontSize="11" Foreground="{DynamicResource OutlineBrush}" Margin="0,0,0,10" />
-
-                                <!-- Capabilities Information Strip -->
-                                <Border Background="{DynamicResource SurfaceContainerHighestBrush}" BorderBrush="{DynamicResource OutlineVariantBrush}" BorderThickness="1" CornerRadius="8" Padding="12,8" Margin="0,0,0,2">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <!-- DDC/CI -->
-                                        <StackPanel Grid.Column="0">
-                                            <TextBlock Text="DDC/CI Brightness" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
-                                            <TextBlock Text="{Binding SupportsDdcCi, Converter={x:Null}}" FontWeight="Bold" FontSize="11.5" Foreground="{DynamicResource PrimaryBrush}" Margin="0,1,0,0" />
+                                <!-- Bottom Part: Advanced Information Card -->
+                                <Border Background="{DynamicResource SurfaceContainerLowestBrush}"
+                                        BorderBrush="{DynamicResource OutlineVariantBrush}"
+                                        BorderThickness="1" CornerRadius="12"
+                                        Margin="0,16,0,0" Padding="20,16">
+                                    <StackPanel>
+                                        <!-- Section Title with Chevron Up -->
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                                            <Border Width="22" Height="22" CornerRadius="11"
+                                                    Background="{DynamicResource SurfaceContainerHighBrush}"
+                                                    Margin="0,0,10,0" VerticalAlignment="Center">
+                                                <Path Data="{StaticResource IconChevronUp}" Fill="{DynamicResource OnSurfaceBrush}"
+                                                      Width="9" Height="9" Stretch="Uniform"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                            <TextBlock Text="Advanced Information" FontWeight="Bold" FontSize="14"
+                                                       Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
                                         </StackPanel>
 
-                                        <!-- Hardware Color -->
-                                        <StackPanel Grid.Column="1">
-                                            <TextBlock Text="Hardware Color" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
-                                            <TextBlock Text="{Binding SupportsHardwareBrightness, Converter={x:Null}}" FontWeight="Bold" FontSize="11.5" Foreground="{DynamicResource PrimaryBrush}" Margin="0,1,0,0" />
-                                        </StackPanel>
+                                        <!-- Specifications Grid (2 Columns, 5 Rows) -->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="32" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
 
-                                        <!-- Gamma -->
-                                        <StackPanel Grid.Column="2">
-                                            <TextBlock Text="Windows Gamma" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
-                                            <TextBlock Text="Ready ✓" FontWeight="Bold" FontSize="11.5" Foreground="{DynamicResource PrimaryBrush}" Margin="0,1,0,0" />
-                                        </StackPanel>
+                                            <!-- Row 0: Device Name & Connection Type -->
+                                            <Grid Grid.Row="0" Grid.Column="0" Margin="0,0,0,12">
+                                                <TextBlock Text="Device Name" FontSize="12.5" Foreground="{DynamicResource OutlineBrush}" />
+                                                <TextBlock Text="{Binding DeviceName}" FontSize="12.5" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                                            </Grid>
+                                            <Grid Grid.Row="0" Grid.Column="2" Margin="0,0,0,12">
+                                                <TextBlock Text="Connection Type" FontSize="12.5" Foreground="{DynamicResource OutlineBrush}" />
+                                                <TextBlock Text="{Binding ConnectionType}" FontSize="12.5" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                                            </Grid>
 
-                                        <!-- Software Dimming -->
-                                        <StackPanel Grid.Column="3">
-                                            <TextBlock Text="Software Dim" FontSize="9.5" FontWeight="SemiBold" Foreground="{DynamicResource OutlineBrush}" />
-                                            <TextBlock Text="Ready ✓" FontWeight="Bold" FontSize="11.5" Foreground="{DynamicResource PrimaryBrush}" Margin="0,1,0,0" />
-                                        </StackPanel>
-                                    </Grid>
+                                            <!-- Row 1: Monitor Type & HDR Support -->
+                                            <Grid Grid.Row="1" Grid.Column="0" Margin="0,0,0,12">
+                                                <TextBlock Text="Monitor Type" FontSize="12.5" Foreground="{DynamicResource OutlineBrush}" />
+                                                <TextBlock Text="{Binding FriendlyName}" FontSize="12.5" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                                            </Grid>
+                                            <Grid Grid.Row="1" Grid.Column="2" Margin="0,0,0,12">
+                                                <TextBlock Text="HDR Support" FontSize="12.5" Foreground="{DynamicResource OutlineBrush}" />
+                                                <TextBlock Text="{Binding HdrDisplay}" FontSize="12.5" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                                            </Grid>
+
+                                            <!-- Row 2: Active Resolution & Color Depth -->
+                                            <Grid Grid.Row="2" Grid.Column="0" Margin="0,0,0,12">
+                                                <TextBlock Text="Active Resolution" FontSize="12.5" Foreground="{DynamicResource OutlineBrush}" />
+                                                <TextBlock Text="{Binding ResolutionDisplay}" FontSize="12.5" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                                            </Grid>
+                                            <Grid Grid.Row="2" Grid.Column="2" Margin="0,0,0,12">
+                                                <TextBlock Text="Color Depth" FontSize="12.5" Foreground="{DynamicResource OutlineBrush}" />
+                                                <TextBlock Text="{Binding ColorDepthDisplay}" FontSize="12.5" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                                            </Grid>
+
+                                            <!-- Row 3: Refresh Rate & Manufacturer -->
+                                            <Grid Grid.Row="3" Grid.Column="0" Margin="0,0,0,12">
+                                                <TextBlock Text="Refresh Rate" FontSize="12.5" Foreground="{DynamicResource OutlineBrush}" />
+                                                <TextBlock Text="{Binding RefreshRateDisplay}" FontSize="12.5" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                                            </Grid>
+                                            <Grid Grid.Row="3" Grid.Column="2" Margin="0,0,0,12">
+                                                <TextBlock Text="Manufacturer" FontSize="12.5" Foreground="{DynamicResource OutlineBrush}" />
+                                                <TextBlock Text="{Binding ManufacturerDisplay}" FontSize="12.5" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                                            </Grid>
+
+                                            <!-- Row 4: Scaling (DPI) & Serial Number -->
+                                            <Grid Grid.Row="4" Grid.Column="0">
+                                                <TextBlock Text="Scaling (DPI)" FontSize="12.5" Foreground="{DynamicResource OutlineBrush}" />
+                                                <TextBlock Text="{Binding ScalingPercentageDisplay}" FontSize="12.5" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                                            </Grid>
+                                            <Grid Grid.Row="4" Grid.Column="2">
+                                                <TextBlock Text="Serial Number" FontSize="12.5" Foreground="{DynamicResource OutlineBrush}" />
+                                                <TextBlock Text="{Binding SerialDisplay}" FontSize="12.5" FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource OnSurfaceBrush}" HorizontalAlignment="Right" />
+                                            </Grid>
+
+                                        </Grid>
+                                    </StackPanel>
                                 </Border>
+
                             </StackPanel>
                         </Border>
                     </DataTemplate>

@@ -194,6 +194,10 @@ namespace EyeFocus.UI.Themes
                 SetToken(app, "ThemePillSun", isLight ? "#1E293B" : "#5A6D82");
                 SetToken(app, "ThemePillMoon", isLight ? "#687B93" : "#38BDF8");
 
+                // About View Hero Card Tokens
+                SetToken(app, "AboutHeroCardBackground", isLight ? "#EBF5F3" : "#0E1B22");
+                SetToken(app, "AboutHeroCardBorder", isLight ? "#CDE8E2" : "#19353D");
+
                 ThemeChanged?.Invoke(_activeTheme);
             };
 

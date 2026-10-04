@@ -51,6 +51,24 @@ namespace EyeFocus.Models
         public string? AssignedProfileId { get; set; } = null;
         public bool IndependentControlEnabled { get; set; } = false;
 
+        // Display specs (Sample layout & Advanced Info)
+        public int RefreshRate { get; set; } = 60;
+        public int BitsPerPixel { get; set; } = 32;
+        public string ConnectionType { get; set; } = "DisplayPort";
+
+        public string ColorDepthDisplay => $"{BitsPerPixel}-bit (24-bit)";
+        public string HdrDisplay => IsHdrActive ? "Supported" : "Not Supported";
+        public string DdcCiDisplay => SupportsDdcCi ? "Supported" : "Unsupported";
+        public string HardwareColorDisplay => SupportsHardwareBrightness || SupportsHardwareColorTemperature ? "Supported" : "Unsupported";
+        public string WindowsGammaDisplay => SupportsGamma ? "Ready" : "Unsupported";
+        public string SoftwareDimDisplay => SupportsSoftwareDimming ? "Ready" : "Unsupported";
+        public string ScalingPercentageDisplay => $"{(int)Math.Round(DpiScaleX * 100)}% DPI";
+        public string ResolutionDisplay => $"{Width} × {Height}";
+        public string RefreshRateDisplay => $"{RefreshRate} Hz";
+
+        public string ManufacturerDisplay => string.IsNullOrWhiteSpace(Manufacturer) ? "Generic" : Manufacturer;
+        public string SerialDisplay => string.IsNullOrWhiteSpace(Serial) ? "Unknown" : Serial;
+
         public string DisplayTitle => $"{FriendlyName} {(IsPrimary ? "(Primary)" : "")}".Trim();
     }
 }
