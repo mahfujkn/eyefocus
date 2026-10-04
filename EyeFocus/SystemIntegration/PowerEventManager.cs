@@ -47,6 +47,17 @@ namespace EyeFocus.SystemIntegration
             _displayEngine.SoftwareDimmer.UpdateMonitorsLayout();
             var activeProfile = _profileManager.GetActiveProfile();
             _displayEngine.ApplyProfile(activeProfile);
+
+            // Guard against Windows Color Management / DWM resetting GPU gamma LUT after the event
+            System.Threading.Tasks.Task.Delay(1200).ContinueWith(_ =>
+            {
+                try
+                {
+                    var p = _profileManager.GetActiveProfile();
+                    _displayEngine.ApplyProfile(p);
+                }
+                catch { }
+            });
         }
 
         public void Dispose()

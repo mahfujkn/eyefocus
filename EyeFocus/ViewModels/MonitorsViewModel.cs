@@ -81,6 +81,18 @@ namespace EyeFocus.ViewModels
                 {
                     UseShellExecute = true
                 });
+
+                // Windows Display Settings probes hardware and temporarily resets GPU gamma.
+                // Automatically re-apply active profile after Windows finishes initialization.
+                System.Threading.Tasks.Task.Delay(1500).ContinueWith(_ =>
+                {
+                    try
+                    {
+                        var active = _profileManager.GetActiveProfile();
+                        _displayEngine.ApplyProfile(active);
+                    }
+                    catch { }
+                });
             }
             catch (System.Exception ex)
             {
