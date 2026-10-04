@@ -47,9 +47,12 @@ Designed with clean **Material Design 3 Expressive & Fluent UI** aesthetics, Eye
   - **Reading** (4000K / 55%): Gentle warm paper-like tone for long reading sessions.
   - **Coding** (4500K / 60%): High contrast with eye strain reduction for IDEs.
   - **Night** (3000K / 40%): Melatonin-preserving deep warm glow for late-night sessions.
-- 🖥️ **Multi-Monitor Discovery & Independent Control**:
-  - Automatically identifies all connected displays and GPU adapters with real-time capability probing.
+- 🖥️ **Multi-Monitor Discovery & Advanced Hardware Controls**:
+  - Automatically identifies all connected displays and GPU adapters with real-time hardware capability probing.
   - Supports individual per-monitor adjustments and simultaneous multi-display synchronization.
+  - Quick display actions on every monitor card: **Open Windows Display Settings**, **Identify Display** (on-screen floating badge), **Re-detect Hardware Capabilities**, and **Copy Display Specifications** to clipboard.
+- ℹ️ **Brand Hero & About View**:
+  - Expressive Material 3 hero card, official version badges, open-source project links, license, and developer credits.
 - 🔒 **100% Offline & Zero-Telemetry Privacy Guarantee**:
   - Zero internet access required. No analytics, tracking, or network sockets.
   - Local atomic JSON storage strictly within Windows AppData.
@@ -118,8 +121,9 @@ Designed with clean **Material Design 3 Expressive & Fluent UI** aesthetics, Eye
 ### Method 2: Standalone Portable ZIP (No Install Required)
 
 1. Download **`EyeFocus-v1.1.0-Windows-Portable.zip`** from the [**GitHub Releases Page**](https://github.com/mahfujkn/EyeFocus/releases).
-2. Extract the ZIP archive anywhere on your PC (e.g., `C:\EyeFocus` or Desktop).
-3. Double-click **`EyeFocus.exe`** to start using EyeFocus immediately without any installation.
+2. Extract the ZIP archive anywhere on your PC (e.g., `Downloads`, `Desktop`, or `C:\`).
+   - *The ZIP automatically unpacks into a dedicated `EyeFocus/` folder containing the executable and all components.*
+3. Open the `EyeFocus` folder and double-click **`EyeFocus.exe`** to start using EyeFocus immediately without any installation.
 
 ---
 
@@ -161,7 +165,7 @@ Designed with clean **Material Design 3 Expressive & Fluent UI** aesthetics, Eye
 | **Display Communication** | Windows DDC/CI (VCP Codes `0x10`, `0x12`), Win32 GDI `SetDeviceGammaRamp`, Direct3D Layer |
 | **Multi-Monitor Management** | Windows SetupAPI, Win32 `EnumDisplayMonitors`, WMI `WmiMonitorBrightness` |
 | **Design System** | Google Material Design 3 Expressive & Windows 11 Fluent UI Glassmorphism |
-| **Quality & Tests** | xUnit Test Suite with Full Headless Service Mocking (43/43 Passing Tests) |
+| **Quality & Tests** | xUnit Test Suite with Full Headless Service Mocking (61/61 Passing Tests) |
 
 ---
 
