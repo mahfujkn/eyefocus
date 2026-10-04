@@ -62,9 +62,9 @@
                                     </Grid.ColumnDefinitions>
 
                                     <!-- Monitor Device Illustration (Vector High-Fidelity) -->
-                                    <Grid Grid.Column="0" Width="160" Height="120"
+                                    <Grid Grid.Column="0" Width="144" Height="112"
                                           HorizontalAlignment="Center" VerticalAlignment="Top"
-                                          Margin="0,2,22,0">
+                                          Margin="0,2,18,0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
@@ -72,7 +72,7 @@
                                         </Grid.RowDefinitions>
 
                                         <!-- Outer Display Frame & Screen -->
-                                        <Border Grid.Row="0" Width="154" Height="96" CornerRadius="6"
+                                        <Border Grid.Row="0" Width="140" Height="88" CornerRadius="6"
                                                 Background="#0F172A" BorderBrush="#1E293B" BorderThickness="2" Padding="3">
                                             <Border CornerRadius="4" ClipToBounds="True">
                                                 <Grid Background="#0A0F1D">
@@ -89,16 +89,16 @@
                                                     </Rectangle>
 
                                                     <!-- Distant Mountains -->
-                                                    <Path Data="M 0,64 Q 28,36 60,52 Q 86,32 120,50 Q 138,40 154,52 L 154,96 L 0,96 Z"
-                                                          Fill="#3B82F6" Opacity="0.85" />
-                                                    <Path Data="M 0,70 Q 38,48 76,62 Q 112,44 154,60 L 154,96 L 0,96 Z"
-                                                          Fill="#2563EB" Opacity="0.9" />
+                                                    <Path Data="M 0,58 Q 25,32 54,47 Q 77,29 108,45 Q 124,36 134,47 L 134,84 L 0,84 Z"
+                                                          Fill="#3B82F6" Opacity="0.85" Stretch="Fill" />
+                                                    <Path Data="M 0,63 Q 34,43 68,56 Q 101,39 134,54 L 134,84 L 0,84 Z"
+                                                          Fill="#2563EB" Opacity="0.9" Stretch="Fill" />
 
                                                     <!-- Rolling Green Hills -->
-                                                    <Path Data="M 0,76 Q 42,58 86,72 Q 124,62 154,70 L 154,96 L 0,96 Z"
-                                                          Fill="#22C55E" />
-                                                    <Path Data="M 0,82 Q 32,72 70,80 Q 112,70 154,78 L 154,96 L 0,96 Z"
-                                                          Fill="#15803D" />
+                                                    <Path Data="M 0,68 Q 38,52 77,65 Q 111,56 134,63 L 134,84 L 0,84 Z"
+                                                          Fill="#22C55E" Stretch="Fill" />
+                                                    <Path Data="M 0,74 Q 29,65 63,72 Q 101,63 134,70 L 134,84 L 0,84 Z"
+                                                          Fill="#15803D" Stretch="Fill" />
 
                                                     <!-- Glass Highlight Reflection -->
                                                     <Rectangle Opacity="0.15">
@@ -114,11 +114,11 @@
                                         </Border>
 
                                         <!-- Stand Neck -->
-                                        <Border Grid.Row="1" Width="14" Height="15"
+                                        <Border Grid.Row="1" Width="13" Height="14"
                                                 Background="#1E293B" HorizontalAlignment="Center" />
 
                                         <!-- Stand Base -->
-                                        <Border Grid.Row="2" Width="66" Height="5" CornerRadius="2.5"
+                                        <Border Grid.Row="2" Width="58" Height="5" CornerRadius="2.5"
                                                 Background="#0F172A" HorizontalAlignment="Center" />
                                     </Grid>
 
@@ -127,9 +127,15 @@
 
                                         <!-- Row 1: FriendlyName, Primary Badge & Specs -->
                                         <Grid Margin="0,0,0,4">
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                                                 <TextBlock Text="{Binding FriendlyName}" FontWeight="Bold" FontSize="18"
-                                                           Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center" />
+                                                           Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center"
+                                                           TextTrimming="CharacterEllipsis" />
 
                                                 <!-- Primary Badge -->
                                                 <Border Background="#E6F5F2" CornerRadius="10" Padding="8,2"
@@ -140,7 +146,7 @@
                                             </StackPanel>
 
                                             <!-- Header Right Specs: Resolution, Hz, DPI, More -->
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                                                 <!-- Resolution -->
                                                 <Path Data="{StaticResource IconMonitor}" Fill="{DynamicResource OutlineBrush}"
                                                       Width="13" Height="13" Stretch="Uniform" Margin="0,0,5,0" VerticalAlignment="Center" />
@@ -177,7 +183,7 @@
                                         <!-- Row 3: Capabilities Strip (4 Columns with icons & checkmarks) -->
                                         <Border Background="{DynamicResource SurfaceContainerHighestBrush}"
                                                 BorderBrush="{DynamicResource OutlineVariantBrush}"
-                                                BorderThickness="1" CornerRadius="12" Padding="14,10">
+                                                BorderThickness="1" CornerRadius="12" Padding="12,8">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
@@ -191,79 +197,99 @@
 
                                                 <!-- 1. DDC/CI Brightness -->
                                                 <Grid Grid.Column="0">
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                        <Path Data="{StaticResource IconSun}" Fill="#0D9488"
-                                                              Width="18" Height="18" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                                        <StackPanel VerticalAlignment="Center">
-                                                            <TextBlock Text="DDC/CI Brightness" FontSize="10" FontWeight="SemiBold"
-                                                                       Foreground="{DynamicResource OutlineBrush}" />
-                                                            <TextBlock Text="{Binding DdcCiDisplay}" FontSize="12" FontWeight="Bold"
-                                                                       Foreground="#0D9488" Margin="0,1,0,0" />
-                                                        </StackPanel>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Path Grid.Column="0" Data="{StaticResource IconSun}" Fill="#0D9488"
+                                                          Width="16" Height="16" Stretch="Uniform" Margin="0,0,7,0" VerticalAlignment="Center" />
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                        <TextBlock Text="DDC/CI Brightness" FontSize="10" FontWeight="SemiBold"
+                                                                   Foreground="{DynamicResource OutlineBrush}" TextTrimming="CharacterEllipsis" />
+                                                        <DockPanel Margin="0,2,0,0">
+                                                            <Path DockPanel.Dock="Right" Data="{StaticResource IconCheckCircle}" Fill="#10B981"
+                                                                  Width="13" Height="13" Stretch="Uniform"
+                                                                  VerticalAlignment="Center" Margin="4,0,0,0" />
+                                                            <TextBlock Text="{Binding DdcCiDisplay}" FontSize="11.5" FontWeight="Bold"
+                                                                       Foreground="#0D9488" VerticalAlignment="Center"
+                                                                       TextTrimming="CharacterEllipsis" />
+                                                        </DockPanel>
                                                     </StackPanel>
-                                                    <Path Data="{StaticResource IconCheckCircle}" Fill="#10B981"
-                                                          Width="15" Height="15" Stretch="Uniform"
-                                                          HorizontalAlignment="Right" VerticalAlignment="Center" />
                                                 </Grid>
 
                                                 <!-- Divider 1 -->
-                                                <Rectangle Grid.Column="1" Width="1" Fill="{DynamicResource OutlineVariantBrush}" Margin="10,2" />
+                                                <Rectangle Grid.Column="1" Width="1" Fill="{DynamicResource OutlineVariantBrush}" Margin="6,2" />
 
                                                 <!-- 2. Hardware Color -->
                                                 <Grid Grid.Column="2">
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                        <Path Data="{StaticResource IconThermometer}" Fill="#0D9488"
-                                                              Width="18" Height="18" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                                        <StackPanel VerticalAlignment="Center">
-                                                            <TextBlock Text="Hardware Color" FontSize="10" FontWeight="SemiBold"
-                                                                       Foreground="{DynamicResource OutlineBrush}" />
-                                                            <TextBlock Text="{Binding HardwareColorDisplay}" FontSize="12" FontWeight="Bold"
-                                                                       Foreground="#0D9488" Margin="0,1,0,0" />
-                                                        </StackPanel>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Path Grid.Column="0" Data="{StaticResource IconThermometer}" Fill="#0D9488"
+                                                          Width="16" Height="16" Stretch="Uniform" Margin="0,0,7,0" VerticalAlignment="Center" />
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                        <TextBlock Text="Hardware Color" FontSize="10" FontWeight="SemiBold"
+                                                                   Foreground="{DynamicResource OutlineBrush}" TextTrimming="CharacterEllipsis" />
+                                                        <DockPanel Margin="0,2,0,0">
+                                                            <Path DockPanel.Dock="Right" Data="{StaticResource IconCheckCircle}" Fill="#10B981"
+                                                                  Width="13" Height="13" Stretch="Uniform"
+                                                                  VerticalAlignment="Center" Margin="4,0,0,0" />
+                                                            <TextBlock Text="{Binding HardwareColorDisplay}" FontSize="11.5" FontWeight="Bold"
+                                                                       Foreground="#0D9488" VerticalAlignment="Center"
+                                                                       TextTrimming="CharacterEllipsis" />
+                                                        </DockPanel>
                                                     </StackPanel>
-                                                    <Path Data="{StaticResource IconCheckCircle}" Fill="#10B981"
-                                                          Width="15" Height="15" Stretch="Uniform"
-                                                          HorizontalAlignment="Right" VerticalAlignment="Center" />
                                                 </Grid>
 
                                                 <!-- Divider 2 -->
-                                                <Rectangle Grid.Column="3" Width="1" Fill="{DynamicResource OutlineVariantBrush}" Margin="10,2" />
+                                                <Rectangle Grid.Column="3" Width="1" Fill="{DynamicResource OutlineVariantBrush}" Margin="6,2" />
 
                                                 <!-- 3. Windows Gamma -->
                                                 <Grid Grid.Column="4">
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                        <Path Data="{StaticResource IconGammaVenn}" Fill="#0D9488"
-                                                              Width="18" Height="18" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                                        <StackPanel VerticalAlignment="Center">
-                                                            <TextBlock Text="Windows Gamma" FontSize="10" FontWeight="SemiBold"
-                                                                       Foreground="{DynamicResource OutlineBrush}" />
-                                                            <TextBlock Text="{Binding WindowsGammaDisplay}" FontSize="12" FontWeight="Bold"
-                                                                       Foreground="#0D9488" Margin="0,1,0,0" />
-                                                        </StackPanel>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Path Grid.Column="0" Data="{StaticResource IconGammaVenn}" Fill="#0D9488"
+                                                          Width="16" Height="16" Stretch="Uniform" Margin="0,0,7,0" VerticalAlignment="Center" />
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                        <TextBlock Text="Windows Gamma" FontSize="10" FontWeight="SemiBold"
+                                                                   Foreground="{DynamicResource OutlineBrush}" TextTrimming="CharacterEllipsis" />
+                                                        <DockPanel Margin="0,2,0,0">
+                                                            <Path DockPanel.Dock="Right" Data="{StaticResource IconCheckCircle}" Fill="#10B981"
+                                                                  Width="13" Height="13" Stretch="Uniform"
+                                                                  VerticalAlignment="Center" Margin="4,0,0,0" />
+                                                            <TextBlock Text="{Binding WindowsGammaDisplay}" FontSize="11.5" FontWeight="Bold"
+                                                                       Foreground="#0D9488" VerticalAlignment="Center"
+                                                                       TextTrimming="CharacterEllipsis" />
+                                                        </DockPanel>
                                                     </StackPanel>
-                                                    <Path Data="{StaticResource IconCheckCircle}" Fill="#10B981"
-                                                          Width="15" Height="15" Stretch="Uniform"
-                                                          HorizontalAlignment="Right" VerticalAlignment="Center" />
                                                 </Grid>
 
                                                 <!-- Divider 3 -->
-                                                <Rectangle Grid.Column="5" Width="1" Fill="{DynamicResource OutlineVariantBrush}" Margin="10,2" />
+                                                <Rectangle Grid.Column="5" Width="1" Fill="{DynamicResource OutlineVariantBrush}" Margin="6,2" />
 
                                                 <!-- 4. Software Dim -->
                                                 <Grid Grid.Column="6">
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                        <Path Data="{StaticResource IconSettings}" Fill="#0D9488"
-                                                              Width="18" Height="18" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                                        <StackPanel VerticalAlignment="Center">
-                                                            <TextBlock Text="Software Dim" FontSize="10" FontWeight="SemiBold"
-                                                                       Foreground="{DynamicResource OutlineBrush}" />
-                                                            <TextBlock Text="{Binding SoftwareDimDisplay}" FontSize="12" FontWeight="Bold"
-                                                                       Foreground="#0D9488" Margin="0,1,0,0" />
-                                                        </StackPanel>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Path Grid.Column="0" Data="{StaticResource IconSettings}" Fill="#0D9488"
+                                                          Width="16" Height="16" Stretch="Uniform" Margin="0,0,7,0" VerticalAlignment="Center" />
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                        <TextBlock Text="Software Dim" FontSize="10" FontWeight="SemiBold"
+                                                                   Foreground="{DynamicResource OutlineBrush}" TextTrimming="CharacterEllipsis" />
+                                                        <DockPanel Margin="0,2,0,0">
+                                                            <Path DockPanel.Dock="Right" Data="{StaticResource IconCheckCircle}" Fill="#10B981"
+                                                                  Width="13" Height="13" Stretch="Uniform"
+                                                                  VerticalAlignment="Center" Margin="4,0,0,0" />
+                                                            <TextBlock Text="{Binding SoftwareDimDisplay}" FontSize="11.5" FontWeight="Bold"
+                                                                       Foreground="#0D9488" VerticalAlignment="Center"
+                                                                       TextTrimming="CharacterEllipsis" />
+                                                        </DockPanel>
                                                     </StackPanel>
-                                                    <Path Data="{StaticResource IconCheckCircle}" Fill="#10B981"
-                                                          Width="15" Height="15" Stretch="Uniform"
-                                                          HorizontalAlignment="Right" VerticalAlignment="Center" />
                                                 </Grid>
 
                                             </Grid>
