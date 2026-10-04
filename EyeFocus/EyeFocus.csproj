@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <Resource Include="Assets\app.ico" />
-    <Content Include="Assets\**\*">
+    <Content Include="Assets\**\*" Exclude="Assets\app.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

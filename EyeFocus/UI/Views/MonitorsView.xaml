@@ -165,14 +165,56 @@
                                                 <TextBlock Text="{Binding ScalingPercentageDisplay}" FontSize="12" FontWeight="SemiBold"
                                                            Foreground="{DynamicResource OnSurfaceVariantBrush}" VerticalAlignment="Center" Margin="0,0,12,0" />
 
-                                                <!-- More Options Button -->
-                                                <Border Width="28" Height="28" CornerRadius="14"
-                                                        Background="{DynamicResource SurfaceContainerHighBrush}"
-                                                        VerticalAlignment="Center">
+                                                <!-- More Options Button with ContextMenu -->
+                                                <Button Style="{StaticResource M3IconButtonStyle}"
+                                                        Width="28" Height="28" Padding="0"
+                                                        ToolTip="More Display Options"
+                                                        Click="MoreOptionsButton_Click">
                                                     <Path Data="{StaticResource IconMoreHoriz}" Fill="{DynamicResource OnSurfaceVariantBrush}"
                                                           Width="14" Height="14" Stretch="Uniform"
                                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                </Border>
+                                                    <Button.ContextMenu>
+                                                        <ContextMenu Style="{StaticResource M3ContextMenuStyle}">
+                                                            <MenuItem Style="{StaticResource M3MenuItemStyle}"
+                                                                      Header="Open Windows Display Settings"
+                                                                      Command="{Binding DataContext.OpenDisplaySettingsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                      CommandParameter="{Binding}">
+                                                                <MenuItem.Icon>
+                                                                    <Path Data="{StaticResource IconMonitor}" Fill="{DynamicResource OnSurfaceBrush}"
+                                                                          Width="13" Height="13" Stretch="Uniform" />
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                            <MenuItem Style="{StaticResource M3MenuItemStyle}"
+                                                                      Header="Identify Display"
+                                                                      Command="{Binding DataContext.IdentifyMonitorCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                      CommandParameter="{Binding}">
+                                                                <MenuItem.Icon>
+                                                                    <Path Data="{StaticResource IconEyeExercise}" Fill="{DynamicResource OnSurfaceBrush}"
+                                                                          Width="13" Height="13" Stretch="Uniform" />
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                            <MenuItem Style="{StaticResource M3MenuItemStyle}"
+                                                                      Header="Re-detect Hardware Capabilities"
+                                                                      Command="{Binding DataContext.RedetectMonitorCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                      CommandParameter="{Binding}">
+                                                                <MenuItem.Icon>
+                                                                    <Path Data="{StaticResource IconRefresh}" Fill="{DynamicResource OnSurfaceBrush}"
+                                                                          Width="13" Height="13" Stretch="Uniform" />
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                            <Separator Style="{StaticResource M3MenuSeparatorStyle}" />
+                                                            <MenuItem Style="{StaticResource M3MenuItemStyle}"
+                                                                      Header="Copy Display Specifications"
+                                                                      Command="{Binding DataContext.CopySpecsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                      CommandParameter="{Binding}">
+                                                                <MenuItem.Icon>
+                                                                    <Path Data="{StaticResource IconCode}" Fill="{DynamicResource OnSurfaceBrush}"
+                                                                          Width="13" Height="13" Stretch="Uniform" />
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                        </ContextMenu>
+                                                    </Button.ContextMenu>
+                                                </Button>
                                             </StackPanel>
                                         </Grid>
 

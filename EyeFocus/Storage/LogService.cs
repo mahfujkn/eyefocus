@@ -37,7 +37,7 @@ namespace EyeFocus.Storage
 
         public static void Error(string message, Exception? ex = null)
         {
-            var msg = ex != null ? $"{message} | Exception: {ex.Message} | StackTrace: {ex.StackTrace}" : message;
+            var msg = ex != null ? $"{message} | Exception: {ex}" : message;
             WriteLog("ERROR", msg);
         }
 

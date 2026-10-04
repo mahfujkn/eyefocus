@@ -4,6 +4,8 @@ using System.Linq;
 using EyeFocus.Models;
 using EyeFocus.Profiles;
 using EyeFocus.Storage;
+using EyeFocus.Services;
+using EyeFocus.SystemIntegration;
 using Xunit;
 
 namespace EyeFocus.Tests
@@ -57,6 +59,7 @@ namespace EyeFocus.Tests
         [Fact]
         public void MainWindow_Xaml_CanBeInitialized()
         {
+            Exception? threadEx = null;
             var thread = new System.Threading.Thread(() =>
             {
                 if (System.Windows.Application.Current == null)
@@ -106,13 +109,14 @@ namespace EyeFocus.Tests
                 {
                     var inner = ex;
                     while (inner.InnerException != null) inner = inner.InnerException;
-                    throw new Exception($"XAML Error: {inner.Message} | Stack: {inner.StackTrace}", ex);
+                    threadEx = new Exception($"XAML Error: {inner.Message} | Stack: {inner.StackTrace}", ex);
                 }
             });
             thread.SetApartmentState(System.Threading.ApartmentState.STA);
             thread.Start();
             bool finished = thread.Join(8000);
             Assert.True(finished, "STA thread timed out");
+            if (threadEx != null) throw threadEx;
         }
 
         [Fact]
@@ -195,6 +199,10 @@ namespace EyeFocus.Tests
         {
             public System.Collections.ObjectModel.ObservableCollection<EyeFocus.Models.MonitorInfo> Monitors { get; } = new();
             public System.Windows.Input.ICommand RefreshMonitorsCommand { get; } = new EyeFocus.ViewModels.RelayCommand(() => { });
+            public System.Windows.Input.ICommand OpenDisplaySettingsCommand { get; } = new EyeFocus.ViewModels.RelayCommand<EyeFocus.Models.MonitorInfo>(_ => { });
+            public System.Windows.Input.ICommand IdentifyMonitorCommand { get; } = new EyeFocus.ViewModels.RelayCommand<EyeFocus.Models.MonitorInfo>(_ => { });
+            public System.Windows.Input.ICommand RedetectMonitorCommand { get; } = new EyeFocus.ViewModels.RelayCommand<EyeFocus.Models.MonitorInfo>(_ => { });
+            public System.Windows.Input.ICommand CopySpecsCommand { get; } = new EyeFocus.ViewModels.RelayCommand<EyeFocus.Models.MonitorInfo>(_ => { });
 
             public TestMonitorsVm()
             {
@@ -220,6 +228,81 @@ namespace EyeFocus.Tests
                     IsHdrActive = false
                 });
             }
+        }
+
+        [Fact]
+        public void MonitorsViewModel_MoreOptionsCommands_CanExecuteWithoutError()
+        {
+            var mockDisplay = new QuickActionsAndRedesignTests.FakeDisplayEngine();
+            var mockProfile = new QuickActionsAndRedesignTests.FakeProfileManager();
+            var vm = new EyeFocus.ViewModels.MonitorsViewModel(mockDisplay, mockProfile);
+
+            Assert.NotNull(vm.OpenDisplaySettingsCommand);
+            Assert.NotNull(vm.IdentifyMonitorCommand);
+            Assert.NotNull(vm.RedetectMonitorCommand);
+            Assert.NotNull(vm.CopySpecsCommand);
+
+            var mon = vm.Monitors.FirstOrDefault();
+            Assert.NotNull(mon);
+
+            // Verify clean device name
+            Assert.Equal("DISPLAY1", mon.CleanDeviceName);
+
+            // Verify commands can execute
+            Assert.True(vm.RedetectMonitorCommand.CanExecute(mon));
+            vm.RedetectMonitorCommand.Execute(mon);
+
+            Assert.True(vm.CopySpecsCommand.CanExecute(mon));
+            // Run CopySpecs on STA thread
+            var t = new System.Threading.Thread(() =>
+            {
+                vm.CopySpecsCommand.Execute(mon);
+            });
+            t.SetApartmentState(System.Threading.ApartmentState.STA);
+            t.Start();
+            t.Join();
+        }
+
+        [Fact]
+        public void MainWindow_WithAllServices_CanInstantiateSuccessfully()
+        {
+            Exception? caught = null;
+            var t = new System.Threading.Thread(() =>
+            {
+                try
+                {
+                    var app = System.Windows.Application.Current ?? new System.Windows.Application();
+                    app.Resources.MergedDictionaries.Clear();
+                    app.Resources.MergedDictionaries.Add(new System.Windows.ResourceDictionary { Source = new Uri("pack://application:,,,/EyeFocus;component/UI/Themes/Colors.xaml") });
+                    app.Resources.MergedDictionaries.Add(new System.Windows.ResourceDictionary { Source = new Uri("pack://application:,,,/EyeFocus;component/UI/Themes/Icons.xaml") });
+                    app.Resources.MergedDictionaries.Add(new System.Windows.ResourceDictionary { Source = new Uri("pack://application:,,,/EyeFocus;component/UI/Themes/Styles.xaml") });
+                    app.Resources["IconKeyToGeometryConverter"] = new EyeFocus.UI.Converters.IconKeyToGeometryConverter();
+                    app.Resources["TabToBooleanConverter"] = new EyeFocus.UI.Converters.TabToBooleanConverter();
+                    
+                    EyeFocus.UI.Themes.ThemeService.ApplyTheme("Light");
+                    
+                    var fakeEngine = new QuickActionsAndRedesignTests.FakeDisplayEngine();
+                    var fakeProfile = new QuickActionsAndRedesignTests.FakeProfileManager();
+                    var fakeStore = new QuickActionsAndRedesignTests.FakeSettingsStore();
+                    var fakeHotkey = new HotkeyManager(fakeStore);
+                    var fakeStartup = new StartupManager();
+                    var fakeDayNight = new QuickActionsAndRedesignTests.FakeAutoDayNightService();
+                    var mainVm = new EyeFocus.ViewModels.MainViewModel(fakeEngine, fakeProfile, fakeHotkey, fakeStore, fakeStartup, fakeDayNight);
+                    
+                    var win = new EyeFocus.MainWindow(mainVm, fakeStore, fakeHotkey);
+                    Assert.NotNull(win);
+                    win.Close();
+                }
+                catch (Exception ex)
+                {
+                    caught = ex;
+                }
+            });
+            t.SetApartmentState(System.Threading.ApartmentState.STA);
+            t.Start();
+            bool finished = t.Join(10000);
+            Assert.True(finished, "STA thread timed out");
+            if (caught != null) throw caught;
         }
     }
 }

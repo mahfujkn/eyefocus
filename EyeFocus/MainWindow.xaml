@@ -6,7 +6,7 @@
         xmlns:views="clr-namespace:EyeFocus.UI.Views"
         mc:Ignorable="d"
         Title="EyeFocus - Display Comfort Utility"
-        Icon="Assets/app.ico"
+        Icon="pack://application:,,,/EyeFocus;component/Assets/app.ico"
         Height="740" Width="1060" MinHeight="660" MinWidth="960"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"

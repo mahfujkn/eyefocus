@@ -8,5 +8,15 @@ namespace EyeFocus.UI.Views
         {
             InitializeComponent();
         }
+
+        private void MoreOptionsButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (sender is System.Windows.Controls.Button btn && btn.ContextMenu != null)
+            {
+                btn.ContextMenu.PlacementTarget = btn;
+                btn.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                btn.ContextMenu.IsOpen = true;
+            }
+        }
     }
 }

@@ -165,7 +165,7 @@ namespace EyeFocus.Tests
             Assert.True(vm.TimelineSkyGradientBrush.IsFrozen);
         }
 
-        private class FakeSettingsStore : ISettingsStore
+        internal class FakeSettingsStore : ISettingsStore
         {
             private AppSettings _settings = new();
             public event EventHandler<AppSettings>? SettingsChanged;
@@ -184,7 +184,7 @@ namespace EyeFocus.Tests
             }
         }
 
-        private class FakeProfileManager : IProfileManager
+        internal class FakeProfileManager : IProfileManager
         {
             private readonly List<DisplayProfile> _profiles = ProfileDefaults.GetDefaultProfiles();
             private DisplayProfile _active;
@@ -216,7 +216,7 @@ namespace EyeFocus.Tests
             public DisplayProfile DuplicateProfile(string id, string? newName = null) => _active;
         }
 
-        private class FakeDisplayEngine : IDisplayEngine
+        internal class FakeDisplayEngine : IDisplayEngine
         {
             public IMonitorManager MonitorManager { get; } = new FakeMonitorManager();
             public ISoftwareDimmer SoftwareDimmer => null!;
@@ -240,7 +240,7 @@ namespace EyeFocus.Tests
             public void RestoreInitialState() { }
         }
 
-        private class FakeMonitorManager : IMonitorManager
+        internal class FakeMonitorManager : IMonitorManager
         {
             public event EventHandler? MonitorsChanged;
             private readonly List<MonitorInfo> _monitors = new()
@@ -261,7 +261,7 @@ namespace EyeFocus.Tests
             public void RefreshMonitors() { }
         }
 
-        private class FakeAutoDayNightService : IAutoDayNightService
+        internal class FakeAutoDayNightService : IAutoDayNightService
         {
             public event Action<DayNightPeriod>? PeriodChanged;
             public event Action<bool>? EnabledChanged;

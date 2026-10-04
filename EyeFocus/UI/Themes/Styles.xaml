@@ -1039,4 +1039,85 @@
         </Setter>
     </Style>
 
+    <!-- ========================================================================= -->
+    <!-- 14. MATERIAL 3 CONTEXT MENU & MENU ITEM                                   -->
+    <!-- ========================================================================= -->
+    <Style x:Key="M3ContextMenuStyle" TargetType="ContextMenu">
+        <Setter Property="Background" Value="{DynamicResource SurfaceBrightBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariantBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Grid.IsSharedSizeScope" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContextMenu">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10"
+                            Padding="{TemplateBinding Padding}">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="16" ShadowDepth="4" Direction="270"
+                                              Color="#000000" Opacity="0.18" />
+                        </Border.Effect>
+                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="M3MenuItemStyle" TargetType="MenuItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}" />
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="MenuItem">
+                    <Border x:Name="ItemBorder" Background="{TemplateBinding Background}"
+                            CornerRadius="6" Padding="{TemplateBinding Padding}" Margin="2,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="IconCol" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter Grid.Column="0" ContentSource="Icon"
+                                              Width="16" Height="16" Margin="0,0,10,0"
+                                              VerticalAlignment="Center" />
+                            <ContentPresenter Grid.Column="1" ContentSource="Header"
+                                              VerticalAlignment="Center" RecognizesAccessKey="True" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource SurfaceContainerHighBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="M3MenuSeparatorStyle" TargetType="Separator">
+        <Setter Property="Background" Value="{DynamicResource OutlineVariantBrush}" />
+        <Setter Property="Margin" Value="4,4" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Separator">
+                    <Rectangle Fill="{TemplateBinding Background}" Height="1" Margin="{TemplateBinding Margin}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
