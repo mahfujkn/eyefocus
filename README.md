@@ -118,16 +118,24 @@ Designed with clean **Material Design 3 Expressive & Fluent UI** aesthetics, Eye
 
 ---
 
-### Method 2: Standalone Portable ZIP (No Install Required)
+### Method 2: Standalone Portable ZIP (Self-Contained)
 
 1. Download **`EyeFocus-v1.1.0-Windows-Portable.zip`** from the [**GitHub Releases Page**](https://github.com/mahfujkn/EyeFocus/releases).
 2. Extract the ZIP archive anywhere on your PC (e.g., `Downloads`, `Desktop`, or `C:\`).
    - *The ZIP automatically unpacks into a dedicated `EyeFocus/` folder containing the executable and all components.*
-3. Open the `EyeFocus` folder and double-click **`EyeFocus.exe`** to start using EyeFocus immediately without any installation.
+3. Open the `EyeFocus` folder and double-click **`EyeFocus.exe`** to start using EyeFocus immediately without any .NET runtime installation required.
 
 ---
 
-### Method 3: Build From Source (.NET 8 SDK)
+### Method 3: Ultra-Lightweight Portable ZIP (~390 KB)
+
+1. Download **`EyeFocus-v1.1.0-Windows-Lightweight.zip`** from the [**GitHub Releases Page**](https://github.com/mahfujkn/EyeFocus/releases).
+2. Requires [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) installed on Windows.
+3. Extract and run **`EyeFocus.exe`** with a tiny ~390 KB download footprint!
+
+---
+
+### Method 4: Build From Source (.NET 8 SDK)
 
 1. **Clone the repository**
 

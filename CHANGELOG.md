@@ -24,9 +24,12 @@ All notable changes to **EyeFocus** will be documented in this file.
 - **Windows Display Settings Auto-Restore Guard**:
   - Windows DWM / Color Management temporarily resets GPU gamma LUT when `ms-settings:display` probes displays. EyeFocus now automatically guards and re-applies the active profile after Windows finishes initialization.
 - **Packaged Portable Archive Structure**:
-  - Extracting `EyeFocus-v1.1.0-Windows-Portable.zip` now creates a clean root `EyeFocus/` folder containing the executable and all components, preventing clutter during extraction.
-- **Single-File Published App Reliability**:
+  - Extracting `EyeFocus-v1.1.0-Windows-Portable.zip` and `EyeFocus-v1.1.0-Windows-Lightweight.zip` now creates a clean root `EyeFocus/` folder containing the executable and all components, preventing clutter during extraction.
+- **Ultra-Lightweight Edition Added (~390 KB)**:
+  - Added framework-dependent package `EyeFocus-v1.1.0-Windows-Lightweight.zip` (~390 KB) for users who already have .NET 8 Desktop Runtime installed.
+- **Single-File Published App Reliability & Optimizations**:
   - Migrated embedded window icon to WPF pack URI (`pack://application:,,,/EyeFocus;component/Assets/app.ico`), eliminating startup exceptions in single-file deployment.
+  - Streamlined framework targeting to `net8.0-windows`, eliminating unnecessary WinRT projection overhead and reducing package footprint.
 - **Enhanced Test Suite**:
   - 61 passing automated unit tests covering display gamma monotonicity, theme switching, schedule evaluation, and full ViewModel/Window instantiation.
 
